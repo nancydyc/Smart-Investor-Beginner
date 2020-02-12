@@ -25,6 +25,43 @@ def index():
     return "<html><body>Placeholder for the homepage.</body></html>"
 
 
+@app.route('/stock')
+def display_stock():
+    """Display single stock page of key data and company fundamentals."""
+    pass
+
+
+@app.route('/compare')
+def compare_stocks():
+    """Compare two-three companies at a time on key data and company fundamentals."""
+    pass
+
+
+@app.route('/login')
+def log_in():
+    """User login."""
+    pass
+
+
+@app.route('/register')
+def register():
+    """New member register."""
+    pass
+
+
+@app.route('/screen')
+def screen_stocks():
+    """Stock screener."""
+    pass
+
+
+@app.route('/result')
+def screen_result():
+    """Display the results of stocks screening."""
+    pass
+
+
+###############################################################################
 if __name__ == "__main__":
 
     app.debug = True
