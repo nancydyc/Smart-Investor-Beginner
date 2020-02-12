@@ -1,38 +1,75 @@
-"""Skills 5: SQLAlchemy & AJAX
-
-This file is used in Part 1 of Skills 5: SQLAlchemy & AJAX.
+"""
+Skills: Use SQLAlchemy to create database schema.
 """
 
 from flask_sqlalchemy import SQLAlchemy
 
-
-# Instantiate a SQLAlchemy object. We need this to create our db.Model classes.
 db = SQLAlchemy()
 
 
 ##############################################################################
-# PART 1: COMPOSE ORM
 
+class User(db.Model):
+    """Data model for a user, recording email and available money."""
 
-class Human(db.Model):
-    """Data model for a human."""
+    __tablename__ = "users"
 
-    __tablename__ = "humans"
-
-    # Define your columns and/or relationships here
-    human_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    fname =  db.Column(db.String(25), nullable=False)
-    lname =  db.Column(db.String(25), nullable=False)
+    user_id = db.Column(db.Integer, 
+                        nullable=False, 
+                        primary_key=True, 
+                        autoincrement=True)
+    buying_power = db.Column(db.Integer, nullable=True)
     email =  db.Column(db.String(100), nullable=False)
    
-    animal = db.relationship('Animal', backref='humans')
+    # watchlists: one-one relationship to User class.
 
     def __repr__(self):
-        """Return a human-readable representation of a Human."""
+        """Return a readable representation of a user's information."""
 
-        # Finish this __repr__ method
-        return f'ID:{self.human_id} name:{self.fname} {self.lname} email:{self.email}'
+        return f'<id:{self.user_id} buying power:{self.buying_power}>'
 
+
+class Watchlist(db.Model):
+    """Data model for a watchlist, recording the stocks which the user is watching."""
+
+    __tablename__ = "watchlists"
+
+    user_id = db.Column(db.Integer, 
+                        db.ForeignKey('users.user_id'), 
+                        primary_key=True)
+    stock_id =  db.Column(db.Integer, 
+                          db.ForeignKey('users.user_id'), 
+                          primary_key=True) 
+    ave_cost = db.Column(db.Integer, nullable=False, default=0)
+    shares =  db.Column(db.Integer, nullable=False, default=0)
+
+    # Identify relationships between the tables
+    user = db.relationship('User', backref='watchlists')
+    stock = db.relationship ('Stock', backref='watchlists')
+
+    def __repr__(self):
+        """Return a readable representation of a watchlist."""
+
+        return f'<user id:{self.user_id} stock id:{self.stock_id} average cost:{self.ave_cost}>'       
+
+
+class Stock(db.Model):
+    """Data model for the details of the holding stock, recording price and amount."""
+
+    __tablename__ = "stocks"
+
+    stock_id = db.Column(db.String(10), 
+                         nullable=False, 
+                         primary_key=True)
+    company_name = db.Column(db.String(50), nullable=False)
+    weekly_ave_price = db.Column(db.Integer, nullable=False)
+                
+    # watchlists: one-many relationship to Stock class.
+
+    def __repr__(self):
+        """Return a readable representation of a watchlist."""
+
+        return f'<watch-list id:{self.watch_id} stock-list:{self.stock_ids}>'
 
 ##############################################################################
 # Helper functions
