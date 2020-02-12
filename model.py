@@ -72,13 +72,12 @@ class Stock(db.Model):
         return f'<watch-list id:{self.watch_id} stock-list:{self.stock_ids}>'
 
 ##############################################################################
-# Helper functions
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our database.
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///animals"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///stocks"
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -91,3 +90,4 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
+    print("Connected to DB.")
