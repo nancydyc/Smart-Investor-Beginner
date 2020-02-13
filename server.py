@@ -28,38 +28,37 @@ def homepage():
 @app.route('/stock')
 def display_stock():
     """Display single stock page of key data and company fundamentals."""
-    pass
+    return render_template("stock.html")
 
 
 @app.route('/compare')
 def compare_stocks():
     """Compare two-three companies at a time on key data and company fundamentals."""
-    pass
+    return render_template("compare.html")
 
 
 @app.route('/login')
 def log_in():
     """User login."""
-    pass
+    return render_template("login.html")
 
 
 @app.route('/register')
 def register():
     """New member register."""
-    pass
+    return render_template("register.html")
 
 
 @app.route('/screen')
 def screen_stocks():
     """Stock screener."""
-    pass
+    return render_template("screen.html")
 
 
 @app.route('/result')
 def screen_result():
     """Display the results of stocks screening."""
-    pass
-
+    return render_template("result.html")
 
 ###############################################################################
 if __name__ == "__main__":
