@@ -28,25 +28,107 @@ def homepage():
     return render_template("home.html")
 
 
-@app.route('/')
+@app.route('/stock')
 def search_stock_form():
     """Search stocks by symbol or key words."""
 
     # Get user input from the search form
+    symbol = request.args.get('symbol')
+    # print(symbol)
+
     # If the symbol is in the set of symbols/key words in the company names,
-    # return stock realtime price from Alpha Vantage API 
+    # return stock realtime price from Alpha Vantage API
+    payload_rt = {'function': 'TIME_SERIES_INTRADAY',  
+               'symbol': symbol,
+               'interval': '60min',
+               'outputsize': 'compact',
+               'apikey': 'PVW38W9JBAXB0XGX'}
+    # print(payload)
+    req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
+    # print(req.url)
+    js_data_rt = req_realtime.json()
+    # print(js_data)
+    
+    hourly_series_dict = js_data_rt.get('Time Series (60min)', 0)
+    # print(hourly_series_dict)
+
+    # print("#################################################")
+    
+    middle_key = list(hourly_series_dict.keys())[0]
+    # print(middle_key)
+
+    price = hourly_series_dict.get(middle_key, 0).get('4. close', 0)
+    # print(price)
     # and company name data from Edgar Online API.
     # Else,...
+    payload_ema = {'function': 'EMA',  
+               'symbol': symbol,
+               'interval': 'daily',
+               'time_period': 30,
+               'series_type': 'open',
+               'apikey': 'PVW38W9JBAXB0XGX'}
+    req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    print(req_ema.url)
+    js_data_ema = req_ema.json()
+    print(js_data_ema)
+   
+    print("\n\n#################################################")
+   
+    daily_series_dict = js_data_ema.get('Technical Analysis: EMA', 0)
+    print(daily_series_dict) 
+   
+    print("\n\n#################################################")
 
-    pass 
+    for date, ema in daily_series_dict.items():
+        print(date, ema)
+
+
+    return render_template("stock.html", symbol=symbol, realtime=price) 
+    # return render_template("stock.html", symbol=symbol, realtime=price,
+    #                         date=date, emaprice=ema) 
     # User Ajax to work on home.html
+
+# url for chart: 
+# https://www.alphavantage.co/query?function=EMA&symbol=LK&interval=daily&time_period=30&series_type=open&apikey=PVW38W9JBAXB0XGX
 
 
 @app.route('/stock')
-def display_stock():
-    """Display single stock page of key data and company fundamentals."""
+def display_daily_ema_chart():
+    """Search stocks by symbol or key words."""
 
-    return render_template("stock.html")
+    # Get user input from the search form
+    symbol = request.args.get('symbol')
+    # print(symbol)
+    payload_ema = {'function': 'EMA',  
+               'symbol': symbol,
+               'interval': 'daily',
+               'time_period': 30,
+               'series_type': 'open',
+               'apikey': 'PVW38W9JBAXB0XGX'}
+    req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    print(req_ema.url)
+    js_data_ema = req_ema.json()
+    # print(js_data_ema)
+   
+    print("\n\n#################################################")
+   
+    daily_series_dict = js_data_ema.get('Technical Analysis: EMA', 0)
+    print(daily_series_dict) 
+   
+    print("\n\n#################################################")
+
+    for date, ema in daily_series_dict.items():
+        print(date, ema)
+
+
+    return render_template("stock.html", symbol=symbol,
+                            daily_dict=daily_series_dict)
+
+# @app.route('/stock')
+# def display_stock():
+#     """Display single stock page of key data and company fundamentals."""
+
+#     return render_template("stock.html")
 
 
 @app.route('/stock/<stock_id>')

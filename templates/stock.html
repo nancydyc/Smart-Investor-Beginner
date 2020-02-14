@@ -1,11 +1,54 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+{% endblock %}
+
+
 
 {% block content %}
 
+<h2>Stock: {{ symbol }}</h2>
+<h1>$ {{ realtime }}</h1>
 
-<h2>Stock</h2>
-<h1>$ 100.00</h1>
+<div>
+  <canvas id="price-chart"></canvas>
+</div>
 
+<script>
+  let priceChart = new Chart(
+    $('#price-chart'),
+    {
+      type: 'line',
+      data: {
+        labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+        datasets: [{
+          label: 'Price',
+          data: [36, 37, 34, 37, 40],
+          }],
+/*      options: {
+        title:{
+          display: true,
+          text: 'Stock Monthly Average Price',
+      //     fontSize: 25
+        },
+        legend: {
+          position: 'rignt'*/
+        // }
+      }
+    }
+  );
+</script>
+
+<div>
+  {% for date, ema in daily_dict.items() %}
+    {{ date }} {{ ema }}  
+  {% endfor %}
+</div>
 
 {% endblock %}
+
+
+<!-- labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',  -->
+                 <!-- 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'], -->
