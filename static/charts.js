@@ -7,12 +7,22 @@ let dateList = []
 //  ('2020-02-11', {'EMA': '37.5909'}),
 //  ('2020-02-10', {'EMA': '37.5675'}),
 //  ('2020-02-07', {'EMA': '37.7983'})];
+// You can get keys use object.keys()
 
-for (const price of daily_ema) {
-    priceList.push(price['EMA']);
-}; //Why getting property works? Skipped getting index
+// for (const price of daily_ema) {
+//     priceList.push(price['EMA']);
+// }; //Why getting property works? Skipped getting index
 
-let priceChart = new Chart(
+const formData = $('#search').value();
+$.get('/stock', formData, (res) => {
+  const data = [];
+  for (const daily of res {
+    data.push({x: date, y: dailyPrice.})
+  }
+
+});
+
+const priceChart = new Chart(
   $('#price-chart'),
   {
     type: 'line',
@@ -21,16 +31,14 @@ let priceChart = new Chart(
       datasets: [{
         label: 'Price',
         data: $(priceList)
-      }],
-/*      options: {
-      title:{
-        display: true,
-        text: 'Stock Monthly Average Price',
-    //     fontSize: 25
-      },
-      legend: {
-        position: 'rignt'*/
-      // }
+      }]
     }
+    // options: {
+    //   title:{
+    //     display: true,
+    //     text: 'Stock Monthly EMA Price',
+    //     position: 'rignt'
+    //   },
+    // } // Once I add options, the chart is gone.
   }
 );

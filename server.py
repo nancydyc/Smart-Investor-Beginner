@@ -73,10 +73,10 @@ def search_stock_form():
     js_data_ema = req_ema.json()
     # print(js_data_ema)
    
-    print("\n\n#################################################")
+    # print("\n\n#################################################")
    
     daily_series_list = list(js_data_ema.get('Technical Analysis: EMA', 0).items())
-    print(daily_series_list)  
+    # print(daily_series_list)  
    
     # print("\n\n#################################################")
 
