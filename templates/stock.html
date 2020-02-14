@@ -16,7 +16,21 @@
   <canvas id="price-chart"></canvas>
 </div>
 
-<script>
+<script type="text/javascript">
+  "use strict";
+
+  let priceList = []
+  let dateList = []
+  // const daily_ema = [('2020-02-13', {'EMA': '37.6700'}),
+  //  ('2020-02-12', {'EMA': '37.6521'}),
+  //  ('2020-02-11', {'EMA': '37.5909'}),
+  //  ('2020-02-10', {'EMA': '37.5675'}),
+  //  ('2020-02-07', {'EMA': '37.7983'})];
+
+  for (const price of daily_ema) {
+      priceList.push(price['EMA']);
+  }; //Why getting property works? Skipped getting index
+
   let priceChart = new Chart(
     $('#price-chart'),
     {
@@ -25,8 +39,8 @@
         labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
         datasets: [{
           label: 'Price',
-          data: [36, 37, 34, 37, 40],
-          }],
+          data: $(priceList)
+        }],
 /*      options: {
         title:{
           display: true,
@@ -41,11 +55,6 @@
   );
 </script>
 
-<div>
-  {% for date, ema in daily_dict.items() %}
-    {{ date }} {{ ema }}  
-  {% endfor %}
-</div>
 
 {% endblock %}
 
