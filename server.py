@@ -30,7 +30,7 @@ def homepage():
 
 @app.route('/stock')
 def search_stock_form():
-    """Search stocks by symbol or key words."""
+    """Search stocks by symbol or key words and show realtime price."""
 
     # Get user input from the search form
     symbol = request.args.get('symbol')
@@ -61,7 +61,27 @@ def search_stock_form():
     # print(price)
     # and company name data from Edgar Online API.
     # Else,...
+    print("\n\n####################symbol,price working#######################")
+    # ema = display_daily_ema_chart(symbol)
+    # print(ema)
     
+    return render_template("stock.html", symbol=symbol, realtime=price) 
+    # return render_template("stock.html", symbol=symbol, realtime=price,
+    #                         date=date, ema=ema) 
+    # User Ajax to work on home.html
+
+# url for chart: 
+# https://www.alphavantage.co/query?function=EMA&symbol=LK&interval=daily&time_period=30&series_type=open&apikey=PVW38W9JBAXB0XGX
+
+
+@app.route('/chart')
+def display_daily_ema_chart():
+    """Get stocks by symbol or key words and display EMA price chart."""
+
+    # Get user input from the search form
+    print("\n\n####################below is chart data########################")
+    symbol = request.args.get('symbol')
+    print(symbol)
     payload_ema = {'function': 'EMA',  
                'symbol': symbol,
                'interval': 'daily',
@@ -69,57 +89,28 @@ def search_stock_form():
                'series_type': 'open',
                'apikey': 'PVW38W9JBAXB0XGX'}
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-    # print(req_ema.url)
-    js_data_ema = req_ema.json()
-    # print(js_data_ema)
-   
+    print(req_ema.url)
+    js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+    print(js_date_ema)
+
+    emas = []
+    dates = []
+    for daily_info in js_date_ema:
+        emas.append(daily_info.values()['EMA'])
+        dates.append(daily_info.keys())
+    print(emas)
+    print(dates)
+
+    data = []
+    for date, ema in zip(dates, emas):
+        data.append({'date':date,'ema':ema})
+    print(data)
     # print("\n\n#################################################")
-   
-    daily_series_list = list(js_data_ema.get('Technical Analysis: EMA', 0).items())
-    # print(daily_series_list)  
-   
-    # print("\n\n#################################################")
 
-    # for date, ema in daily_series_dict.items():
-    #     print(date, ema)
-    return render_template("stock.html", symbol=symbol, 
-                            realtime=price, daily_ema=daily_series_list) 
-    # return render_template("stock.html", symbol=symbol, realtime=price,
-    #                         date=date, emaprice=ema) 
-    # User Ajax to work on home.html
+    return data
 
-# url for chart: 
-# https://www.alphavantage.co/query?function=EMA&symbol=LK&interval=daily&time_period=30&series_type=open&apikey=PVW38W9JBAXB0XGX
-
-
-# @app.route('/stock')
-# def display_daily_ema_chart():
-#     """Search stocks by symbol or key words."""
-
-#     # Get user input from the search form
-#     symbol = request.args.get('symbol')
-#     # print(symbol)
-#     payload_ema = {'function': 'EMA',  
-#                'symbol': symbol,
-#                'interval': 'daily',
-#                'time_period': 30,
-#                'series_type': 'open',
-#                'apikey': 'PVW38W9JBAXB0XGX'}
-#     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-#     # print(req_ema.url)
-#     js_data_ema = req_ema.json()
-#     # print(js_data_ema)
-   
-#     print("\n\n#################################################")
-   
-#     daily_series_list = list(js_data_ema.get('Technical Analysis: EMA', 0))
-#     print(daily_series_list) 
-   
-#     # print("\n\n#################################################")
-
-
-#     return render_template("stock.html", symbol=symbol,
-#                             daily_ema=daily_series_list)
+    # return render_template("stock.html", symbol=symbol,
+                            # )
 
 # @app.route('/stock')
 # def display_stock():
