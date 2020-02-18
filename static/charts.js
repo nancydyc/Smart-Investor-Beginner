@@ -32,11 +32,11 @@ function displayChart (evt) {
     // };
     // console.log(res.data);
     const data = res.data.map((dailyInfo) => {
-      console.log(dailyInfo);
+      // console.log(dailyInfo);
       return {x: dailyInfo.date, y: dailyInfo.ema}
     });
     
-    console.log(data); 
+    // console.log(data); 
 
     new Chart(
       $('#price-chart'),
@@ -49,9 +49,18 @@ function displayChart (evt) {
               data: data
             }
           ]
+        },
+        options: {
+        scales: {
+          xAxes: [
+            {
+              type: 'time',
+              distribution: 'series'
+            }
+          ]
         }
       }
-    );
+    });
   });
 };
 
