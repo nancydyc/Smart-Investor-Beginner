@@ -13,35 +13,29 @@ function showRealtimePrice(evt) {
     $('#stock').html(res.symbol);
     $('#realtime').html(res.realtime);
   });
-
 };
 
 $('#form').on('submit', showRealtimePrice);
 
 
 function displayChart (evt) {
-  // for (const price of ema) {
-  //     priceList.push(price['EMA']);
-  //     dateList.push()
-  // }; //Why getting property works? Skipped getting index
+
   evt.preventDefault();
-  
   // let formData = {'symbol': $('#search').value()};
   let formData = $('#form').serialize();
   
   // console.log(formData);
   
   $.get('/chart', formData, (res) => {
-
-    for (const daily in res) {
-      
-
-    }
-
+    // console.log(res);
+    // for (const daily of res) {
+    // };
+    // console.log(res.data);
     const data = res.data.map((dailyInfo) => {
+      console.log(dailyInfo);
       return {x: dailyInfo.date, y: dailyInfo.ema}
     });
-    }
+    
     console.log(data); 
 
     new Chart(
@@ -59,7 +53,8 @@ function displayChart (evt) {
       }
     );
   });
-};  
+};
+
 
 $('#chart').on('click', displayChart);
 

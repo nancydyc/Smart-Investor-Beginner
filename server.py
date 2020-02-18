@@ -106,13 +106,19 @@ def display_daily_ema_chart():
         emas.append(daily_ema['EMA'])
     # print(emas)
     # print("\n\n##################### lists are working ##################")
-    
+    data_list = []
+    data_dict = {}
     data = {}
     for date, ema in zip(dates, emas):
-        data[date]= ema
+        data_dict['date'] = date
+        data_dict['ema'] = ema
+        data_list.append(data_dict)
         # data['ema'] = ema
+    # print(data_list)
+    print("\n\n##################### data_list is working ##################")
+    
+    data['data'] = data_list
     # print(data)
-    print("\n\n##################### data is working ##################")
     return data
 
     # return render_template("stock.html", symbol=symbol,
