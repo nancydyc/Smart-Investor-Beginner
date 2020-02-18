@@ -1,19 +1,32 @@
 {% extends 'base.html' %}
 
 
+{% block head %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+{% endblock %}
+
+
 {% block content %}
 
-<h2>Home</h2>
+  <h2>Home</h2>
 
-<form id="search" action="/stock" >
-  Search stocks by symbol 
-  <input type="text" name="symbol" value="e.x. APPL">
-  <button type="submit">search</button>
+  <form id="form" action="/stock" >
+    Search stocks by symbol 
+    <input id="search" type="text" name="symbol">
+    <button type="submit">Search</button>
+  </form>
+  <button id="chart" type="click">Display Chart</button>
+  <br><br>
 
-</form>
+  <h2 id="stock">Stock: </h2> <!--Maybe Change to ajax as well-->
+  <h1 id="realtime">$ </h1>
 
-
-<br><br><br>
-
+  <div>
+    <canvas id="price-chart"></canvas>
+  </div>
+  <script src="static/charts.js"></script>
 {% endblock %}
+
 

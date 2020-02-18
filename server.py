@@ -2,12 +2,11 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db
 
-import json
 import requests
 
 
@@ -64,8 +63,9 @@ def search_stock_form():
     print("\n\n####################symbol,price working#######################")
     # ema = display_daily_ema_chart(symbol)
     # print(ema)
+    realtime = {'symbol': symbol, 'realtime': price}
     
-    return render_template("stock.html", symbol=symbol, realtime=price) 
+    return jsonify(realtime)
     # return render_template("stock.html", symbol=symbol, realtime=price,
     #                         date=date, ema=ema) 
     # User Ajax to work on home.html
@@ -80,7 +80,7 @@ def display_daily_ema_chart():
 
     # Get user input from the search form
     print("\n\n####################below is chart data########################")
-    symbol = request.args.get('symbol')
+    symbol = request.args.get("symbol")
     print(symbol)
     payload_ema = {'function': 'EMA',  
                'symbol': symbol,
@@ -91,22 +91,28 @@ def display_daily_ema_chart():
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     print(req_ema.url)
     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
-    print(js_date_ema)
-
+    # print(type(js_date_ema))
+    # print(js_date_ema)
+    
     emas = []
     dates = []
-    for daily_info in js_date_ema:
-        emas.append(daily_info.values()['EMA'])
-        dates.append(daily_info.keys())
-    print(emas)
-    print(dates)
+    for daily_date in js_date_ema:
+        # print(daily_date)
+        dates.append(daily_date)
+    # print(dates)    
 
-    data = []
+    for daily_ema in js_date_ema.values():
+        # print(daily_ema)
+        emas.append(daily_ema['EMA'])
+    # print(emas)
+    # print("\n\n##################### lists are working ##################")
+    
+    data = {}
     for date, ema in zip(dates, emas):
-        data.append({'date':date,'ema':ema})
-    print(data)
-    # print("\n\n#################################################")
-
+        data[date]= ema
+        # data['ema'] = ema
+    # print(data)
+    print("\n\n##################### data is working ##################")
     return data
 
     # return render_template("stock.html", symbol=symbol,
@@ -119,16 +125,16 @@ def display_daily_ema_chart():
 #     return render_template("stock.html")
 
 
-@app.route('/stock/<stock_id>')
-def show_price_chart():
-    """Display single stock page of key data and company fundamentals."""
+# @app.route('/stock/<stock_id>')
+# def show_price_chart():
+#     """Display single stock page of key data and company fundamentals."""
 
-    # Get user input from the search form
-    # If the symbol is in the set of symbols/key words in the company names,
-    # return stock realtime price and company name, daily/weekly/monthly price data
-    # from Alpha Vantage API to make a chart
+#     # Get user input from the search form
+#     # If the symbol is in the set of symbols/key words in the company names,
+#     # return stock realtime price and company name, daily/weekly/monthly price data
+#     # from Alpha Vantage API to make a chart
 
-    pass
+#     pass
 
 
 @app.route('/screen')
