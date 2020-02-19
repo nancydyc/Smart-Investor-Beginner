@@ -3,7 +3,8 @@
 from sqlalchemy import func #? What func is doing here?
 
 from model import User, Stock, Watchlist, connect_to_db, db
-from server import app 
+from server import app
+import requests 
 # app is from flask
 
 
@@ -23,11 +24,58 @@ def load_watchlists():
 
 
 
-def load_stocks(company_name, ave_price):
-    """Load company names into database from a file downloading data from Edgar Online.
-       Load weekly EMA price from a file downloading data from Alpha Vantage."""
-
+def load_stocks():
+    """Load company names into database from Edgar Online.
+       Load weekly EMA price from Alpha Vantage."""
     print("Stocks")
+    apikey = "1dfacbf9c7a25bb0e1c626ddcfcfb5b9"
+    resourcename = "companies"
+    fieldname = "primarysymbol"
+    req_symbol = requests.get(f"https://datafied.api.edgar-online.com/v2/descriptions/{resourcename}/{fieldname}?Appkey={apikey}")
+    # print(req_symbol.url)
+    # print(req_symbol.json())
+    js_symbol = req_symbol.json() # A-AAPL-ACIA
+    symbols = js_symbol['descriptions']
+    print(symbols)
+    # for symbol in symbols:
+        # print(symbol)
+        # stock = Stock(stock_id=symbol)
+
+        # db.session.add(stock)
+    # print(stock)
+
+    # db.session.commit()
+
+    symbolstring = ''
+    for symbol in symbols:
+        symbolstring = symbolstring + ',' + symbol
+    symbolstring = symbolstring[1:]
+    # print(symbolstring)
+
+    payload = {'Appkey': apikey,
+               'primarysymbols': symbolstring} 
+    req_company = requests.get(f"https://datafied.api.edgar-online.com/v2/companies", params=payload)
+    # print(req_company.url)
+    rows = req_company.json()['result']['rows']
+    # print(rows)
+
+    companies = []
+    primary_symbols = []
+    for row in rows:
+        companies.append(row['values'][1]['value'])
+        primary_symbols.append(row['values'][6]['value'])
+    print(companies)
+    print(primary_symbols)
+
+    # weekly_ave_price
+
+
+
+
+            
+        
+
+
 
     # for i, row in enumerate(open(rating_filename)):
     #     row = row.rstrip()
@@ -79,9 +127,9 @@ def load_stocks(company_name, ave_price):
 if __name__ == "__main__":
     
     connect_to_db(app)
-    #? Why do you need it in all model, server and seed?
-
+    # #? Why do you need it in all model, server and seed?
     db.create_all()
+    load_stocks()
 
     # user_filename = "seed_data/u.user"
     # movie_filename = "seed_data/u.item"
