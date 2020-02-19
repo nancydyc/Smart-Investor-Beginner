@@ -46,6 +46,7 @@ def load_stocks():
 
     # db.session.commit()
 
+    # Get matched symbols and company names
     symbolstring = ''
     for symbol in symbols:
         symbolstring = symbolstring + ',' + symbol
@@ -67,7 +68,24 @@ def load_stocks():
     print(companies)
     print(primary_symbols)
 
-    # weekly_ave_price
+    # Get the most recent month 10 days EMA 
+    for symbol in primary_symbols:
+        payload_ema = {'function': 'EMA',  
+                   'symbol': symbol,
+                   'interval': 'monthly',
+                   'time_period': 10,
+                   'series_type': 'open',
+                   'apikey': 'PVW38W9JBAXB0XGX'}
+        req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+        # print(req_ema.url)
+        js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+        # get a list of prices but some stock has no values of technical EMA
+        emas = []
+        for ema in js_date_ema.values():
+        
+            emas.append(ema['EMA'])
+        print(emas) 
+        
 
 
 

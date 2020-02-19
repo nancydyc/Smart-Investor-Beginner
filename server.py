@@ -82,6 +82,7 @@ def display_daily_ema_chart():
     print("\n\n####################below is chart data########################")
     symbol = request.args.get("symbol")
     print(symbol)
+    # Get daily EMA of monthly average
     payload_ema = {'function': 'EMA',  
                'symbol': symbol,
                'interval': 'daily',
