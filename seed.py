@@ -28,15 +28,16 @@ def load_stocks():
     """Load company names into database from Edgar Online.
        Load weekly EMA price from Alpha Vantage."""
     print("Stocks")
-    apikey = "1dfacbf9c7a25bb0e1c626ddcfcfb5b9"
-    resourcename = "companies"
-    fieldname = "primarysymbol"
-    req_symbol = requests.get(f"https://datafied.api.edgar-online.com/v2/descriptions/{resourcename}/{fieldname}?Appkey={apikey}")
-    # print(req_symbol.url)
-    # print(req_symbol.json())
-    js_symbol = req_symbol.json() # A-AAPL-ACIA
-    symbols = js_symbol['descriptions']
-    print(symbols)
+    # apikey = "1dfacbf9c7a25bb0e1c626ddcfcfb5b9"
+    # resourcename = "companies"
+    # fieldname = "primarysymbol"
+    # req_symbol = requests.get(f"https://datafied.api.edgar-online.com/v2/descriptions/{resourcename}/{fieldname}?Appkey={apikey}")
+    # # print(req_symbol.url)
+    # # print(req_symbol.json())
+    # js_symbol = req_symbol.json() # A-AAPL-ACIA
+    # symbols = js_symbol['descriptions']
+
+    # print(symbols)
     # for symbol in symbols:
         # print(symbol)
         # stock = Stock(stock_id=symbol)
@@ -47,45 +48,57 @@ def load_stocks():
     # db.session.commit()
 
     # Get matched symbols and company names
-    symbolstring = ''
-    for symbol in symbols:
-        symbolstring = symbolstring + ',' + symbol
-    symbolstring = symbolstring[1:]
+    symbols = []
+    primary_symbols = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP', 'AATV', 'AAU', 'AAVVF', 'AAWC', 'AAWW', 'AAXN', 'AAXT', 'AB', 'ABAHF', 'ABB', 'ABBB', 'ABBV', 'ABBY', 'ABC', 'ABCB', 'ABCE', 'ABCP', 'ABDR', 'ABEC', 'ABENU', 'ABEO', 'ABEPF', 'ABEV', 'ABG', 'ABGOY', 'ABILF', 'ABIO', 'ABKB', 'ABLE', 'ABLT', 'ABM', 'ABMC', 'ABMD', 'ABML', 'ABMT', 'ABNAF', 'ABPR', 'ABQQ', 'ABR', 'ABSR', 'ABT', 'ABTI', 'ABTO', 'ABTX', 'ABUS', 'ABVC', 'ABVG', 'ABVN', 'ABWN', 'ABZUF', 'AC', 'ACA', 'ACAD', 'ACAM', 'ACAN', 'ACB', 'ACBD', 'ACBI', 'ACBM', 'ACC', 'ACCA', 'ACCO', 'ACCR', 'ACEL', 'ACER', 'ACEZ', 'ACFN', 'ACGI', 'ACGL', 'ACGX', 'ACH', 'ACHC', 'ACHFF', 'ACHV', 'ACIA']
+
+    # for symbol in symbols:
+    #     symbolstring = symbolstring + ',' + symbol
+    # symbolstring = symbolstring[1:]
     # print(symbolstring)
 
-    payload = {'Appkey': apikey,
-               'primarysymbols': symbolstring} 
-    req_company = requests.get(f"https://datafied.api.edgar-online.com/v2/companies", params=payload)
-    # print(req_company.url)
-    rows = req_company.json()['result']['rows']
-    # print(rows)
+    # payload = {'Appkey': apikey,
+    #            'primarysymbols': symbolstring} 
+    # req_company = requests.get(f"https://datafied.api.edgar-online.com/v2/companies", params=payload)
+    # # print(req_company.url)
+    # rows = req_company.json()['result']['rows']
+    # # print(rows)
 
-    companies = []
-    primary_symbols = []
-    for row in rows:
-        companies.append(row['values'][1]['value'])
-        primary_symbols.append(row['values'][6]['value'])
-    print(companies)
-    print(primary_symbols)
+    # companies = []
+    # primary_symbols = []
+    # for row in rows:
+    #     companies.append(row['values'][1]['value'])
+    #     primary_symbols.append(row['values'][6]['value'])
 
-    # Get the most recent month 10 days EMA 
+    # print(companies)
+    # print(primary_symbols) # companies and symbols match at the same index
+
+    # Get the most recent month 5 days EMA 
+    emas = []
     for symbol in primary_symbols:
         payload_ema = {'function': 'EMA',  
                    'symbol': symbol,
                    'interval': 'monthly',
-                   'time_period': 10,
+                   'time_period': 5,
                    'series_type': 'open',
-                   'apikey': 'PVW38W9JBAXB0XGX'}
+                   'apikey': 'G91S3ATZL5YIK83E'}
         req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-        # print(req_ema.url)
+        print(symbol, req_ema.url)
         js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
-        # get a list of prices but some stock has no values of technical EMA
-        emas = []
-        for ema in js_date_ema.values():
-        
-            emas.append(ema['EMA'])
-        print(emas) 
-        
+        # get a list of prices of the symbol but some stock has no values of technical EMA
+        print(js_date_ema)
+        # return
+        if js_date_ema == {}:
+            emas.append('0')
+            print(emas)
+        else:        
+            print(js_date_ema)
+            prices = list(js_date_ema.values())
+            print(prices)
+            price = prices[0]
+            emas.append(price['EMA'])
+            print(emas)
+    print(emas) 
+
 
 
 
