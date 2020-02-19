@@ -4,6 +4,7 @@ from sqlalchemy import func #? What func is doing here?
 
 from model import User, Stock, Watchlist, connect_to_db, db
 from server import app
+from faker import Faker
 import requests 
 # app is from flask
 
@@ -24,10 +25,34 @@ def load_watchlists():
 
 
 
+
 def load_stocks():
     """Load company names into database from Edgar Online.
        Load weekly EMA price from Alpha Vantage."""
     print("Stocks")
+    
+    data_a = ['80.9032', '18.8916', '0', '15.0968', '0.0051']
+    data_b = ['1.5071', '0.5300', '0.0006', '0.0002', '0.2487']
+    data_c = ['0.0120', '0.0538', '28.3974', '13.4501', '2.0821']
+    data_d = ['60.9237', '11.1399', '50.1589', '150.0254', '272.8828']
+    data_e = ['0.0001', '0.6432', '0.4482', '46.5159', '4.7133']
+    
+    emas = data_a + data_b + data_c + data_d + data_e
+    # print(emas)
+    companies = ['AGILENT TECHNOLOGIES, INC.', 'ALCOA CORP', 'AAA CENTURY GROUP USA, INC.', 'PERTH MINT PHYSICAL GOLD ETF', 'ASIA BROADBAND INC', 'ATA CREATIVITY GLOBAL', 'AAC HOLDINGS, INC.', 'AMERICAN COMMERCE SOLUTIONS INC', 'ALL AMERICAN GOLD CORP.', 'AFTERMATH SILVER LTD.', 'AMERICA GREAT HEALTH', 'ALABAMA AIRCRAFT INDUSTRIES, INC', 'AMERICAN AIRLINES GROUP INC.', 'ALTISOURCE ASSET MANAGEMENT CORP', 'ATLANTIC AMERICAN CORP', "AARON'S INC", 'APPLIED OPTOELECTRONICS, INC.', 'AAON, INC.', 'ADVANCE AUTO PARTS INC', 'APPLE INC.', 'ALL AMERICAN PET COMPANY, INC.', "AMERICA'S SUPPLIERS, INC.", 'ALL AMERICAN SPORTPARK INC', 'AMERICAN ASSETS TRUST, INC.', 'AGAPE ATP CORP']
+    symbols = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP']
+
+    for symbol, company, ema in zip(symbols, companies, emas):
+        # print(symbol)
+        stock = Stock(stock_id=symbol,
+                      company_name=company,
+                      weekly_ave_price=ema)
+
+        db.session.add(stock)
+    print(stock)
+
+    db.session.commit()
+
     # apikey = "b7fd7ed058d07566df76db3dafc2ecb9"
     # resourcename = "companies"
     # fieldname = "primarysymbol"
@@ -58,28 +83,6 @@ def load_stocks():
 
     # print(companies)
     # print(primary_symbols) # companies and symbols match at the same index
-    
-    data_a = ['80.9032', '18.8916', '0', '15.0968', '0.0051']
-    data_b = ['1.5071', '0.5300', '0.0006', '0.0002', '0.2487']
-    data_c = ['0.0120', '0.0538', '28.3974', '13.4501', '2.0821']
-    data_d = ['60.9237', '11.1399', '50.1589', '150.0254', '272.8828']
-    data_e = ['0.0001', '0.6432', '0.4482', '46.5159', '4.7133']
-    
-    emas = data_a + data_b + data_c + data_d + data_e
-    # print(emas)
-    companies = ['AGILENT TECHNOLOGIES, INC.', 'ALCOA CORP', 'AAA CENTURY GROUP USA, INC.', 'PERTH MINT PHYSICAL GOLD ETF', 'ASIA BROADBAND INC', 'ATA CREATIVITY GLOBAL', 'AAC HOLDINGS, INC.', 'AMERICAN COMMERCE SOLUTIONS INC', 'ALL AMERICAN GOLD CORP.', 'AFTERMATH SILVER LTD.', 'AMERICA GREAT HEALTH', 'ALABAMA AIRCRAFT INDUSTRIES, INC', 'AMERICAN AIRLINES GROUP INC.', 'ALTISOURCE ASSET MANAGEMENT CORP', 'ATLANTIC AMERICAN CORP', "AARON'S INC", 'APPLIED OPTOELECTRONICS, INC.', 'AAON, INC.', 'ADVANCE AUTO PARTS INC', 'APPLE INC.', 'ALL AMERICAN PET COMPANY, INC.', "AMERICA'S SUPPLIERS, INC.", 'ALL AMERICAN SPORTPARK INC', 'AMERICAN ASSETS TRUST, INC.', 'AGAPE ATP CORP']
-    symbols = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP']
-
-    for symbol, company, ema in zip(symbols, companies, emas):
-        # print(symbol)
-        stock = Stock(stock_id=symbol,
-                      company_name=company,
-                      weekly_ave_price=ema)
-
-        db.session.add(stock)
-    print(stock)
-
-    db.session.commit()
 
     # Get matched symbols and company names
     # symbols = []
@@ -91,7 +94,7 @@ def load_stocks():
     # primary_five = primary[20:25]
     # Get the most recent month 5 days EMA 
     # emas = []
-    
+
     # for symbol in primary_one:
     #     payload_ema = {'function': 'EMA',  
     #                'symbol': symbol,
