@@ -28,42 +28,25 @@ def load_stocks():
     """Load company names into database from Edgar Online.
        Load weekly EMA price from Alpha Vantage."""
     print("Stocks")
-    # apikey = "1dfacbf9c7a25bb0e1c626ddcfcfb5b9"
+    # apikey = "b7fd7ed058d07566df76db3dafc2ecb9"
     # resourcename = "companies"
     # fieldname = "primarysymbol"
     # req_symbol = requests.get(f"https://datafied.api.edgar-online.com/v2/descriptions/{resourcename}/{fieldname}?Appkey={apikey}")
-    # # print(req_symbol.url)
+    # print(req_symbol.url)
     # # print(req_symbol.json())
     # js_symbol = req_symbol.json() # A-AAPL-ACIA
     # symbols = js_symbol['descriptions']
-
-    # print(symbols)
-    # for symbol in symbols:
-        # print(symbol)
-        # stock = Stock(stock_id=symbol)
-
-        # db.session.add(stock)
-    # print(stock)
-
-    # db.session.commit()
-
-    # Get matched symbols and company names
-    symbols = []
-    primary = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP', 'AATV', 'AAU', 'AAVVF', 'AAWC', 'AAWW', 'AAXN', 'AAXT', 'AB', 'ABAHF', 'ABB', 'ABBB', 'ABBV', 'ABBY', 'ABC', 'ABCB', 'ABCE', 'ABCP', 'ABDR', 'ABEC', 'ABENU', 'ABEO', 'ABEPF', 'ABEV', 'ABG', 'ABGOY', 'ABILF', 'ABIO', 'ABKB', 'ABLE', 'ABLT', 'ABM', 'ABMC', 'ABMD', 'ABML', 'ABMT', 'ABNAF', 'ABPR', 'ABQQ', 'ABR', 'ABSR', 'ABT', 'ABTI', 'ABTO', 'ABTX', 'ABUS', 'ABVC', 'ABVG', 'ABVN', 'ABWN', 'ABZUF', 'AC', 'ACA', 'ACAD', 'ACAM', 'ACAN', 'ACB', 'ACBD', 'ACBI', 'ACBM', 'ACC', 'ACCA', 'ACCO', 'ACCR', 'ACEL', 'ACER', 'ACEZ', 'ACFN', 'ACGI', 'ACGL', 'ACGX', 'ACH', 'ACHC', 'ACHFF', 'ACHV', 'ACIA']
-    primary_one = primary[:5]
-    primary_two = primary[5:10]
-    primary_three = primary[10:15]
-    primary_four = primary[15:20]
-    primary_five = primary[20:25]
+    # # print(symbols)
+    # symbolstring = ''
     # for symbol in symbols:
     #     symbolstring = symbolstring + ',' + symbol
     # symbolstring = symbolstring[1:]
-    # print(symbolstring)
+    # # print(symbolstring)
 
     # payload = {'Appkey': apikey,
     #            'primarysymbols': symbolstring} 
     # req_company = requests.get(f"https://datafied.api.edgar-online.com/v2/companies", params=payload)
-    # # print(req_company.url)
+    # print(req_company.url)
     # rows = req_company.json()['result']['rows']
     # # print(rows)
 
@@ -75,9 +58,40 @@ def load_stocks():
 
     # print(companies)
     # print(primary_symbols) # companies and symbols match at the same index
+    
+    data_a = ['80.9032', '18.8916', '0', '15.0968', '0.0051']
+    data_b = ['1.5071', '0.5300', '0.0006', '0.0002', '0.2487']
+    data_c = ['0.0120', '0.0538', '28.3974', '13.4501', '2.0821']
+    data_d = ['60.9237', '11.1399', '50.1589', '150.0254', '272.8828']
+    data_e = ['0.0001', '0.6432', '0.4482', '46.5159', '4.7133']
+    
+    emas = data_a + data_b + data_c + data_d + data_e
+    # print(emas)
+    companies = ['AGILENT TECHNOLOGIES, INC.', 'ALCOA CORP', 'AAA CENTURY GROUP USA, INC.', 'PERTH MINT PHYSICAL GOLD ETF', 'ASIA BROADBAND INC', 'ATA CREATIVITY GLOBAL', 'AAC HOLDINGS, INC.', 'AMERICAN COMMERCE SOLUTIONS INC', 'ALL AMERICAN GOLD CORP.', 'AFTERMATH SILVER LTD.', 'AMERICA GREAT HEALTH', 'ALABAMA AIRCRAFT INDUSTRIES, INC', 'AMERICAN AIRLINES GROUP INC.', 'ALTISOURCE ASSET MANAGEMENT CORP', 'ATLANTIC AMERICAN CORP', "AARON'S INC", 'APPLIED OPTOELECTRONICS, INC.', 'AAON, INC.', 'ADVANCE AUTO PARTS INC', 'APPLE INC.', 'ALL AMERICAN PET COMPANY, INC.', "AMERICA'S SUPPLIERS, INC.", 'ALL AMERICAN SPORTPARK INC', 'AMERICAN ASSETS TRUST, INC.', 'AGAPE ATP CORP']
+    symbols = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP']
 
+    for symbol, company, ema in zip(symbols, companies, emas):
+        # print(symbol)
+        stock = Stock(stock_id=symbol,
+                      company_name=company,
+                      weekly_ave_price=ema)
+
+        db.session.add(stock)
+    print(stock)
+
+    db.session.commit()
+
+    # Get matched symbols and company names
+    # symbols = []
+    # primary = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP', 'AATV', 'AAU', 'AAVVF', 'AAWC', 'AAWW', 'AAXN', 'AAXT', 'AB', 'ABAHF', 'ABB', 'ABBB', 'ABBV', 'ABBY', 'ABC', 'ABCB', 'ABCE', 'ABCP', 'ABDR', 'ABEC', 'ABENU', 'ABEO', 'ABEPF', 'ABEV', 'ABG', 'ABGOY', 'ABILF', 'ABIO', 'ABKB', 'ABLE', 'ABLT', 'ABM', 'ABMC', 'ABMD', 'ABML', 'ABMT', 'ABNAF', 'ABPR', 'ABQQ', 'ABR', 'ABSR', 'ABT', 'ABTI', 'ABTO', 'ABTX', 'ABUS', 'ABVC', 'ABVG', 'ABVN', 'ABWN', 'ABZUF', 'AC', 'ACA', 'ACAD', 'ACAM', 'ACAN', 'ACB', 'ACBD', 'ACBI', 'ACBM', 'ACC', 'ACCA', 'ACCO', 'ACCR', 'ACEL', 'ACER', 'ACEZ', 'ACFN', 'ACGI', 'ACGL', 'ACGX', 'ACH', 'ACHC', 'ACHFF', 'ACHV', 'ACIA']
+    # primary_one = primary[:5]
+    # primary_two = primary[5:10]
+    # primary_three = primary[10:15]
+    # primary_four = primary[15:20]
+    # primary_five = primary[20:25]
     # Get the most recent month 5 days EMA 
-    emas = []
+    # emas = []
+    
     # for symbol in primary_one:
     #     payload_ema = {'function': 'EMA',  
     #                'symbol': symbol,
@@ -104,7 +118,9 @@ def load_stocks():
     #         price = prices[0]
     #         emas.append(price['EMA'])
     #         print(emas)
-    # print(emas) 
+    # print(emas)
+
+
 
     # for symbol in primary_two:
     #     payload_ema = {'function': 'EMA',  
@@ -134,41 +150,13 @@ def load_stocks():
     #         print(emas)
     # print(emas)
 
-    for symbol in primary_three:
-        payload_ema = {'function': 'EMA',  
-                   'symbol': symbol,
-                   'interval': 'monthly',
-                   'time_period': 5,
-                   'series_type': 'open',
-                   'apikey': 'G91S3ATZL5YIK83E'}
-        req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-        print(symbol, req_ema.url)
-        js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
-        # get a list of prices of the symbol but some stock has no values of technical EMA
-        # print(js_date_ema)
-        if js_date_ema == 0:
-            emas.append('0')
-            print(emas)
-        # return
-        elif js_date_ema == {}:
-            emas.append('0')
-            print(emas)
-        else:        
-            print(js_date_ema)
-            prices = list(js_date_ema.values())
-            print(prices)
-            price = prices[0]
-            emas.append(price['EMA'])
-            print(emas)
-    print(emas)
-
     # for symbol in primary_four:
     #     payload_ema = {'function': 'EMA',  
     #                'symbol': symbol,
     #                'interval': 'monthly',
     #                'time_period': 5,
     #                'series_type': 'open',
-    #                'apikey': 'G91S3ATZL5YIK83E'}
+    #                'apikey': 'KSMJ9C8N2RZ92V0D'}
     #     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     #     print(symbol, req_ema.url)
     #     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
@@ -196,7 +184,7 @@ def load_stocks():
     #                'interval': 'monthly',
     #                'time_period': 5,
     #                'series_type': 'open',
-    #                'apikey': 'G91S3ATZL5YIK83E'}
+    #                'apikey': 'PVW38W9JBAXB0XGX'}
     #     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     #     print(symbol, req_ema.url)
     #     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
@@ -217,7 +205,6 @@ def load_stocks():
     #         emas.append(price['EMA'])
     #         print(emas)
     # print(emas)
-
 
 
 
@@ -272,7 +259,7 @@ def load_stocks():
 #     db.session.execute(query, {'new_id': max_id + 1})
 #     db.session.commit()
 
-
+############################################################################
 if __name__ == "__main__":
     
     connect_to_db(app)

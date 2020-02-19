@@ -37,10 +37,10 @@ class Watchlist(db.Model):
     user_id = db.Column(db.Integer, 
                         db.ForeignKey('users.user_id'), 
                         primary_key=True)
-    stock_id =  db.Column(db.Integer, 
-                          db.ForeignKey('users.user_id'), 
+    stock_id =  db.Column(db.String(10), 
+                          db.ForeignKey('stocks.stock_id'), 
                           primary_key=True) 
-    ave_cost = db.Column(db.Integer, nullable=False, default=0)
+    ave_cost = db.Column(db.Numeric, nullable=False, default=0)
     shares =  db.Column(db.Integer, nullable=False, default=0)
 
     # Identify relationships between the tables
@@ -50,11 +50,11 @@ class Watchlist(db.Model):
     def __repr__(self):
         """Return a readable representation of a watchlist."""
 
-        return f'<user id:{self.user_id} stock id:{self.stock_id} average cost:{self.ave_cost}>'       
+        return f'<user id:{self.user_id} stock id:{self.stock_id} average cost:{self.ave_cost} shares:{self.shares}>'       
 
 
 class Stock(db.Model):
-    """Data model for the details of the holding stock, recording price and amount."""
+    """Data model for the details of the holding stock, recording price (latest 5-day's EMA) and amount."""
 
     __tablename__ = "stocks"
 
@@ -62,22 +62,22 @@ class Stock(db.Model):
                          nullable=False, 
                          primary_key=True)
     company_name = db.Column(db.String(50), nullable=False)
-    weekly_ave_price = db.Column(db.Integer, nullable=False)
+    weekly_ave_price = db.Column(db.Float(10,2), nullable=False)
                 
     # watchlists: one-many relationship to Stock class.
 
     def __repr__(self):
         """Return a readable representation of a watchlist."""
 
-        return f'<watch-list id:{self.watch_id} stock-list:{self.stock_ids}>'
+        return f'<stock id:{self.stock_id}>'
 
 ##############################################################################
 
-def connect_to_db(app):
+def connect_to_db(app, uri="postgres:///stocks"):
     """Connect the database to our Flask app."""
 
     # Configure to use our database.
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///stocks"
+    app.config["SQLALCHEMY_DATABASE_URI"] = uri
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app

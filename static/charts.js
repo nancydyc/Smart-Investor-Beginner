@@ -15,7 +15,12 @@ function showRealtimePrice(evt) {
   });
 };
 
-$('#form').on('submit', showRealtimePrice);
+function getRealTimePriceAndChart (evt) {
+  showRealtimePrice(evt)
+  displayChart(evt)
+}
+
+$('#form').on('submit', getRealTimePriceAndChart);
 
 
 function displayChart (evt) {
@@ -63,9 +68,6 @@ function displayChart (evt) {
     });
   });
 };
-
-
-$('#chart').on('click', displayChart);
 
 
 // data: {
