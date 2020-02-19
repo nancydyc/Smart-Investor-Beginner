@@ -49,8 +49,12 @@ def load_stocks():
 
     # Get matched symbols and company names
     symbols = []
-    primary_symbols = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP', 'AATV', 'AAU', 'AAVVF', 'AAWC', 'AAWW', 'AAXN', 'AAXT', 'AB', 'ABAHF', 'ABB', 'ABBB', 'ABBV', 'ABBY', 'ABC', 'ABCB', 'ABCE', 'ABCP', 'ABDR', 'ABEC', 'ABENU', 'ABEO', 'ABEPF', 'ABEV', 'ABG', 'ABGOY', 'ABILF', 'ABIO', 'ABKB', 'ABLE', 'ABLT', 'ABM', 'ABMC', 'ABMD', 'ABML', 'ABMT', 'ABNAF', 'ABPR', 'ABQQ', 'ABR', 'ABSR', 'ABT', 'ABTI', 'ABTO', 'ABTX', 'ABUS', 'ABVC', 'ABVG', 'ABVN', 'ABWN', 'ABZUF', 'AC', 'ACA', 'ACAD', 'ACAM', 'ACAN', 'ACB', 'ACBD', 'ACBI', 'ACBM', 'ACC', 'ACCA', 'ACCO', 'ACCR', 'ACEL', 'ACER', 'ACEZ', 'ACFN', 'ACGI', 'ACGL', 'ACGX', 'ACH', 'ACHC', 'ACHFF', 'ACHV', 'ACIA']
-
+    primary = ['A', 'AA', 'AAAG', 'AAAU', 'AABB', 'AACG', 'AACH', 'AACS', 'AAGC', 'AAGFF', 'AAGH', 'AAIIQ', 'AAL', 'AAMC', 'AAME', 'AAN', 'AAOI', 'AAON', 'AAP', 'AAPL', 'AAPT', 'AASL', 'AASP', 'AAT', 'AATP', 'AATV', 'AAU', 'AAVVF', 'AAWC', 'AAWW', 'AAXN', 'AAXT', 'AB', 'ABAHF', 'ABB', 'ABBB', 'ABBV', 'ABBY', 'ABC', 'ABCB', 'ABCE', 'ABCP', 'ABDR', 'ABEC', 'ABENU', 'ABEO', 'ABEPF', 'ABEV', 'ABG', 'ABGOY', 'ABILF', 'ABIO', 'ABKB', 'ABLE', 'ABLT', 'ABM', 'ABMC', 'ABMD', 'ABML', 'ABMT', 'ABNAF', 'ABPR', 'ABQQ', 'ABR', 'ABSR', 'ABT', 'ABTI', 'ABTO', 'ABTX', 'ABUS', 'ABVC', 'ABVG', 'ABVN', 'ABWN', 'ABZUF', 'AC', 'ACA', 'ACAD', 'ACAM', 'ACAN', 'ACB', 'ACBD', 'ACBI', 'ACBM', 'ACC', 'ACCA', 'ACCO', 'ACCR', 'ACEL', 'ACER', 'ACEZ', 'ACFN', 'ACGI', 'ACGL', 'ACGX', 'ACH', 'ACHC', 'ACHFF', 'ACHV', 'ACIA']
+    primary_one = primary[:5]
+    primary_two = primary[5:10]
+    primary_three = primary[10:15]
+    primary_four = primary[15:20]
+    primary_five = primary[20:25]
     # for symbol in symbols:
     #     symbolstring = symbolstring + ',' + symbol
     # symbolstring = symbolstring[1:]
@@ -74,7 +78,63 @@ def load_stocks():
 
     # Get the most recent month 5 days EMA 
     emas = []
-    for symbol in primary_symbols:
+    # for symbol in primary_one:
+    #     payload_ema = {'function': 'EMA',  
+    #                'symbol': symbol,
+    #                'interval': 'monthly',
+    #                'time_period': 5,
+    #                'series_type': 'open',
+    #                'apikey': 'G91S3ATZL5YIK83E'}
+    #     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    #     print(symbol, req_ema.url)
+    #     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+    #     # get a list of prices of the symbol but some stock has no values of technical EMA
+    #     # print(js_date_ema)
+    #     if js_date_ema == 0:
+    #         emas.append('0')
+    #         print(emas)
+    #     # return
+    #     elif js_date_ema == {}:
+    #         emas.append('0')
+    #         print(emas)
+    #     else:        
+    #         print(js_date_ema)
+    #         prices = list(js_date_ema.values())
+    #         print(prices)
+    #         price = prices[0]
+    #         emas.append(price['EMA'])
+    #         print(emas)
+    # print(emas) 
+
+    # for symbol in primary_two:
+    #     payload_ema = {'function': 'EMA',  
+    #                'symbol': symbol,
+    #                'interval': 'monthly',
+    #                'time_period': 5,
+    #                'series_type': 'open',
+    #                'apikey': 'G91S3ATZL5YIK83E'}
+    #     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    #     print(symbol, req_ema.url)
+    #     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+    #     # get a list of prices of the symbol but some stock has no values of technical EMA
+    #     # print(js_date_ema)
+    #     if js_date_ema == 0:
+    #         emas.append('0')
+    #         print(emas)
+    #     # return
+    #     elif js_date_ema == {}:
+    #         emas.append('0')
+    #         print(emas)
+    #     else:        
+    #         print(js_date_ema)
+    #         prices = list(js_date_ema.values())
+    #         print(prices)
+    #         price = prices[0]
+    #         emas.append(price['EMA'])
+    #         print(emas)
+    # print(emas)
+
+    for symbol in primary_three:
         payload_ema = {'function': 'EMA',  
                    'symbol': symbol,
                    'interval': 'monthly',
@@ -85,9 +145,12 @@ def load_stocks():
         print(symbol, req_ema.url)
         js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
         # get a list of prices of the symbol but some stock has no values of technical EMA
-        print(js_date_ema)
+        # print(js_date_ema)
+        if js_date_ema == 0:
+            emas.append('0')
+            print(emas)
         # return
-        if js_date_ema == {}:
+        elif js_date_ema == {}:
             emas.append('0')
             print(emas)
         else:        
@@ -97,8 +160,63 @@ def load_stocks():
             price = prices[0]
             emas.append(price['EMA'])
             print(emas)
-    print(emas) 
+    print(emas)
 
+    # for symbol in primary_four:
+    #     payload_ema = {'function': 'EMA',  
+    #                'symbol': symbol,
+    #                'interval': 'monthly',
+    #                'time_period': 5,
+    #                'series_type': 'open',
+    #                'apikey': 'G91S3ATZL5YIK83E'}
+    #     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    #     print(symbol, req_ema.url)
+    #     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+    #     # get a list of prices of the symbol but some stock has no values of technical EMA
+    #     # print(js_date_ema)
+    #     if js_date_ema == 0:
+    #         emas.append('0')
+    #         print(emas)
+    #     # return
+    #     elif js_date_ema == {}:
+    #         emas.append('0')
+    #         print(emas)
+    #     else:        
+    #         print(js_date_ema)
+    #         prices = list(js_date_ema.values())
+    #         print(prices)
+    #         price = prices[0]
+    #         emas.append(price['EMA'])
+    #         print(emas)
+    # print(emas)
+
+    # for symbol in primary_five:
+    #     payload_ema = {'function': 'EMA',  
+    #                'symbol': symbol,
+    #                'interval': 'monthly',
+    #                'time_period': 5,
+    #                'series_type': 'open',
+    #                'apikey': 'G91S3ATZL5YIK83E'}
+    #     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    #     print(symbol, req_ema.url)
+    #     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+    #     # get a list of prices of the symbol but some stock has no values of technical EMA
+    #     # print(js_date_ema)
+    #     if js_date_ema == 0:
+    #         emas.append('0')
+    #         print(emas)
+    #     # return
+    #     elif js_date_ema == {}:
+    #         emas.append('0')
+    #         print(emas)
+    #     else:        
+    #         print(js_date_ema)
+    #         prices = list(js_date_ema.values())
+    #         print(prices)
+    #         price = prices[0]
+    #         emas.append(price['EMA'])
+    #         print(emas)
+    # print(emas)
 
 
 
