@@ -5,5 +5,35 @@
 
 
 <h2>Stock Screener</h2>
+<div>
+    <form>
+        How do you want to filter the stocks? </br></br>
+
+        <input type="checkbox" name="screen" value="price">
+        <label>5 Days EMA Price</label>
+
+            $ <input type="number" class="form-control form-filter" name="price" step="any" min=0>  
+
+            to $ <input type="number" class="form-control form-filter" name="price" step="any" min=0>
+        </br></br>
+
+        <input type="checkbox" name="screen" value="volume">
+        <label>Share Turnover Ratio</label>
+
+            <input type="number" class="form-control form-filter" name="price" step="any" min=0>%  
+
+            to <input type="number" class="form-control form-filter" name="price" step="any" min=0>%
+        </br></br>
+
+        <input type="checkbox" name="screen" value="price">
+        <label>Market Capitaliztion</label>
+
+            $ <input type="number" class="form-control form-filter" name="price" step="any" min=0>  
+
+            to $ <input type="number" class="form-control form-filter" name="price" step="any" min=0> (millions)
+            </br></br>
+        <button type="submit">Screen</button>
+    </form>
+</div>
 
 {% endblock %}

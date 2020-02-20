@@ -5,16 +5,31 @@ from sqlalchemy import func #? What func is doing here?
 from model import User, Stock, Watchlist, connect_to_db, db
 from server import app
 from faker import Faker
-import requests 
+import requests
+import random 
 # app is from flask
 
 
-def load_users(email, buying_power):
+def load_users():
     """Load users info into database from registered and user input."""
 
     print("Users")
 
-
+    fake = Faker()
+    emails = []
+    # Get email list
+    for i in range(10):
+        emails.append(fake.email())
+    # Get buying_power list
+    # buying_powers = []
+    buying_powers = random.sample(range(50000), 10)
+    print(emails, buying_powers)
+    
+    for email, power in zip(emails, buying_powers):
+        user = User(email=email, buying_power=power)
+        print(user)
+        db.session.add(user)
+    db.session.commit()
 
 
 def load_watchlists():
@@ -22,6 +37,14 @@ def load_watchlists():
 
     print("Watchlists")
 
+    shares = random.sample(range(500), 10)
+    costs = random.sample(range(100), 10)
+    #? How to get random float within the range?
+    print(shares, costs)
+
+    for share, cost in zip(shares, costs):
+        user = Watchlist(shares=share, ave_cost=cost)
+        print(user)
 
 
 
@@ -268,8 +291,9 @@ if __name__ == "__main__":
     connect_to_db(app)
     # #? Why do you need it in all model, server and seed?
     db.create_all()
-    load_stocks()
-
+    # load_stocks()
+    # load_users()
+    load_watchlists()
     # user_filename = "seed_data/u.user"
     # movie_filename = "seed_data/u.item"
     # rating_filename = "seed_data/u.data"
