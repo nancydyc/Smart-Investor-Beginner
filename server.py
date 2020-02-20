@@ -149,9 +149,6 @@ def screen_stocks():
 
     return render_template("screen.html")
 
-
-@app.route('/screen')
-def get_price_range():
     """Stock screener."""
 
     # Get price range from user
@@ -159,16 +156,25 @@ def get_price_range():
 
     # If the realtime price of the stocks in database in the price range,
     # return a list of the company names
-    return redirect("result.html")
 
 
 @app.route('/result')
 def screen_result():
     """Display stock screening results, showing symbol, company names and price."""
+    price_left = request.args.get('left')
+    price_right = request.args.get('right')
+    print(price_left, price_right)
 
-    return render_template("result.html")
-
-
+    if price_right > price_left:
+        result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
+                                    Stock.weekly_ave_price < price_right).all()
+        print(result)
+        return render_template("result.html", result=result)
+    else:
+        result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
+                                    Stock.weekly_ave_price < price_left).all()
+        print(result)
+        return render_template("result.html", result=result)
 
 
 ####################################2.0 feature################################

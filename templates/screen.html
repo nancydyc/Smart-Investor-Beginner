@@ -6,15 +6,15 @@
 
 <h2>Stock Screener</h2>
 <div>
-    <form>
+    <form action="/result">
         How do you want to filter the stocks? </br></br>
 
         <input type="checkbox" name="screen" value="price">
         <label>5 Days EMA Price</label>
 
-            $ <input type="number" class="form-control form-filter" name="price" step="any" min=0>  
+            $ <input type="number" class="form-control form-filter" name="left" step="any" min=0>  
 
-            to $ <input type="number" class="form-control form-filter" name="price" step="any" min=0>
+            to $ <input type="number" class="form-control form-filter" name="right" step="any" min=0>
         </br></br>
 
         <input type="checkbox" name="screen" value="volume">

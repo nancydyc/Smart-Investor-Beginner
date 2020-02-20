@@ -4,16 +4,33 @@
 {% block content %}
 
 
-<h2>Screen Result</h2>
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
-</div>
+<h2>Screen Results</h2>
+
+<a href="/screen">Back to Screener</a></br></br>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Company Name</th>
+            <th>Five Days Everage Price(EMA)</th>
+            <th>More Info</th>
+        </tr>
+        {% for data in result %}
+        <tr>
+            <th>{{ data.stock_id }}</th>
+            <th>{{ data.company_name }}</th>
+            <th>{{ '%0.2f' | format(data.weekly_ave_price | float) }}</th>  
+            <th>
+                <a href="/">Chart</a>
+                <a href="/">News</a>
+            </th>
+        </tr>
+        {% endfor %}
+    </thead>
+</table>
+
 
 {% endblock %}
 

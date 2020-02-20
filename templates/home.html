@@ -11,16 +11,16 @@
 {% block content %}
 
   <h2>Home</h2>
-  {{symbol}}
 
   <form id="form" action="/stock" >
     Search stocks by symbol 
     <input id="search" type="text" name="symbol">
     <button type="submit">Search</button>
+    <!--display chart button-->
   </form>
   <br><br>
 
-  <h2 id="stock">Stock: </h2> <!--Maybe Change to ajax as well-->
+  <h2 id="stock">Stock: </h2> 
   <h1 id="realtime">$ </h1>
 
   <div>

@@ -298,7 +298,8 @@ if __name__ == "__main__":
     db.create_all()
     # load_stocks()
     # load_users()
-    load_watchlists()
+    # load_watchlists()
+    
     # user_filename = "seed_data/u.user"
     # movie_filename = "seed_data/u.item"
     # rating_filename = "seed_data/u.data"
