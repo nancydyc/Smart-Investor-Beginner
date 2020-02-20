@@ -34,12 +34,18 @@ class Watchlist(db.Model):
 
     __tablename__ = "watchlists"
 
-    user_id = db.Column(db.Integer, 
+    watch_id = db.Column(db.Integer, 
+                        nullable=False, 
+                        primary_key=True, 
+                        autoincrement=True)
+    user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'), 
-                        primary_key=True)
-    stock_id =  db.Column(db.String(10), 
+                        nullable=False)
+                        # primary_key=True)
+    stock_id =  db.Column(db.String(10),
                           db.ForeignKey('stocks.stock_id'), 
-                          primary_key=True) 
+                          nullable=True) 
+                          # primary_key=True) 
     ave_cost = db.Column(db.Numeric, nullable=False, default=0)
     shares =  db.Column(db.Integer, nullable=False, default=0)
 

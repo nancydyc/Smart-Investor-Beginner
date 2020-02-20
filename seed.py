@@ -9,46 +9,6 @@ import requests
 import random 
 # app is from flask
 
-
-def load_users():
-    """Load users info into database from registered and user input."""
-
-    print("Users")
-
-    fake = Faker()
-    emails = []
-    # Get email list
-    for i in range(10):
-        emails.append(fake.email())
-    # Get buying_power list
-    # buying_powers = []
-    buying_powers = random.sample(range(50000), 10)
-    print(emails, buying_powers)
-    
-    for email, power in zip(emails, buying_powers):
-        user = User(email=email, buying_power=power)
-        print(user)
-        db.session.add(user)
-    db.session.commit()
-
-
-def load_watchlists():
-    """Load watchlists into database from user input."""
-
-    print("Watchlists")
-
-    shares = random.sample(range(500), 10)
-    costs = random.sample(range(100), 10)
-    #? How to get random float within the range?
-    print(shares, costs)
-
-    for share, cost in zip(shares, costs):
-        user = Watchlist(shares=share, ave_cost=cost)
-        print(user)
-
-
-
-
 def load_stocks():
     """Load company names into database from Edgar Online.
        Load weekly EMA price from Alpha Vantage."""
@@ -72,10 +32,55 @@ def load_stocks():
                       weekly_ave_price=ema)
 
         db.session.add(stock)
-    print(stock)
+    # print(stock)
 
     db.session.commit()
+    print('loaded stocks')
 
+
+def load_users():
+    """Load users info into database from registered and user input."""
+
+    print("Users")
+
+    fake = Faker()
+    emails = []
+    # Get email list
+    for i in range(10):
+        emails.append(fake.email())
+    # Get buying_power list
+    # buying_powers = []
+    buying_powers = random.sample(range(50000), 10)
+    print(emails, buying_powers)
+    
+    for email, power in zip(emails, buying_powers):
+        user = User(email=email, buying_power=power)
+        # print(user)
+        db.session.add(user)
+    db.session.commit()
+    print('loaded users')
+
+
+def load_watchlists():
+    """Load watchlists into database from user input."""
+
+    print("Watchlists")
+
+    shares = random.sample(range(500), 10)
+    # Get random floats
+    costs = []
+    for i in range(10):
+        costs.append(round(random.uniform(1, 99.9), 2))
+    
+    users = list(range(1, 11))
+
+    stocks = ['AAN', 'AAPL', 'AAON', 'AAP', 'AAPL', 'AAPL', 'AAPL', 'AAPL', 'AAT', 'AAPL']
+    for share, cost, user, stock in zip(shares, costs, users, stocks):
+        watchlist = Watchlist(shares=share, ave_cost=cost, user_id=user, stock_id=stock)
+        print(watchlist)
+        db.session.add(watchlist)
+    db.session.commit()
+    print('loaded watchlists')
     # apikey = "b7fd7ed058d07566df76db3dafc2ecb9"
     # resourcename = "companies"
     # fieldname = "primarysymbol"
