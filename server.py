@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session, jsonify
+from flask import Flask, render_template, request, flash, redirect, session, jsonify, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
@@ -157,25 +157,34 @@ def screen_stocks():
     # If the realtime price of the stocks in database in the price range,
     # return a list of the company names
 
-
+# <number intended as offset'
 @app.route('/result')
 def screen_result():
     """Display stock screening results, showing symbol, company names and price."""
-    price_left = request.args.get('left')
-    price_right = request.args.get('right')
-    print(price_left, price_right)
+    
+    # Add pagination
+    page = request.args.get('page', 1, type=int)
 
-    if price_right > price_left:
-        result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
-                                    Stock.weekly_ave_price < price_right).all()
-        print(result)
-        return render_template("result.html", result=result)
-    else:
-        result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
-                                    Stock.weekly_ave_price < price_left).all()
-        print(result)
-        return render_template("result.html", result=result)
+    result = Stock.query.filter(Stock.weekly_ave_price > 10)\
+                        .paginate(page=page, per_page=5)
 
+    # price_left = request.args.get('left')
+    # price_right = request.args.get('right')
+    # print(price_left, price_right)
+
+    # if price_right > price_left:
+    #     result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
+    #                                 Stock.weekly_ave_price < price_right)\
+    #                         .paginate(page=page, per_page=5)
+    #     print(result)
+    #     return render_template("result.html", result=result)
+    # else:
+    #     result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
+    #                                 Stock.weekly_ave_price < price_left).\
+    #                         .paginate(page=page, per_page=5)
+        # print(result)
+        # return render_template("result.html", result=result)
+    return render_template("result.html", result=result)
 
 ####################################2.0 feature################################
 

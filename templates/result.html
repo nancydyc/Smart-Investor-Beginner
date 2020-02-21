@@ -6,7 +6,7 @@
 
 <h2>Screen Results</h2>
 
-<a href="/screen">Back to Screener</a></br></br>
+<a href="/screen">Back to Screener</a></br></br></br>
 
 
 <table>
@@ -17,7 +17,7 @@
             <th>Five Days Everage Price(EMA)</th>
             <th>More Info</th>
         </tr>
-        {% for data in result %}
+        {% for data in result.items %}
         <tr>
             <th>{{ data.stock_id }}</th>
             <th>{{ data.company_name }}</th>
@@ -29,9 +29,25 @@
         </tr>
         {% endfor %}
     </thead>
-</table>
-
+</table></br></br></br></br>
+        
+        {% for page_num in result.iter_pages() %}
+        {% if page_num %}
+            <a class="btn btn-outline-info mb4" href="{{ url_for('screen_result', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+{# <div class="columnwrapper">
+    {%- for column in result|slice(2) %}
+        <ul class="column-{{ loop.index }}">
+        {%- for item in column %}
+            <li>{{ item }}</li>
+        {%- endfor %}
+        </ul>
+    {%- endfor %}
+</div> #}
 
 {% endblock %}
 
-<!-- <a href="/investing/stock/aan" title="Aaron's Inc.">AAN</a> -->
+{# <!-- <a href="/investing/stock/aan" title="Aaron's Inc.">AAN</a> --> #}
