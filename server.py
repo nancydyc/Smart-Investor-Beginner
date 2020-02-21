@@ -166,7 +166,7 @@ def screen_result():
     page = request.args.get('page', 1, type=int)
 
     result = Stock.query.filter(Stock.weekly_ave_price > 10)\
-                        .paginate(page=page, per_page=5)
+                        .paginate(page=page, per_page=2)
 
     # price_left = request.args.get('left')
     # price_right = request.args.get('right')
