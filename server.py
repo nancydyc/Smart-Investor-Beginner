@@ -172,7 +172,8 @@ def screen_result():
     print("2", price_left, price_right)
 
     session['leftleft'] = price_left
-    print(session['leftleft'])
+    session['rightright'] = price_right
+    print(session['leftleft'], session['rightright'])
 
     # Add pagination
     # page = request.args.get('page', type=int)
@@ -180,39 +181,53 @@ def screen_result():
 
     # result = Stock.query.filter(Stock.weekly_ave_price > 10)\
     #                     .paginate(page=page, per_page=2)
-
+    
+    #! Need to handle exception: what if user only enter one price 
     if price_right > price_left:
         result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
                                     Stock.weekly_ave_price < price_right)\
                             .paginate(page=page, per_page=5)
         print(result)
-        return render_template("result.html", result=result)
+        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
     else:
         result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
                                     Stock.weekly_ave_price < price_left)\
                             .paginate(page=page, per_page=5)
         print(result)
-        return render_template("result.html", result=result)
+        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
     # return render_template("result.html", result=result)
 
 
-@app.route('/result/<int:left>')
+@app.route('/pages')
 def more_result_pages():
     """Display stock screening results, showing symbol, company names and price."""
     
     page = request.args.get('page', type=int)
     print('page', page)
-    price = session['leftleft']
-    print('from sessioin', price)
+    
+    # print('from sessioin', session['leftleft'], session['rightright'])
 
-    if session.get('leftleft') is not None:
-        price_left = session.get('leftleft')
-    # price_right = request.args.get('right')
-        print("3", price_left)
-        result = Stock.query.filter(Stock.weekly_ave_price > price_left).paginate(page=page, per_page=5)
+    if (session.get('leftleft') is None) or (session.get('rightright') is None):
+        flash('No more page.')
+        return redirect('/result')
+
+    price_left = session.get('leftleft')
+    price_right = session.get('rightright')
+    print("3", price_left, price_right)
+    
+    if price_right > price_left:
+        result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
+                                    Stock.weekly_ave_price < price_right)\
+                            .paginate(page=page, per_page=5)
         print(result)
+        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
     else:
-        print('session get none')
+        result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
+                                    Stock.weekly_ave_price < price_left)\
+                            .paginate(page=page, per_page=5)
+        print(result)
+        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
+
 
     # if price_right > price_left:
     #     result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
@@ -225,7 +240,7 @@ def more_result_pages():
     #                                 Stock.weekly_ave_price < price_left)\
     #                         .paginate(page=page, per_page=5)
     
-    return render_template("result.html", result=result, price=price_left)
+    
 
 ####################################2.0 feature################################
 

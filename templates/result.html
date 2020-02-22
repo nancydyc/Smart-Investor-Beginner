@@ -36,9 +36,9 @@
 {# when the page num exists, provide a link to url/result to run the query to get data for screen results #} 
 {% if page_num %}
     {% if result.page == page_num %}
-        <a class="btn btn-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=price) }}">{{ page_num }}</a>
+        <a class="btn btn-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice) }}">{{ page_num }}</a>
     {% else %}
-        <a class="btn btn-outline-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=price) }}">{{ page_num }}</a>
+        <a class="btn btn-outline-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice) }}">{{ page_num }}</a>
     {% endif %}
 {% else %}
 ...
