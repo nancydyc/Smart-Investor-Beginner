@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<h2>Screen Results</h2>
+
+<a href="/screen">Back to Screener</a></br></br></br>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Company Name</th>
+            <th>Five Days Everage Price(EMA)</th>
+            <th>More Info</th>
+        </tr>
+        {% for data in result.items %}
+        <tr>
+            <th>{{ data.stock_id }}</th>
+            <th>{{ data.company_name }}</th>
+            <th>{{ '%0.2f' | format(data.weekly_ave_price | float) }}</th>  
+            <th>
+                <a href="/">Chart</a>
+                <a href="/">News</a>
+            </th>
+        </tr>
+        {% endfor %}
+    </thead>
+</table></br></br></br>
+
+{# iter_pages offers the range of total pages #}
+{% for page_num in result.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+{# when the page num exists, provide a link to url/result to run the query to get data for screen results #} 
+{% if page_num %}
+    {% if result.page == page_num %}
+        <a class="btn btn-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice, right=rightprice) }}">{{ page_num }}</a>
+    {% else %}
+        <a class="btn btn-outline-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice, right=rightprice) }}">{{ page_num }}</a>
+    {% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+
+
+{% endblock %}
+
+{# <!-- <a href="/investing/stock/aan" title="Aaron's Inc.">AAN</a> --> #}
