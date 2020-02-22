@@ -29,28 +29,22 @@
         </tr>
         {% endfor %}
     </thead>
-</table></br></br></br></br>
-        
-        {% for page_num in result.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
-        {% if page_num %}
-            {% if result.page == page_num %}
-                <a class="btn btn-info mb4" href="{{ url_for('screen_result', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb4" href="{{ url_for('screen_result', page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-        {% else %}
-        ...
-        {% endif %}
-        {% endfor %}
-{# <div class="columnwrapper">
-    {%- for column in result|slice(2) %}
-        <ul class="column-{{ loop.index }}">
-        {%- for item in column %}
-            <li>{{ item }}</li>
-        {%- endfor %}
-        </ul>
-    {%- endfor %}
-</div> #}
+</table></br></br></br>
+
+{# iter_pages offers the range of total pages #}
+{% for page_num in result.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+{# when the page num exists, provide a link to url/result to run the query to get data for screen results #} 
+{% if page_num %}
+    {% if result.page == page_num %}
+        <a class="btn btn-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=price) }}">{{ page_num }}</a>
+    {% else %}
+        <a class="btn btn-outline-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=price) }}">{{ page_num }}</a>
+    {% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+
 
 {% endblock %}
 

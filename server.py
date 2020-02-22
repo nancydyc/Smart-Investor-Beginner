@@ -146,7 +146,9 @@ def display_daily_ema_chart():
 @app.route('/screen')
 def screen_stocks():
     """Stock screener, showing screening criteria."""
-
+    # price_left = session['left']
+    # price_right = session['right']
+    # print("1", price_left, price_right)
     return render_template("screen.html")
 
     """Stock screener."""
@@ -162,15 +164,55 @@ def screen_stocks():
 def screen_result():
     """Display stock screening results, showing symbol, company names and price."""
     
+    page = request.args.get('page', type=int)
+    print(page)
+
+    price_left = request.args.get('left')
+    price_right = request.args.get('right')
+    print("2", price_left, price_right)
+
+    session['leftleft'] = price_left
+    print(session['leftleft'])
+
     # Add pagination
-    page = request.args.get('page', 1, type=int)
+    # page = request.args.get('page', type=int)
+    # print(page)
 
-    result = Stock.query.filter(Stock.weekly_ave_price > 10)\
-                        .paginate(page=page, per_page=2)
+    # result = Stock.query.filter(Stock.weekly_ave_price > 10)\
+    #                     .paginate(page=page, per_page=2)
 
-    # price_left = request.args.get('left')
+    if price_right > price_left:
+        result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
+                                    Stock.weekly_ave_price < price_right)\
+                            .paginate(page=page, per_page=5)
+        print(result)
+        return render_template("result.html", result=result)
+    else:
+        result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
+                                    Stock.weekly_ave_price < price_left)\
+                            .paginate(page=page, per_page=5)
+        print(result)
+        return render_template("result.html", result=result)
+    # return render_template("result.html", result=result)
+
+
+@app.route('/result/<int:left>')
+def more_result_pages():
+    """Display stock screening results, showing symbol, company names and price."""
+    
+    page = request.args.get('page', type=int)
+    print('page', page)
+    price = session['leftleft']
+    print('from sessioin', price)
+
+    if session.get('leftleft') is not None:
+        price_left = session.get('leftleft')
     # price_right = request.args.get('right')
-    # print(price_left, price_right)
+        print("3", price_left)
+        result = Stock.query.filter(Stock.weekly_ave_price > price_left).paginate(page=page, per_page=5)
+        print(result)
+    else:
+        print('session get none')
 
     # if price_right > price_left:
     #     result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
@@ -180,11 +222,10 @@ def screen_result():
     #     return render_template("result.html", result=result)
     # else:
     #     result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
-    #                                 Stock.weekly_ave_price < price_left).\
+    #                                 Stock.weekly_ave_price < price_left)\
     #                         .paginate(page=page, per_page=5)
-        # print(result)
-        # return render_template("result.html", result=result)
-    return render_template("result.html", result=result)
+    
+    return render_template("result.html", result=result, price=price_left)
 
 ####################################2.0 feature################################
 
