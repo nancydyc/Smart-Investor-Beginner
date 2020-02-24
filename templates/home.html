@@ -18,6 +18,16 @@
     <button type="submit">Search</button>
     <!--display chart button-->
   </form>
+
+  {% for stock in stocks.names %}
+  <a href="/stock/<symbol>">
+    <div>
+      <h4 id="name"></h4>
+    </div>
+  </a>
+  {% endfor %}
+  <br><br>
+
   <a href="/screen">Stock Screener</a>
   <br><br>
 

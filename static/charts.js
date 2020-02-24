@@ -8,20 +8,25 @@ function showRealtimePrice(evt) {
   // console.log(stockData);
 
   $.get('/stock', stockData, (res) => {
-    // console.log(stockData);
-    // console.log(res);
-    $('#stock').html(res.symbol);
-    $('#realtime').html(res.realtime);
+    console.log(stockData);
+    console.log(res);
+    for (const stock of res.names) {
+      $('#name').html(stock);
+    };
+    
+    // $('#stock').html(res.symbol);
+    // $('#realtime').html(res.realtime);
   });
 };
 
-function getRealTimePriceAndChart (evt) {
-  showRealtimePrice(evt)
-  displayChart(evt)
-}
+// function getRealTimePriceAndChart (evt) {
+//   showRealtimePrice(evt)
+//   displayChart(evt)
+// }
 
-$('#form').on('submit', getRealTimePriceAndChart);
+$('#form').on('submit', showRealtimePrice);
 
+$('#name').on('click', displayChart);
 
 function displayChart (evt) {
 

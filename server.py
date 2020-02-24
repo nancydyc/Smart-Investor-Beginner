@@ -29,14 +29,38 @@ def homepage():
 
 @app.route('/stock')
 def search_stock_form():
-    """Search stocks by symbol or key words and show realtime price."""
+    """Search stocks by symbol or key words."""
 
     # Get user input from the search form
     symbol = request.args.get('symbol')
     # print(symbol)
 
-    # If the symbol is in the set of symbols/key words in the company names,
-    # return stock realtime price from Alpha Vantage API
+    # Get stock name
+    payload_name = {'function': 'SYMBOL_SEARCH',  
+                    'keywords': symbol,
+                    'apikey': 'PVW38W9JBAXB0XGX'}
+    # print(payload)
+    req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
+    print(req_name.url)
+    js_data_name = req_name.json()
+    best_matches = js_data_name.get('bestMatches', 0)
+    stock_names = []
+
+    for stock in best_matches:
+        stock_names.append(stock['2. name'])
+    print(stock_names)
+
+    stocks = {'symbol': symbol, 'names': stock_names}
+    return stocks
+
+
+@app.route('/stock/<symbol>')
+def get_realtime_price():
+    """Show realtime price."""
+
+    symbol = request.args.get("symbol")
+    print(symbol)
+
     payload_rt = {'function': 'TIME_SERIES_INTRADAY',  
                'symbol': symbol,
                'interval': '60min',
@@ -118,7 +142,7 @@ def display_daily_ema_chart():
                      'ema': ema})
     # print("\n\n##################### data_list is working ##################")
     data['data'] = data_list
-    print(data)
+    # print(data)
     return data
 
     # return render_template("stock.html", symbol=symbol,
@@ -165,7 +189,7 @@ def screen_result():
     """Display stock screening results, showing symbol, company names and price."""
     
     page = request.args.get('page', type=int)
-    print(page)
+    # print(page)
 
     price_left = request.args.get('left')
     price_right = request.args.get('right')
