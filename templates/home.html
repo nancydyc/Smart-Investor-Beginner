@@ -19,13 +19,7 @@
     <!--display chart button-->
   </form>
 
-  {% for stock in stocks.names %}
-  <a href="/stock/<symbol>">
-    <div>
-      <h4 id="name"></h4>
-    </div>
-  </a>
-  {% endfor %}
+  <ul id="names"></ul>
   <br><br>
 
   <a href="/screen">Stock Screener</a>

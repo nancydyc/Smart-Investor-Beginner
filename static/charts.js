@@ -11,7 +11,7 @@ function showRealtimePrice(evt) {
     console.log(stockData);
     console.log(res);
     for (const stock of res.names) {
-      $('#name').html(stock);
+      $('#names').append(`<li><a href="/stock/${res.symbol}">${stock}</li>`);
     };
     
     // $('#stock').html(res.symbol);
