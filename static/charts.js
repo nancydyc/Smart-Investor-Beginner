@@ -1,6 +1,6 @@
 "use strict";
 
-function showRealtimePrice(evt) {
+function showStockName(evt) {
   evt.preventDefault();
     // TODO: get the fortune and show it in the #fortune-text div
   // let stockData = {'symbol': $('#search').value()};
@@ -13,11 +13,9 @@ function showRealtimePrice(evt) {
     for (const stock of res.stocks) {
       console.log(stock);
       console.log(stock.symbol, stock.name);
-      $('#names').append(`<li><a href="/stock/${stock.symbol}">${stock.symbol} ${stock.name}</li>`);
+      $('#names').append(`<li><a id="prices" data-click="${stock.symbol}" href="/stock/${stock.symbol}">${stock.symbol} ${stock.name}</li>`);
     };
     
-    // $('#stock').html(res.symbol);
-    // $('#realtime').html(res.realtime);
   });
 };
 
@@ -26,19 +24,26 @@ function showRealtimePrice(evt) {
 //   displayChart(evt)
 // }
 
-$('#form').on('submit', showRealtimePrice);
+$('#form').on('submit', showStockName);
 
-$('#name').on('click', displayChart);
+$('#prices').on('click', displayPrice);
 
-function displayChart (evt) {
+function displayPrice (evt) {
 
   evt.preventDefault();
   // let formData = {'symbol': $('#search').value()};
-  let formData = $('#form').serialize();
+  let linkData = $('#prices').data();
   
-  // console.log(formData);
+  console.log(linkData);
+
+  $.get('/stock/<symbol>', linkData, (res) => {
+    console.log(res);
+    $('#stock').html(res.symbol);
+    $('#realtime').html(res.realtime);
+  });
+
   
-  $.get('/chart', formData, (res) => {
+  $.get('/chart', linkData, (res) => {
     // console.log(res);
     // for (const daily of res) {
     // };
