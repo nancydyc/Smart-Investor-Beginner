@@ -45,20 +45,29 @@ def search_stock_form():
     js_data_name = req_name.json()
     best_matches = js_data_name.get('bestMatches', 0)
     stock_names = []
+    symbols = []
 
     for stock in best_matches:
         stock_names.append(stock['2. name'])
-    print(stock_names)
-
-    stocks = {'symbol': symbol, 'names': stock_names}
-    return stocks
+        symbols.append(stock['1. symbol'])
+    # print(stock_names)
+    # for smbl in best_matches:
+    #     symbols.append(stock['1. symbol'])
+    print(symbols)
+    
+    stocks =[]
+    for smbl, name in zip(symbols, stock_names):
+        stocks.append({'symbol': smbl, 'name': name})
+    print(stocks)
+    results = {'stocks':stocks} 
+    return results
 
 
 @app.route('/stock/<symbol>')
-def get_realtime_price():
+def get_realtime_price(symbol):
     """Show realtime price."""
 
-    symbol = request.args.get("symbol")
+    # symbol = request.args.get("symbol")
     print(symbol)
 
     payload_rt = {'function': 'TIME_SERIES_INTRADAY',  

@@ -8,10 +8,12 @@ function showRealtimePrice(evt) {
   // console.log(stockData);
 
   $.get('/stock', stockData, (res) => {
-    console.log(stockData);
+    // console.log(stockData);
     console.log(res);
-    for (const stock of res.names) {
-      $('#names').append(`<li><a href="/stock/${res.symbol}">${stock}</li>`);
+    for (const stock of res.stocks) {
+      console.log(stock);
+      console.log(stock.symbol, stock.name);
+      $('#names').append(`<li><a href="/stock/${stock.symbol}">${stock.symbol} ${stock.name}</li>`);
     };
     
     // $('#stock').html(res.symbol);
