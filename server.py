@@ -151,37 +151,13 @@ def display_daily_ema_chart(symbol):
     # print('before return', data)
     return data
 
-    # return render_template("stock.html", symbol=symbol,
-                            # )
-
-# @app.route('/stock')
-# def display_stock():
-#     """Display single stock page of key data and company fundamentals."""
-
-#     return render_template("stock.html")
-
-
-# @app.route('/stock/<stock_id>')
-# def show_price_chart():
-#     """Display single stock page of key data and company fundamentals."""
-
-#     # Get user input from the search form
-#     # If the symbol is in the set of symbols/key words in the company names,
-#     # return stock realtime price and company name, daily/weekly/monthly price data
-#     # from Alpha Vantage API to make a chart
-
-#     pass
-
 
 @app.route('/screen')
 def screen_stocks():
     """Stock screener, showing screening criteria."""
-    # price_left = session['left']
-    # price_right = session['right']
-    # print("1", price_left, price_right)
+
     return render_template("screen.html")
 
-    """Stock screener."""
 
     # Get price range from user
     # 2.0 Get week numbers
@@ -189,7 +165,6 @@ def screen_stocks():
     # If the realtime price of the stocks in database in the price range,
     # return a list of the company names
 
-# <number intended as offset'
 @app.route('/result')
 def screen_result():
     """Display stock screening results, showing symbol, company names and price."""
@@ -268,8 +243,7 @@ def more_result_pages():
     # else:
     #     result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
     #                                 Stock.weekly_ave_price < price_left)\
-    #                         .paginate(page=page, per_page=5)
-    
+    #                         .paginate(page=page, per_page=5) 
     
 
 ####################################2.0 feature################################
@@ -277,17 +251,30 @@ def more_result_pages():
 @app.route('/watchlist')
 def show_watchlist():
     """Show the watchlist."""
-    return render_template("watchlist.html")
+
+    # if not check_authorization(restaurant_id):
+    #     return render_template("unauthorized.html")
+
+    # user_watchlist = Watchlist.query.filter_by(user_id).all()
+    user_watchlist = Watchlist.query.filter(Watchlist.user_id == 1).all()
+    print(user_watchlist)
+    return render_template("watchlist.html", watchlist=user_watchlist)
 
 
-@app.route('/watchlist/<symbol>')
-def edit_watchlist():
+@app.route('/watchlist/<symbol>', methods=["POST"])
+def edit_watchlist(symbol):
     """Add stock id to the watchlist when user clicks the star icon;
        remove the stock id when user re-clicks."""
 
     # if stock id exists in the watchlist table in the database , remove it;
-    # else add the stock id to the watchlist table.
+    print(symbol)
+    if symbol in Watchlist.query.get(user_id):
+        db.session.delete(symbol)
+        # db.session.commit()
 
+    # else add the stock id to the watchlist table.
+    db.session.add(symbol)
+    # db.session.commit()
     # commit each change
     return "200"
 
@@ -302,6 +289,19 @@ def log_in():
 def register():
     """New member register."""
     return render_template("register.html")
+
+
+# def check_authorization(restaurant_id):
+#     """Check to see if the logged in restaurant is authorized to view page."""
+
+#     # Get the current user's id.
+#     user_id = session.get("restaurant_id")
+
+#     # If correct restaurant is not logged in, return False.
+#     if user_id != restaurant_id:
+#         return False
+
+#     return True
 
 
 ###############################################################################

@@ -7,17 +7,20 @@
 <h2>My Watch List</h2><br>
 <a href="/screen">Stock Screener</a><br><br>
 
+{% for i in watchlist %}
 <div>
-<span>Stock: </span>
-<b id="stock"></b>
+    <div>
+        <span>Stock: </span>{{ i.stock_id }}
+        <b id="stock">{{ i.stock.company_name }}</b>
+    </div>
+    <div>
+        <span>$ </span>
+        <b id="ave-price">{{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
+    </div>
+    <div>
+        <canvas id="price-chart"></canvas>
+    </div>
 </div>
-<div>
-<span>$ </span>
-<b id="realtime"></b>
-</div>
-
-<div>
-<canvas id="price-chart"></canvas>
-</div>
-<script src="static/ajax.js"></script>
+{% endfor %}
+<script src="static/watchlist.js"></script>
 {% endblock %}
