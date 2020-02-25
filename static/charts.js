@@ -9,11 +9,36 @@ function showStockName(evt) {
 
   $.get('/stock', stockData, (res) => {
     // console.log(stockData);
-    console.log(res);
+    // console.log(res);
     for (const stock of res.stocks) {
-      console.log(stock);
-      console.log(stock.symbol, stock.name);
-      $('#names').append(`<li><a id="prices" data-click="${stock.symbol}" href="/stock/${stock.symbol}">${stock.symbol} ${stock.name}</li>`);
+      // console.log(stock);
+      // console.log(stock.symbol, stock.name);
+      const stockLink = $(
+        `
+          <li data-symbol-name="${stock.symbol}">
+            <a href="#">
+              ${stock.symbol} ${stock.name}
+            </a>
+          </li>
+        `
+      );
+
+      stockLink.on('click', (evt) => {
+        evt.stopPropagation(); // prevent parent event handlers from being executed
+
+        // const clickedLink = ;
+        // const stockSymbol = $(evt.target).data('stockSymbol');
+        
+        // console.log(stockSymbol);
+
+        $.get(`/stock/${stock.symbol}`, (res) => {
+          // console.log(res);
+          $('#stock').html(res.symbol);
+          $('#realtime').html(res.realtime);
+        });
+      });
+
+      $('#search-results').append(stockLink);
     };
     
   });
@@ -26,21 +51,12 @@ function showStockName(evt) {
 
 $('#form').on('submit', showStockName);
 
+
 $('#prices').on('click', displayPrice);
 
 function displayPrice (evt) {
 
-  evt.preventDefault();
-  // let formData = {'symbol': $('#search').value()};
-  let linkData = $('#prices').data();
   
-  console.log(linkData);
-
-  $.get('/stock/<symbol>', linkData, (res) => {
-    console.log(res);
-    $('#stock').html(res.symbol);
-    $('#realtime').html(res.realtime);
-  });
 
   
   $.get('/chart', linkData, (res) => {
@@ -68,14 +84,19 @@ function displayPrice (evt) {
           ]
         },
         options: {
-        scales: {
-          xAxes: [
-            {
-              type: 'time',
-              distribution: 'series'
+          scales: {
+            xAxes: [
+              {
+                type: 'time',
+                distribution: 'series'
+              }
+            ]
+          },
+          tooltips: {
+            callbacks: {
+
             }
-          ]
-        }
+          }
       }
     });
   });

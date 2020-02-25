@@ -10,7 +10,7 @@
 
 {% block content %}
 
-  <h2>Home</h2>
+  <h2>Home</h2><br><br>
 
   <form id="form" action="/stock" >
     Search stocks by symbol 
@@ -19,14 +19,20 @@
     <!--display chart button-->
   </form>
 
-  <ul id="names"></ul>
+  <ul id="search-results"></ul>
   <br><br>
 
   <a href="/screen">Stock Screener</a>
   <br><br>
 
-  <h2 id="stock">Stock: </h2> 
-  <h1 id="realtime">$ </h1>
+  <div>
+    <span>Stock: </span>
+    <b id="stock"></b>
+  </div>
+  <div>
+    <span>$ </span>
+    <b id="realtime"></b>
+  </div>
 
   <div>
     <canvas id="price-chart"></canvas>

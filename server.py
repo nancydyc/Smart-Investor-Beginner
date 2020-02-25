@@ -38,7 +38,7 @@ def search_stock_form():
     # Get stock name
     payload_name = {'function': 'SYMBOL_SEARCH',  
                     'keywords': symbol,
-                    'apikey': 'PVW38W9JBAXB0XGX'}
+                    'apikey': 'KSMJ9C8N2RZ92V0D'}
     # print(payload)
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
     print(req_name.url)
@@ -51,8 +51,6 @@ def search_stock_form():
         stock_names.append(stock['2. name'])
         symbols.append(stock['1. symbol'])
     # print(stock_names)
-    # for smbl in best_matches:
-    #     symbols.append(stock['1. symbol'])
     print(symbols)
     
     stocks =[]
@@ -74,7 +72,7 @@ def get_realtime_price(symbol):
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
-               'apikey': 'PVW38W9JBAXB0XGX'}
+               'apikey': 'KSMJ9C8N2RZ92V0D'}
     # print(payload)
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
