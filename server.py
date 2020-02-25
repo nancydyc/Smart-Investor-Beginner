@@ -38,7 +38,7 @@ def search_stock_form():
     # Get stock name
     payload_name = {'function': 'SYMBOL_SEARCH',  
                     'keywords': symbol,
-                    'apikey': 'KSMJ9C8N2RZ92V0D'}
+                    'apikey': 'PVW38W9JBAXB0XGX'}
     # print(payload)
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
     # print(req_name.url)
@@ -70,7 +70,7 @@ def get_realtime_price(symbol):
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
-               'apikey': 'KSMJ9C8N2RZ92V0D'}
+               'apikey': 'PVW38W9JBAXB0XGX'}
     # print(payload)
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
@@ -117,7 +117,7 @@ def display_daily_ema_chart(symbol):
                'interval': 'weekly',
                'time_period': 30,
                'series_type': 'open',
-               'apikey': 'G91S3ATZL5YIK83E'}
+               'apikey': 'PVW38W9JBAXB0XGX'}
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     print(req_ema.url)
     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
@@ -147,7 +147,8 @@ def display_daily_ema_chart(symbol):
                      'ema': ema})
     # print("\n\n##################### data_list is working ##################")
     data['data'] = data_list
-    print('before return', data)
+    # data['dates'] = dates
+    # print('before return', data)
     return data
 
     # return render_template("stock.html", symbol=symbol,

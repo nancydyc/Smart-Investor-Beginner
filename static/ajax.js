@@ -49,6 +49,7 @@ function showSearchResult(evt) {
               {
                 type: 'line',
                 data: {
+                  // labels: res.dates,
                   datasets: [
                     {
                       label: 'Stock Monthly EMA Price',
@@ -61,7 +62,13 @@ function showSearchResult(evt) {
                     xAxes: [
                       {
                         type: 'time',
-                        distribution: 'series'
+                        distribution: 'series',
+                        time: {
+                          // unit : "day",
+                          displayFormats: {
+                            day: 'MM-DD-YYYY'
+                          }
+                        }
                       }
                     ]
                   }
