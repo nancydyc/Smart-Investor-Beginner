@@ -41,7 +41,7 @@ def search_stock_form():
                     'apikey': 'KSMJ9C8N2RZ92V0D'}
     # print(payload)
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
-    print(req_name.url)
+    # print(req_name.url)
     js_data_name = req_name.json()
     best_matches = js_data_name.get('bestMatches', 0)
     stock_names = []
@@ -51,12 +51,11 @@ def search_stock_form():
         stock_names.append(stock['2. name'])
         symbols.append(stock['1. symbol'])
     # print(stock_names)
-    print(symbols)
-    
+    # print(symbols)
     stocks =[]
     for smbl, name in zip(symbols, stock_names):
         stocks.append({'symbol': smbl, 'name': name})
-    print(stocks)
+    # print(stocks)
     results = {'stocks':stocks} 
     return results
 
@@ -66,8 +65,7 @@ def get_realtime_price(symbol):
     """Show realtime price."""
 
     # symbol = request.args.get("symbol")
-    print(symbol)
-
+    print("realtime", symbol)
     payload_rt = {'function': 'TIME_SERIES_INTRADAY',  
                'symbol': symbol,
                'interval': '60min',
@@ -105,21 +103,21 @@ def get_realtime_price(symbol):
 # https://www.alphavantage.co/query?function=EMA&symbol=LK&interval=daily&time_period=30&series_type=open&apikey=PVW38W9JBAXB0XGX
 
 
-@app.route('/chart')
-def display_daily_ema_chart():
+@app.route('/chart/<symbol>')
+def display_daily_ema_chart(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
     # Get user input from the search form
     print("\n\n####################below is chart data########################")
-    symbol = request.args.get("symbol")
-    print(symbol)
+    # symbol = request.args.get("symbol")
+    print("chart", symbol)
     # Get daily EMA of monthly average
     payload_ema = {'function': 'EMA',  
                'symbol': symbol,
-               'interval': 'daily',
+               'interval': 'weekly',
                'time_period': 30,
                'series_type': 'open',
-               'apikey': 'PVW38W9JBAXB0XGX'}
+               'apikey': 'G91S3ATZL5YIK83E'}
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     print(req_ema.url)
     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
@@ -149,7 +147,7 @@ def display_daily_ema_chart():
                      'ema': ema})
     # print("\n\n##################### data_list is working ##################")
     data['data'] = data_list
-    # print(data)
+    print('before return', data)
     return data
 
     # return render_template("stock.html", symbol=symbol,
