@@ -12,15 +12,20 @@
 <table>
     <thead>
         <tr>
+            <th></th>
             <th>Symbol</th>
             <th>Company Name</th>
             <th>Five Days Everage Price(EMA)</th>
             <th>More Info</th>
         </tr>
+
         {% for data in result.items %}
         <tr>
+            <th><i class="far fa-star"></i></th>
             <th>{{ data.stock_id }}</th>
+            
             <th>{{ data.company_name }}</th>
+            
             <th>{{ '%0.2f' | format(data.weekly_ave_price | float) }}</th>  
             <th>
                 <a href="/">Chart</a>
@@ -29,7 +34,18 @@
         </tr>
         {% endfor %}
     </thead>
-</table></br></br></br>
+</table></br>
+
+<a class="star2" href="/watchlist">⭐ watchlist</a>
+<!-- <div>
+    <paper-button><iron-icon icon="check"></iron-icon>link</paper-button>
+    <paper-button raised><iron-icon icon="file-download"></iron-icon>raised</paper-button>
+    <paper-button toggles raised><iron-icon icon="favorite"></iron-icon>toggles</paper-button>
+    <paper-button disabled><iron-icon icon="block"></iron-icon>disabled</paper-button>
+</div> -->
+
+
+</br></br>
 
 {# iter_pages offers the range of total pages #}
 {% for page_num in result.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<h2>My Watch List</h2><br>
+<a href="/screen">Stock Screener</a><br><br>
+
+<div>
+<span>Stock: </span>
+<b id="stock"></b>
+</div>
+<div>
+<span>$ </span>
+<b id="realtime"></b>
+</div>
+
+<div>
+<canvas id="price-chart"></canvas>
+</div>
+<script src="static/ajax.js"></script>
+{% endblock %}

@@ -273,10 +273,22 @@ def more_result_pages():
 
 ####################################2.0 feature################################
 
-@app.route('/compare')
-def compare_stocks():
-    """Compare two-three companies at a time on key data and company fundamentals."""
-    return render_template("compare.html")
+@app.route('/watchlist')
+def show_watchlist():
+    """Show the watchlist."""
+    return render_template("watchlist.html")
+
+
+@app.route('/watchlist/<symbol>')
+def edit_watchlist():
+    """Add stock id to the watchlist when user clicks the star icon;
+       remove the stock id when user re-clicks."""
+
+    # if stock id exists in the watchlist table in the database , remove it;
+    # else add the stock id to the watchlist table.
+
+    # commit each change
+    return "200"
 
 
 @app.route('/login')
