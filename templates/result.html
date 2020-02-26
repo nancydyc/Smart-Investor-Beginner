@@ -21,7 +21,7 @@
 
         {% for data in result.items %}
         <tr>
-            <th><i class="far fa-star"></i></th>
+            <th id="${data.stock_id}" data-symbol-name="${data.stock_id}"><i class="far fa-star"></i></th>
             <th>{{ data.stock_id }}</th>
             
             <th>{{ data.company_name }}</th>
@@ -36,15 +36,14 @@
     </thead>
 </table></br>
 
-<a class="star2" href="/watchlist">⭐ watchlist</a>
+<a href="/watchlist">⭐ watchlist</a>
+<div class="star2"><i class="fas fa-star"></i></div>
 <!-- <div>
     <paper-button><iron-icon icon="check"></iron-icon>link</paper-button>
     <paper-button raised><iron-icon icon="file-download"></iron-icon>raised</paper-button>
     <paper-button toggles raised><iron-icon icon="favorite"></iron-icon>toggles</paper-button>
     <paper-button disabled><iron-icon icon="block"></iron-icon>disabled</paper-button>
 </div> -->
-
-
 </br></br>
 
 {# iter_pages offers the range of total pages #}
