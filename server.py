@@ -258,7 +258,50 @@ def show_watchlist():
     # user_watchlist = Watchlist.query.filter_by(user_id).all()
     user_watchlist = Watchlist.query.filter(Watchlist.user_id == 1).all()
     print(user_watchlist)
-    return render_template("watchlist.html", watchlist=user_watchlist)
+
+    # Get daily EMA of monthly average
+    data = {}
+    for i in user_watchlist:
+        symbol = i.stock_id
+        print("chart", symbol)
+        payload_ema = {'function': 'EMA',  
+                   'symbol': symbol,
+                   'interval': 'weekly',
+                   'time_period': 30,
+                   'series_type': 'open',
+                   'apikey': 'KSMJ9C8N2RZ92V0D'}
+        req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+        print(req_ema.url)
+        js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
+        
+        if js_date_ema == 0:
+            print('Change API key')
+        
+        emas = []
+        dates = []
+        for daily_date in js_date_ema:
+            # print(daily_date)
+            dates.append(daily_date)
+        # print(dates)    
+        for daily_ema in js_date_ema.values():
+            # print(daily_ema)
+            emas.append(daily_ema['EMA'])
+        # print(emas)
+        data_list = []
+        
+        for date, ema in zip(dates, emas):
+            data_list.append({'date': date,
+                         'ema': ema})
+
+        print("\n\n##################### data_list is working ##################")
+        
+        data[i.stock_id] = data_list
+        print(data_list[0]) 
+        # {'AAPL': [{'date': '2020-02-25 15:25:03', 'ema': '11.9567'}, {'date': '2020-02-24', 'ema': '12.3'}]}
+    print(list(data.keys()))
+    prices = jsonify(data)
+
+    return render_template("watchlist.html", watchlist=user_watchlist, prices=prices)
 
 
 @app.route('/watchlist/<symbol>', methods=["POST"])

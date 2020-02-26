@@ -18,9 +18,22 @@
         <b id="ave-price">{{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
     </div>
     <div>
-        <canvas id="price-chart"></canvas>
+        <canvas id="{{ i.stock_id }}"></canvas>
     </div>
 </div>
 {% endfor %}
-<script src="static/watchlist.js"></script>
+<script type="text/javascript" src="/static/watchlist.js"></script>
+
+<!-- <script type="text/javascript">
+        yourInitFunction({{prices}});
+</script> -->
+<!-- <script>
+    console.log(prices);
+    for (const price of Object.values(prices)) {
+        console.log(price);
+        $('canvas').html(price);
+    };
+</script> -->
+
+
 {% endblock %}
