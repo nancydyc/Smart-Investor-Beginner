@@ -21,7 +21,7 @@
 
         {% for data in result.items %}
         <tr>
-            <th id="${data.stock_id}" data-symbol-name="${data.stock_id}"><i class="far fa-star"></i></th>
+            <th id={{ data.stock_id}} data-symbol-name="${data.stock_id}"><i class="far fa-star"></i></th>
             <th>{{ data.stock_id }}</th>
             
             <th>{{ data.company_name }}</th>
