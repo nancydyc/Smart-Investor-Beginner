@@ -1,31 +1,34 @@
 "use strict";
 console.log('0');
-// const stockSymbol = $(evt.target).data();
-const stockSymbol = "AAP";
-// console.log('1', stockSymbol);
+// $('#star-A').on('click', (evt) => {
+//     $('#star-A').addClass('star3');
+// });
+// let test = $('#star-A').data('name');
+// let symbol = $('i').data('name');
 
-$.post('/watchlist/stockSymbol', stockSymbol, (res) => {
-  console.log('2', stockSymbol);
-  console.log('3', res);
-  evt.preventDefault();
-  // evt.stopPropagation();
-  // const star = $(
-  // `
-  //   <th id=`watch-${stockSymbol}` data-symbol-name=`${stockSymbol}`>
-  //     <i id=`star-${stockSymbol}` class="far fa-star"></i>
-  //   </th>
-  // `
-  // );
-
-  $('#star-AAP').on('click', () => {
-    $('#star-AAP').addClass('star2');
-  });
-};
-
-// send the symbol to server and change database
-
-// star.on('click', (evt) => {
-//   evt.preventDefault(); 
-//   $.post(`/watchlist/${data.stock_id}`, (res) => {
-    
-//   };
+$('.edit-watchlist').on('click', (evt) => {
+    let stock = evt.target.id;
+    console.log(stock);
+    let test = $(evt.target).hasClass('star3');
+    if (test === true) {
+        $(evt.target).removeClass('star3');
+    } else {
+    $(evt.target).addClass('star3');
+    }
+    editWatchlist(stock);
+});
+// add star color should be prevented until server return message
+// get the id of the event target and send to server
+// server add it to database and return 200
+// upon getting response 200, add color
+// console.log('0.00');
+function editWatchlist(stockId) {
+  console.log("0", stockId);
+  let stockData = {'stock': stockId,
+                   'user': 1
+  }; // stockData
+  $.post('/watchlist', stockData, (res) => {
+    console.log('2', stockData);
+    console.log('3', res);
+  }); // end post request
+}; // end function editwatchlist

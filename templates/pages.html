@@ -45,20 +45,6 @@
 {% endif %}
 {% endfor %}
 
-<script type="text/javascript">
-    $('#star-A').on('click', (evt) => {
-        $('#star-A').addClass('star3');
-    });
-
-    $.get('/result', (res) => {
-      for (const data of res.items) {
-        console.log(data.stock_id);
-        $(`#star-${data.stock_id}`).on('click', (evt) => {
-          $(`#star-${data.stock_id}`).addClass('star3');
-        }); // end click event
-      }; // end for loop   
-    }; // end get res
-    
-</script>
+<script type="text/javascript" src="/static/result.js"></script>
 {% endblock %}
 

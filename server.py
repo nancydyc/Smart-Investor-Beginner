@@ -313,25 +313,31 @@ def show_linechart():
     return data
 
 
-@app.route('/watchlist/<stock>', methods=["POST"])
-def edit_watchlist(stock):
+@app.route('/watchlist', methods=["POST"])
+def edit_watchlist():
     """Add stock id to the watchlist when user clicks the star icon;
        remove the stock id when user re-clicks."""
-
+    
+    stock = request.form.get('stock')
+    user = request.form.get('user')
     # if stock id exists in the watchlist table in the database , remove it;
-    print(stock)
-    if stock in db.session.query(Watchlist.stock_id).filter_by(user_id=1).all():
-        db.session.delete(stock)
-        print("delete", stock_id)
-        # db.session.commit()
+    
+    print('\n\n\n\n*********', user, stock)
+    the_user = User.query.get(user)
+    watchlist_by_stock_ids = {}
+    for watchlist in the_user.watchlists:
+        watchlist_by_stock_ids[watchlist.stock_id] = watchlist
 
-    # else add the stock id to the watchlist table.
+    if stock in watchlist_by_stock_ids:
+        db.session.delete(watchlist_by_stock_ids[stock])
+        db.session.commit()
     else:
-        db.session.add(stock)
-        print("add", stock_id)
-    # db.session.commit()
-    # commit each change
-    return stock
+        new_watchlist = Watchlist(user_id=user, stock_id=stock, ave_cost=0, shares=0)
+        print("add", new_watchlist)
+        db.session.add(new_watchlist)
+        print("finish adding")
+        db.session.commit()
+    return "200"
 
 
 @app.route('/login')
