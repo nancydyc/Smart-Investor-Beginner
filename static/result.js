@@ -1,10 +1,5 @@
 "use strict";
-console.log('0');
-// $('#star-A').on('click', (evt) => {
-//     $('#star-A').addClass('star3');
-// });
-// let test = $('#star-A').data('name');
-// let symbol = $('i').data('name');
+console.log('result pages');
 
 $('.edit-watchlist').on('click', (evt) => {
     let stock = evt.target.id;
@@ -32,3 +27,12 @@ function editWatchlist(stockId) {
     console.log('3', res);
   }); // end post request
 }; // end function editwatchlist
+
+
+// alert user if they haven't login
+console.log('0');
+$('.login').on('click', (evt) => {
+  console.log('alert about to start');
+  evt.preventDefault();
+  alert('Please login');
+}); //end click

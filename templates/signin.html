@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="data">
+  <br>
+  <p>Profile Details</p>
+  <img id="pic-big" class="img-circle" width="200" height="200">
+  <br><br>
+  <p>Eamil Address</p>
+  <p id="email" class="alert alert-danger"></p>
+</div>
+<div>
+  <form id="user-details" action="/adduser" >
+      How much money do you have for long term investment?<br>
+      <input id="buying-power" type="number" name="buying-power" value="0"><br><br>
+      How many years do you plan for long term investment?<br><br>
+      <input id="years" type="number" name="years" value="0"> years<br><br>
+      What's your goal of achievement? Enter a number for annual growth rate<br>
+      <input id="growth" type="number" name="growth" value="0"> %<br><br>
+      <button type="submit">Submit</button>
+  </form>
+</div>
+{% endblock %}

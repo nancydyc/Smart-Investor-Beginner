@@ -346,10 +346,10 @@ def log_in():
     return render_template("login.html")
 
 
-@app.route('/register')
+@app.route('/signin')
 def register():
-    """New member register."""
-    return render_template("register.html")
+    """New member signin with Google."""
+    return render_template("signin.html")
 
 
 # def check_authorization(restaurant_id):
