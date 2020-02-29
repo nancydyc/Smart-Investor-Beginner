@@ -3,14 +3,17 @@
 function onSignIn(googleUser) {
   const profile = googleUser.getBasicProfile();
   // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  // console.log('Name: ' + profile.getName());
+  const userName = profile.getName();
+  console.log(userName);
   // console.log('Image URL: ' + profile.getImageUrl());
   // console.log('Email: ' + profile.getEmail());
   const email = profile.getEmail();
   console.log(email);
-  const userData = {'email': email};
+  const userData = {'email': email,
+                    'name': userName
+  };
   console.log(userData);
-  $.post('/adduser', userData, (res) => {
+  $.post('/login', userData, (res) => {
     console.log(res);
   }); 
   $(".g-signin2").css("display", "none");
@@ -37,6 +40,8 @@ function signout() {
     auth2.signOut().then(() => {
         alert("You've been successfully signed out.");
         $(".g-signin2").css("display", "block");
+        $("#sign-out").css("display", "none");
+        $("#pic").css("display", "none");
     }); //end auth2.signOut
 }; // end signout function
 

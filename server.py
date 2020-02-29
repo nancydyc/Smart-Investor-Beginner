@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
-from sqlalchemy import update
+# from sqlalchemy import update
 
 import requests
 
@@ -325,12 +325,14 @@ def edit_watchlist():
     
     print('\n\n\n\n*********', user, stock)
     the_user = User.query.get(user)
+    print(the_user) # the user's id
     watchlist_by_stock_ids = {}
     for watchlist in the_user.watchlists:
+        print(watchlist) # the user's all object info in watchlist table
         watchlist_by_stock_ids[watchlist.stock_id] = watchlist
 
-    if stock in watchlist_by_stock_ids:
-        db.session.delete(watchlist_by_stock_ids[stock])
+    if stock in watchlist_by_stock_ids: # key->id
+        db.session.delete(watchlist_by_stock_ids[stock]) # delete the whole object
         db.session.commit()
     else:
         new_watchlist = Watchlist(user_id=user, stock_id=stock, ave_cost=0, shares=0)
@@ -341,28 +343,40 @@ def edit_watchlist():
     return "200"
 
 
-@app.route('/signin')
-def register():
-    """New member signin with Google."""
+@app.route('/profile')
+def register_profile():
+    """New member signed in with Google, then go to profile page."""
 
-    return render_template("signin.html")
+    return render_template("profile.html")
 
 
-@app.route('/adduser', methods=["POST"])
+@app.route('/login', methods=["POST"])
 def add_user():
     """New member signin with Google."""
 
     email = request.form.get('email')
     session['email'] = email
     print('\n\n\n\n*********', email)
-    print(session['email'])
-
-    new_user = User(email=email)
-    print('Add', new_user)
-    db.session.add(new_user)
-    print('Finish adding new user')
-    db.session.commit()
-    return 'New user added.'
+    print("\nStored in session", session['email'])
+    # name = session.get('name')
+    # print(name) ## if not stored, get none; have to store 
+    # check if this email in database: 
+    # if not in database, add new user and redirect to profile page; 
+    # if in, stay on the same page 
+    emails = []
+    for i in db.session.query(User.email).all():
+        emails.append(i[0])
+    print(emails)
+    if email in emails:
+        print("\n**************checked in", email)
+        return "You've logged in."
+    else:
+        new_user = User(email=email)
+        print('About to add new user ', new_user)
+        db.session.add(new_user)
+        db.session.commit()
+        print(User.query.filter_by(email=email).all())
+        return redirect('/profile')
 
 
 @app.route('/update', methods=["POST"])
@@ -382,13 +396,6 @@ def update_user_info():
     print('Updated new user information')
     db.session.commit()
     return 'New information updated.'
-
-
-@app.route('/login')
-def log_in():
-    """User login."""
-
-    return render_template("login.html")
 
 
 # def check_authorization(restaurant_id):

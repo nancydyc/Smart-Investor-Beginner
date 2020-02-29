@@ -26,7 +26,7 @@ class User(db.Model):
     def __repr__(self):
         """Return a readable representation of a user's information."""
 
-        return f'<id:{self.user_id} buying power:{self.buying_power}>'
+        return f'<id:{self.user_id} email: {self.email} buying power:{self.buying_power}>'
 
 
 class Watchlist(db.Model):
