@@ -6,13 +6,12 @@ function onSignIn(googleUser) {
   // console.log('Name: ' + profile.getName());
   // console.log('Image URL: ' + profile.getImageUrl());
   // console.log('Email: ' + profile.getEmail());
-  email = profile.getEmail();
+  const email = profile.getEmail();
   console.log(email);
-  userData = {'email': email,
-              'buying_power': $('#user-details').val();
-  };
+  const userData = {'email': email};
+  console.log(userData);
   $.post('/adduser', userData, (res) => {
-    console.log('New user added.')
+    console.log(res);
   }); 
   $(".g-signin2").css("display", "none");
   $(".data").css("display", "block");
@@ -20,6 +19,17 @@ function onSignIn(googleUser) {
   $("#pic-big").attr('src', profile.getImageUrl());
   $("#email").text(profile.getEmail());
 };
+
+$('#add-user-data').on('submit', (evt) => {
+  evt.preventDefault();
+  const userDetails = $('#user-detials').serialize();
+  console.log(userDetails);
+  $.post('/update', userDetails, (res) => {
+    console.log(res);
+  });
+});
+
+
 
 function signout() {
     const auth2 = gapi.auth2.init();

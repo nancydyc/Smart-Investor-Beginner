@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
+from sqlalchemy import update
 
 import requests
 
@@ -340,16 +341,54 @@ def edit_watchlist():
     return "200"
 
 
-@app.route('/login')
-def log_in():
-    """User login."""
-    return render_template("login.html")
-
-
 @app.route('/signin')
 def register():
     """New member signin with Google."""
+
     return render_template("signin.html")
+
+
+@app.route('/adduser', methods=["POST"])
+def add_user():
+    """New member signin with Google."""
+
+    email = request.form.get('email')
+    session['email'] = email
+    print('\n\n\n\n*********', email)
+    print(session['email'])
+
+    new_user = User(email=email)
+    print('Add', new_user)
+    db.session.add(new_user)
+    print('Finish adding new user')
+    db.session.commit()
+    return 'New user added.'
+
+
+@app.route('/update', methods=["POST"])
+def update_user_info():
+    """Update user buying power, etc."""
+
+    email = session.get('email')
+    print('\n\n****', email)
+    buying_power = request.form.get('buying-power')
+    print('\n****', buying_power)
+
+    new_info = User.update().\
+                    where(users.email==email).\
+                    values(buying_power=buying_power)
+    print('Update', new_info)
+    db.session.update(new_info)
+    print('Updated new user information')
+    db.session.commit()
+    return 'New information updated.'
+
+
+@app.route('/login')
+def log_in():
+    """User login."""
+
+    return render_template("login.html")
 
 
 # def check_authorization(restaurant_id):
