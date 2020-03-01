@@ -344,8 +344,8 @@ def edit_watchlist():
 
 
 @app.route('/profile')
-def register_profile():
-    """New member signed in with Google, then go to profile page."""
+def show_profile():
+    """New member signed in with Google, then go to profile page to register info."""
 
     return render_template("profile.html")
 
@@ -360,6 +360,7 @@ def add_user():
     print("\nStored in session", session['email'])
     # name = session.get('name')
     # print(name) ## if not stored, get none; have to store 
+    
     # check if this email in database: 
     # if not in database, add new user and redirect to profile page; 
     # if in, stay on the same page 
@@ -376,7 +377,7 @@ def add_user():
         db.session.add(new_user)
         db.session.commit()
         print(User.query.filter_by(email=email).all())
-        return redirect('/profile')
+        return redirect('/profile') #? cannot redirect to profile 
 
 
 @app.route('/update', methods=["POST"])
