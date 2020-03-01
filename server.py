@@ -386,16 +386,16 @@ def update_user_info():
 
     email = session.get('email')
     print('\n\n****', email)
-    buying_power = request.form.get('buying-power')
-    print('\n****', buying_power)
+    new_buying_power = request.form.get('buying-power')
+    print('\n****', new_buying_power)
 
-    new_info = User.update().\
-                    where(users.email==email).\
-                    values(buying_power=buying_power)
-    print('Update', new_info)
-    db.session.update(new_info)
-    print('Updated new user information')
+    this_user = User.query.filter_by(email=email).first()
+    print("before update", this_user)
+    this_user.buying_power = new_buying_power
+    print("After update", this_user)
     db.session.commit()
+    print('Updated new user information')
+    
     return 'New information updated.'
 
 

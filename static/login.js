@@ -23,16 +23,6 @@ function onSignIn(googleUser) {
   $("#email").text(profile.getEmail());
 };
 
-$('#add-user-data').on('submit', (evt) => {
-  evt.preventDefault();
-  const userDetails = $('#user-detials').serialize();
-  console.log(userDetails);
-  $.post('/update', userDetails, (res) => {
-    console.log(res);
-  });
-});
-
-
 
 function signout() {
     const auth2 = gapi.auth2.init();
@@ -46,15 +36,15 @@ function signout() {
 }; // end signout function
 
 
-// // Send email and buying power to database after sign-in
+// Send email and buying power to database after sign-in
 
-// function sendUserDetails(stockId) {
-//   console.log("0", stockId);
-//   let stockData = {'stock': stockId,
-//                    'user': 1
-//   }; // stockData
-//   $.post('/watchlist', stockData, (res) => {
-//     console.log('2', stockData);
-//     console.log('3', res);
-//   }); // end post request
-// }; // end function editwatchlist
+
+$('#user-details').on('submit', (evt) => {
+  evt.preventDefault();
+  const userDetails = $('#user-details').serialize();
+  console.log(userDetails);
+  $.post('/update', userDetails, (res) => {
+    // console.log(userDetails);
+    console.log(res);
+  }); // end post
+}); // end submit
