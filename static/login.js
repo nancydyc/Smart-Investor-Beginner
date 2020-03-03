@@ -1,4 +1,4 @@
-"use strict";
+"use strict";   
 
 function onSignIn(googleUser) {
   const profile = googleUser.getBasicProfile();
@@ -9,6 +9,7 @@ function onSignIn(googleUser) {
   // console.log('Email: ' + profile.getEmail());
   const email = profile.getEmail();
   console.log(email);
+  localStorage.setItem("investorEmail", email);
   const userData = {'email': email,
                     'name': userName
   };
@@ -32,6 +33,7 @@ function signout() {
         $(".g-signin2").css("display", "block");
         $("#sign-out").css("display", "none");
         $("#pic").css("display", "none");
+    localStorage.removeItem("investorEmail")    
     }); //end auth2.signOut
 }; // end signout function
 

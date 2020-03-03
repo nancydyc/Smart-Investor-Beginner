@@ -12,7 +12,7 @@ $(document).ready( () => {
       // console.log(stock.datas);
 
       const chartData = stock.datas.map((dailyInfo) => {
-        console.log(dailyInfo);
+        // console.log(dailyInfo);
         return {x: dailyInfo.date, y: dailyInfo.ema}
       });
 

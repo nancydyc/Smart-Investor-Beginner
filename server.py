@@ -96,12 +96,6 @@ def get_realtime_price(symbol):
     realtime = {'symbol': symbol, 'realtime': price}
     
     return jsonify(realtime)
-    # return render_template("stock.html", symbol=symbol, realtime=price,
-    #                         date=date, ema=ema) 
-    # User Ajax to work on home.html
-
-# url for chart: 
-# https://www.alphavantage.co/query?function=EMA&symbol=LK&interval=daily&time_period=30&series_type=open&apikey=PVW38W9JBAXB0XGX
 
 
 @app.route('/chart/<symbol>')
@@ -142,14 +136,12 @@ def display_daily_ema_chart(symbol):
     # data_dict = {}
     data = {}
     for date, ema in zip(dates, emas):
-        # data_dict['date'] = date
-        # data_dict['ema'] = ema
+        
         data_list.append({'date': date,
                      'ema': ema})
     # print("\n\n##################### data_list is working ##################")
     data['data'] = data_list
-    # data['dates'] = dates
-    # print('before return', data)
+
     return data
 
 
@@ -159,12 +151,6 @@ def screen_stocks():
 
     return render_template("screen.html")
 
-
-    # Get price range from user
-    # 2.0 Get week numbers
-
-    # If the realtime price of the stocks in database in the price range,
-    # return a list of the company names
 
 @app.route('/result')
 def screen_result():
@@ -181,13 +167,7 @@ def screen_result():
     session['rightright'] = price_right
     print(session['leftleft'], session['rightright'])
 
-    # Add pagination
-    # page = request.args.get('page', type=int)
-    # print(page)
-
-    # result = Stock.query.filter(Stock.weekly_ave_price > 10)\
-    #                     .paginate(page=page, per_page=2)
-    
+    # Add pagination    
     #! Need to handle exception: what if user only enter one price 
     if price_right > price_left:
         result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
@@ -201,7 +181,6 @@ def screen_result():
                             .paginate(page=page, per_page=5)
         print(result)
         return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
-    # return render_template("result.html", result=result)
 
 
 @app.route('/pages')
@@ -253,11 +232,11 @@ def more_result_pages():
 def show_watchlist():
     """Show the watchlist."""
 
-    # if not check_authorization(restaurant_id):
-    #     return render_template("unauthorized.html")
-
-    # user_watchlist = Watchlist.query.filter_by(user_id).all()
-    user_watchlist = Watchlist.query.filter(Watchlist.user_id == 1).all()
+    email = session.get('email')
+    print(email, "in the session")
+    user_id = db.session.query(User.user_id).filter_by(email=email).first()
+    this_id = user_id[0]
+    user_watchlist = Watchlist.query.filter(Watchlist.user_id==this_id).all()
     print(user_watchlist)
 
     return render_template("watchlist.html", watchlist=user_watchlist)
@@ -358,6 +337,7 @@ def add_user():
     session['email'] = email
     print('\n\n\n\n*********', email)
     print("\nStored in session", session['email'])
+    print('\n\n\n\n\n\n\n\n\n\n\nHELLO THIS IS NEW')
     # name = session.get('name')
     # print(name) ## if not stored, get none; have to store 
     
@@ -368,6 +348,7 @@ def add_user():
     for i in db.session.query(User.email).all():
         emails.append(i[0])
     print(emails)
+
     if email in emails:
         print("\n**************checked in", email)
         return "You've logged in."
@@ -377,7 +358,8 @@ def add_user():
         db.session.add(new_user)
         db.session.commit()
         print(User.query.filter_by(email=email).all())
-        return redirect('/profile') #? cannot redirect to profile 
+        return "Hello, new user!" 
+        #! cannot redirect to profile if install google on the frontend  
 
 
 @app.route('/update', methods=["POST"])
@@ -399,17 +381,17 @@ def update_user_info():
     return 'New information updated.'
 
 
-# def check_authorization(restaurant_id):
-#     """Check to see if the logged in restaurant is authorized to view page."""
+def check_saved_stocks():
+    """Check to see if the logged in restaurant is authorized to view page."""
 
-#     # Get the current user's id.
-#     user_id = session.get("restaurant_id")
+    # Get the current user's email.
+    email = session.get("email")
 
-#     # If correct restaurant is not logged in, return False.
-#     if user_id != restaurant_id:
-#         return False
+    # If correct restaurant is not logged in, return False.
+    if email:
+        return True
 
-#     return True
+    return False
 
 
 ###############################################################################
@@ -421,5 +403,6 @@ if __name__ == "__main__":
     #? Why do you need it in all model, server and seed?
 
     DebugToolbarExtension(app)
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
     app.run(host="0.0.0.0")
