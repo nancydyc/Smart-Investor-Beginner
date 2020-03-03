@@ -232,10 +232,13 @@ def more_result_pages():
 def show_watchlist():
     """Show the watchlist."""
 
+    # Check user id via email
     email = session.get('email')
     print(email, "in the session")
     user_id = db.session.query(User.user_id).filter_by(email=email).first()
     this_id = user_id[0]
+     
+    # Get user's watchlists
     user_watchlist = Watchlist.query.filter(Watchlist.user_id==this_id).all()
     print(user_watchlist)
 
@@ -244,10 +247,18 @@ def show_watchlist():
 
 @app.route('/linechart')
 def show_linechart():
+    """Show linechart for each stocks saved in the watchlists table."""
+
+    # Check user id via email
+    email = session.get('email')
+    print(email, "in the session")
+    user_id = db.session.query(User.user_id).filter_by(email=email).first()
+    this_id = user_id[0]
+
     # Get daily EMA of monthly average
     watchlist_data = []
     data = {}
-    user_watchlist = Watchlist.query.filter(Watchlist.user_id == 1).all()
+    user_watchlist = Watchlist.query.filter(Watchlist.user_id == this_id).all()
     for i in user_watchlist:
         symbol = i.stock_id
         print("chart", symbol)
@@ -299,19 +310,19 @@ def edit_watchlist():
        remove the stock id when user re-clicks."""
     
     stock = request.form.get('stock')
-    user = request.form.get('user')
-    # if stock id exists in the watchlist table in the database , remove it;
-    
+    email = request.form.get('email')
+   
     print('\n\n\n\n*********', user, stock)
-    the_user = User.query.get(user)
+    the_user = User.query.filter_by(email=email).first()
     print(the_user) # the user's id
     watchlist_by_stock_ids = {}
     for watchlist in the_user.watchlists:
         print(watchlist) # the user's all object info in watchlist table
         watchlist_by_stock_ids[watchlist.stock_id] = watchlist
 
+    # delete the whole object if this stock exists in watchlists table
     if stock in watchlist_by_stock_ids: # key->id
-        db.session.delete(watchlist_by_stock_ids[stock]) # delete the whole object
+        db.session.delete(watchlist_by_stock_ids[stock]) 
         db.session.commit()
     else:
         new_watchlist = Watchlist(user_id=user, stock_id=stock, ave_cost=0, shares=0)

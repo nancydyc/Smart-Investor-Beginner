@@ -4,7 +4,6 @@ $(document).ready( () => {
   // lineChart.replaceWith('<canvas class="allmycharts" id="AAN"></canvas>');
   // replacing empty div with canvas works
 
-  // data should be the list of the values of history
   console.log('0.00');
   $.get('/linechart', (res) => {
     for (const stock of res.watchlist) {
