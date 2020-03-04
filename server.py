@@ -312,12 +312,13 @@ def edit_watchlist():
     stock = request.form.get('stock')
     email = request.form.get('email')
    
-    print('\n\n\n\n*********', user, stock)
+    print('\n\n\n\n*********', email, stock)
     the_user = User.query.filter_by(email=email).first()
-    print(the_user) # the user's id
+    print("the user's info: ", the_user) # a user object
+    user_id = the_user.user_id
     watchlist_by_stock_ids = {}
     for watchlist in the_user.watchlists:
-        print(watchlist) # the user's all object info in watchlist table
+        print("the user's interested stock: ", watchlist) # the user's watchlist object
         watchlist_by_stock_ids[watchlist.stock_id] = watchlist
 
     # delete the whole object if this stock exists in watchlists table
@@ -325,7 +326,7 @@ def edit_watchlist():
         db.session.delete(watchlist_by_stock_ids[stock]) 
         db.session.commit()
     else:
-        new_watchlist = Watchlist(user_id=user, stock_id=stock, ave_cost=0, shares=0)
+        new_watchlist = Watchlist(user_id=user_id, stock_id=stock, ave_cost=0, shares=0)
         print("add", new_watchlist)
         db.session.add(new_watchlist)
         print("finish adding")
@@ -392,17 +393,26 @@ def update_user_info():
     return 'New information updated.'
 
 
+@app.route('/saved')
 def check_saved_stocks():
-    """Check to see if the logged in restaurant is authorized to view page."""
+    """Check to see if there're saved stocks and mark them blue on the result pages."""
 
-    # Get the current user's email.
-    email = session.get("email")
+    # Check user id via email
+    email = session.get('email')
+    print("Logged in via:", email)
+    user_id = db.session.query(User.user_id).filter_by(email=email).first()
+    this_id = user_id[0]
+    # user = User.query.filter_by(email=email).first()
+     
+    # Get user's watchlists
+    user_watchlists = db.session.query(Watchlist.stock_id).filter(Watchlist.user_id==this_id).all()
+    print(user_watchlists)
+    # watchlist = user.watchlists
+    # for i in watchlist:
 
-    # If correct restaurant is not logged in, return False.
-    if email:
-        return True
-
-    return False
+    watchlists = {'watchlist': user_watchlists}
+    response = jsonify(watchlists)
+    return response
 
 
 ###############################################################################

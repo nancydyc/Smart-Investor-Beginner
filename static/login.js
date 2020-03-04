@@ -4,11 +4,11 @@ function onSignIn(googleUser) {
   const profile = googleUser.getBasicProfile();
   // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   const userName = profile.getName();
-  console.log(userName);
+  // console.log(userName);
   // console.log('Image URL: ' + profile.getImageUrl());
   // console.log('Email: ' + profile.getEmail());
   const email = profile.getEmail();
-  console.log(email);
+  // console.log(email);
   localStorage.setItem("investorEmail", email);
   const userData = {'email': email,
                     'name': userName
@@ -25,7 +25,7 @@ function onSignIn(googleUser) {
 };
 
 
-function signout() {
+function signOut() {
     const auth2 = gapi.auth2.init();
     // console.logs(isSignedIn.get());
     auth2.signOut().then(() => {
@@ -35,6 +35,7 @@ function signout() {
         $("#pic").css("display", "none");
     localStorage.removeItem("investorEmail")    
     }); //end auth2.signOut
+    // auth2.disconnect(); ? not working, still needs refreshing!
 }; // end signout function
 
 

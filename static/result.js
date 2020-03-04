@@ -22,7 +22,6 @@ $('.edit-watchlist').on('click', (evt) => {
 }); // end click star
 
 function editWatchlist(stockId) {
-  console.log("0", stockId);
   let stockData = {'stock': stockId,
                    'email': email
   }; // stockData
@@ -37,9 +36,8 @@ const email = localStorage.getItem("investorEmail");
 console.log(email);
 
 // alert user if they haven't login // Add if else condition
-console.log('0');
+console.log('Below is for watchlist link');
 $('.login').on('click', (evt) => {
-  console.log('alert about to start');
   if (email === null) {
     console.log("no user login yet");
     evt.preventDefault();
@@ -50,20 +48,17 @@ $('.login').on('click', (evt) => {
 }); //end click
 
 // function showSavedStock () {
-  $(document).ready( () => {
-
+// $(document).ready( () => {
       //-if data-name is in the stock ids in watchlists 
-    if (email !== null) {
-      $.get('/watchlist', (res) => {
-        for (const stock of res.watchlist) {
-          console.log(stock.symbol);
-          $(`#${stock.symbol}`).addClass('star3/'); 
-        }; // end for
-      }); // end get request     
-    } else {
-      console.log("Nothing happened");
-    } // end if else check user login
-  }); // end ready
+if (email !== null) {
+  $.get('/saved', (res) => {
+    for (const saved of res.watchlist) {
+      console.log(saved[0]);
+      $(`#${saved[0]}`).addClass('star3'); 
+    }; // end for
+  }); // end get request     
+} // end if else check user login
+// }); // end ready
 // }; // end show saved stock
 
 // user_watchlist = Watchlist.query.filter(Watchlist.user_id == 1).all()
