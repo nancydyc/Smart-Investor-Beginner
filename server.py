@@ -30,69 +30,59 @@ def homepage():
 
 @app.route('/stock')
 def search_stock_form():
-    """Search stocks by symbol or key words."""
+    """Search stocks by the stock symbol or the key words of the company names.
+       symbol: stock id.
+    """
 
     # Get user input from the search form
     symbol = request.args.get('symbol')
-    # print(symbol)
 
-    # Get stock name
+    # Get the company name of the stocks from Alphavantage search endpoint
     payload_name = {'function': 'SYMBOL_SEARCH',  
                     'keywords': symbol,
                     'apikey': 'PVW38W9JBAXB0XGX'}
-    # print(payload)
+
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
     # print(req_name.url)
     js_data_name = req_name.json()
+
     best_matches = js_data_name.get('bestMatches', 0)
+
     stock_names = []
     symbols = []
-
     for stock in best_matches:
         stock_names.append(stock['2. name'])
         symbols.append(stock['1. symbol'])
-    # print(stock_names)
-    # print(symbols)
+
     stocks =[]
     for smbl, name in zip(symbols, stock_names):
         stocks.append({'symbol': smbl, 'name': name})
-    # print(stocks)
+
     results = {'stocks':stocks} 
+
     return results
 
 
 @app.route('/stock/<symbol>')
 def get_realtime_price(symbol):
-    """Show realtime price."""
+    """Show realtime (close) price from Alphavantage API."""
 
-    # symbol = request.args.get("symbol")
-    print("realtime", symbol)
     payload_rt = {'function': 'TIME_SERIES_INTRADAY',  
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
                'apikey': 'PVW38W9JBAXB0XGX'}
-    # print(payload)
+
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
     js_data_rt = req_realtime.json()
-    # print(js_data)
     
     hourly_series_dict = js_data_rt.get('Time Series (60min)', 0)
-    # print(hourly_series_dict)
-
-    # print("#################################################")
     
     middle_key = list(hourly_series_dict.keys())[0]
-    # print(middle_key)
 
     price = hourly_series_dict.get(middle_key, 0).get('4. close', 0)
-    # print(price)
-    # and company name data from Edgar Online API.
-    # Else,...
-    print("\n\n####################symbol,price working#######################")
-    # ema = display_daily_ema_chart(symbol)
-    # print(ema)
+
     realtime = {'symbol': symbol, 'realtime': price}
     
     return jsonify(realtime)

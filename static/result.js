@@ -6,10 +6,15 @@ console.log('result pages');
 // server add it to database and return 200
 // upon getting response 200, add color
 $('.edit-watchlist').on('click', (evt) => {
-    if (email === null) {
+    const isSignedIn = gapi.auth2
+      .getAuthInstance()
+      .currentUser.get()
+      .isSignedIn();
+
+    if (!isSignedIn) {
       alert('Please login to save stocks in your watchlist.');
     } else {
-      let stock = evt.target.id;
+      let stock = evt.target.id; // this is star icon id as well as stock id
       console.log(stock);
       let test = $(evt.target).hasClass('star3');
       if (test === true) {
@@ -22,9 +27,9 @@ $('.edit-watchlist').on('click', (evt) => {
 }); // end click star
 
 function editWatchlist(stockId) {
-  let stockData = {'stock': stockId,
-                   'email': email
-  }; // stockData
+  const stockData = {'stock': stockId,
+                   'email': USEREMAIL
+  }; 
   $.post('/watchlist', stockData, (res) => {
     console.log('2', stockData);
     console.log('3', res);
@@ -32,13 +37,17 @@ function editWatchlist(stockId) {
 }; // end function editwatchlist
 
 
-const email = localStorage.getItem("investorEmail");
-console.log(email);
+const USEREMAIL = localStorage.getItem("investorEmail");
+console.log(USEREMAIL);
 
 // alert user if they haven't login // Add if else condition
 console.log('Below is for watchlist link');
 $('.login').on('click', (evt) => {
-  if (email === null) {
+  const isSignedIn = gapi.auth2
+    .getAuthInstance()
+    .currentUser.get()
+    .isSignedIn();
+  if (!isSignedIn) {
     console.log("no user login yet");
     evt.preventDefault();
     alert('Please login');    
@@ -47,19 +56,3 @@ $('.login').on('click', (evt) => {
   } 
 }); //end click
 
-// function showSavedStock () {
-// $(document).ready( () => {
-      //-if data-name is in the stock ids in watchlists 
-if (email !== null) {
-  $.get('/saved', (res) => {
-    for (const saved of res.watchlist) {
-      console.log(saved[0]);
-      $(`#${saved[0]}`).addClass('star3'); 
-    }; // end for
-  }); // end get request     
-} // end if else check user login
-// }); // end ready
-// }; // end show saved stock
-
-// user_watchlist = Watchlist.query.filter(Watchlist.user_id == 1).all()
-// res.stock_id

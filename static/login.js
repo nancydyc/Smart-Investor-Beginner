@@ -22,6 +22,14 @@ function onSignIn(googleUser) {
   $("#pic").attr('src', profile.getImageUrl());
   $("#pic-big").attr('src', profile.getImageUrl());
   $("#email").text(profile.getEmail());
+    // Mark stars blue for Saved Stocks after user login
+  // Get stock ids from database watchlists table 
+  $.get('/saved', (res) => {
+    for (const saved of res.watchlist) {
+      // console.log(saved[0]); this is stock id
+      $(`#${saved[0]}`).addClass('star3'); 
+    }; // end for
+  }); // end get request     
 };
 
 
@@ -33,15 +41,13 @@ function signOut() {
         $(".g-signin2").css("display", "block");
         $("#sign-out").css("display", "none");
         $("#pic").css("display", "none");
-    localStorage.removeItem("investorEmail")    
+        localStorage.removeItem("investorEmail");
+        $('.edit-watchlist i').removeClass('star3');
     }); //end auth2.signOut
-    // auth2.disconnect(); ? not working, still needs refreshing!
 }; // end signout function
 
 
 // Send email and buying power to database after sign-in
-
-
 $('#user-details').on('submit', (evt) => {
   evt.preventDefault();
   const userDetails = $('#user-details').serialize();
