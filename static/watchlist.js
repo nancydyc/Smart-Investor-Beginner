@@ -1,10 +1,6 @@
 "use strict";
 $(document).ready( () => {
-  // let lineChart = $("#AAN");
-  // lineChart.replaceWith('<canvas class="allmycharts" id="AAN"></canvas>');
-  // replacing empty div with canvas works
-
-  console.log('0.00');
+  // Make line chart for each stock in the watchlist
   $.get('/linechart', (res) => {
     for (const stock of res.watchlist) {
       console.log(stock.symbol);

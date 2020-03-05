@@ -257,7 +257,7 @@ def show_linechart():
                    'interval': 'weekly',
                    'time_period': 30,
                    'series_type': 'open',
-                   'apikey': 'KSMJ9C8N2RZ92V0D'}
+                   'apikey': 'G91S3ATZL5YIK83E'}
         req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
         print(req_ema.url)
         js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
@@ -315,6 +315,7 @@ def edit_watchlist():
     if stock in watchlist_by_stock_ids: # key->id
         db.session.delete(watchlist_by_stock_ids[stock]) 
         db.session.commit()
+        print("Deleted", stock)
     else:
         new_watchlist = Watchlist(user_id=user_id, stock_id=stock, ave_cost=0, shares=0)
         print("add", new_watchlist)
@@ -324,35 +325,23 @@ def edit_watchlist():
     return "200"
 
 
-@app.route('/profile')
-def show_profile():
-    """New member signed in with Google, then go to profile page to register info."""
-
-    return render_template("profile.html")
-
-
 @app.route('/login', methods=["POST"])
 def add_user():
     """New member signin with Google."""
 
     email = request.form.get('email')
     session['email'] = email
-    print('\n\n\n\n*********', email)
     print("\nStored in session", session['email'])
-    print('\n\n\n\n\n\n\n\n\n\n\nHELLO THIS IS NEW')
-    # name = session.get('name')
-    # print(name) ## if not stored, get none; have to store 
+    print('\n\n\n\n\n\n\n\n\n\n\n#################')
     
     # check if this email in database: 
-    # if not in database, add new user and redirect to profile page; 
-    # if in, stay on the same page 
     emails = []
     for i in db.session.query(User.email).all():
         emails.append(i[0])
     print(emails)
 
     if email in emails:
-        print("\n**************checked in", email)
+        print("\n**************Checked: ", email)
         return "You've logged in."
     else:
         new_user = User(email=email)
@@ -362,6 +351,13 @@ def add_user():
         print(User.query.filter_by(email=email).all())
         return "Hello, new user!" 
         #! cannot redirect to profile if install google on the frontend  
+
+
+@app.route('/profile')
+def show_profile():
+    """New member signed in with Google, then go to profile page to register info."""
+
+    return render_template("profile.html")
 
 
 @app.route('/update', methods=["POST"])
