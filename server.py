@@ -200,7 +200,10 @@ def edit_watchlist():
         print("Deleted", stock)
 
     else:
-        new_watchlist = Watchlist(user_id=user_id, stock_id=stock, ave_cost=0, shares=0)
+        new_watchlist = Watchlist(user_id=user_id, 
+                                  stock_id=stock, 
+                                  ave_cost=0, 
+                                  shares=0)
         print("add", new_watchlist)
         db.session.add(new_watchlist)
         db.session.commit()
@@ -221,7 +224,7 @@ def add_user():
         emails.append(i[0])
 
     if email in emails:
-        # print("\n**************Checked: ", email)
+        
         return "You've logged in."
 
     else:
@@ -253,7 +256,6 @@ def update_user_info():
     this_user.buying_power = new_buying_power
     # print("After update", this_user)
     db.session.commit()
-    print('Updated new user information')
     
     return 'New information updated.'
 
@@ -279,12 +281,12 @@ def check_saved_stocks():
 ###############################################################################
 if __name__ == "__main__":
 
-    app.debug = True
+    # from doctest import testmod
 
+    # if testmod().failed == 0:
     connect_to_db(app)
-    #? Why do you need it in all model, server and seed?
-
+    app.debug = True
     DebugToolbarExtension(app)
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-
     app.run(host="0.0.0.0")
+    

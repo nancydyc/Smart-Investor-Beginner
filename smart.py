@@ -29,7 +29,7 @@ def key_word_search(word):
         stocks.append({'symbol': smbl, 'name': name})
 
     results = {'stocks':stocks}
-    # print(results) 
+    
     return results
 
 
@@ -53,7 +53,7 @@ def get_realtime_price(symbol):
     price = hourly_series_dict.get(middle_key, 0).get('4. close', 0)
 
     realtime = {'symbol': symbol, 'realtime': price}
-    print(realtime)
+    # print(realtime)
     return realtime
 
 
@@ -68,7 +68,7 @@ def get_monthly_ema_data(symbol):
                'series_type': 'open',
                'apikey': 'PVW38W9JBAXB0XGX'}
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-    print(req_ema.url)
+    # print(req_ema.url)
 
     js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
     
@@ -89,7 +89,14 @@ def get_monthly_ema_data(symbol):
 
 
 def get_user_id(email):
-    """Query database for user id."""
+    """Query database for user id.
+
+    Examples:
+        >>> get_user_id('johnsonamanda@hotmail.com')
+        1
+        >>> get_user_id('msdaiyichen@gmail.com')
+        48
+    """
 
     # Get user id via its email
     this_user = User.query.filter_by(email=email).first()
@@ -109,5 +116,5 @@ if __name__ == "__main__":
 
   # key_word_search('luck')
   # get_realtime_price('lk')
-  # et_monthly_ema_data('hmi')
+  # get_monthly_ema_data('lk')
   # get_user_id('msdaiyichen@gmail.com')
