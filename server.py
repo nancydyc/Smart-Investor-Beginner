@@ -6,18 +6,16 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
-# from sqlalchemy import update
+
+from smart import make_monthly_ema_line_chart
 
 import requests
 
 
 app = Flask(__name__)
 
-# Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC" #? Is it always ABC?
 
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -92,47 +90,9 @@ def get_realtime_price(symbol):
 def display_daily_ema_chart(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
-    # Get user input from the search form
-    print("\n\n####################below is chart data########################")
-    # symbol = request.args.get("symbol")
-    print("chart", symbol)
-    # Get daily EMA of monthly average
-    payload_ema = {'function': 'EMA',  
-               'symbol': symbol,
-               'interval': 'weekly',
-               'time_period': 30,
-               'series_type': 'open',
-               'apikey': 'PVW38W9JBAXB0XGX'}
-    req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-    print(req_ema.url)
-    js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
-    # print(type(js_date_ema))
-    # print(js_date_ema)
-    
-    emas = []
-    dates = []
-    for daily_date in js_date_ema:
-        # print(daily_date)
-        dates.append(daily_date)
-    # print(dates)    
+    # Get daily EMA price using 30 days' average calculation method
 
-    for daily_ema in js_date_ema.values():
-        # print(daily_ema)
-        emas.append(daily_ema['EMA'])
-    # print(emas)
-    print("\n\n##################### lists are working ##################\n\n")
-    
-    data_list = []
-    # data_dict = {}
-    data = {}
-    for date, ema in zip(dates, emas):
-        
-        data_list.append({'date': date,
-                     'ema': ema})
-    # print("\n\n##################### data_list is working ##################")
-    data['data'] = data_list
-
-    return data
+    return make_monthly_ema_line_chart(symbol)
 
 
 @app.route('/screen')
@@ -144,79 +104,72 @@ def screen_stocks():
 
 @app.route('/result')
 def screen_result():
-    """Display stock screening results, showing symbol, company names and price."""
+    """Display stock screening results in a table. Showing stock symbols, 
+       company names and prices.
+       left: the value of the price user types on the left on stock screener page.
+       right: the value of the price user types on the right on stock screener page.
+    """
     
     page = request.args.get('page', type=int)
-    # print(page)
 
     price_left = request.args.get('left')
     price_right = request.args.get('right')
-    print("2", price_left, price_right)
 
-    session['leftleft'] = price_left
-    session['rightright'] = price_right
-    print(session['leftleft'], session['rightright'])
+    session['left'] = price_left
+    session['right'] = price_right
 
-    # Add pagination    
-    #! Need to handle exception: what if user only enter one price 
+    # Add pagination on screen result page 
     if price_right > price_left:
         result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
                                     Stock.weekly_ave_price < price_right)\
                             .paginate(page=page, per_page=5)
-        print(result)
-        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
+        
+        return render_template("result.html", result=result, 
+                                              leftprice=price_left, 
+                                              rightprice=price_right)
     else:
         result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
                                     Stock.weekly_ave_price < price_left)\
                             .paginate(page=page, per_page=5)
-        print(result)
-        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
+        
+        return render_template("result.html", result=result, 
+                                              leftprice=price_left, 
+                                              rightprice=price_right)
 
 
 @app.route('/pages')
 def more_result_pages():
-    """Display stock screening results, showing symbol, company names and price."""
+    """Use page links to navigate through stock screening results. Displaying 5 results per page."""
     
     page = request.args.get('page', type=int)
-    print('page', page)
     
-    # print('from sessioin', session['leftleft'], session['rightright'])
-
-    if (session.get('leftleft') is None) or (session.get('rightright') is None):
+    if (session.get('left') is None) or (session.get('right') is None):
         flash('No more page.')
         return redirect('/result')
 
-    price_left = session.get('leftleft')
-    price_right = session.get('rightright')
-    print("3", price_left, price_right)
+    price_left = session.get('left')
+    price_right = session.get('right')
     
     if price_right > price_left:
         result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
                                     Stock.weekly_ave_price < price_right)\
                             .paginate(page=page, per_page=5)
         print(result)
-        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
+        return render_template("result.html", result=result, 
+                                              leftprice=price_left, 
+                                              rightprice=price_right)
     else:
         result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
                                     Stock.weekly_ave_price < price_left)\
                             .paginate(page=page, per_page=5)
         print(result)
-        return render_template("result.html", result=result, leftprice=price_left, rightprice=price_right)
+        return render_template("result.html", result=result, 
+                                              leftprice=price_left, 
+                                              rightprice=price_right)
 
-
-    # if price_right > price_left:
-    #     result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
-    #                                 Stock.weekly_ave_price < price_right)\
-    #                         .paginate(page=page, per_page=5)
-    #     print(result)
-    #     return render_template("result.html", result=result)
-    # else:
-    #     result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
-    #                                 Stock.weekly_ave_price < price_left)\
-    #                         .paginate(page=page, per_page=5) 
-    
 
 ####################################2.0 feature################################
+
 
 @app.route('/watchlist')
 def show_watchlist():
