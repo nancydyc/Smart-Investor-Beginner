@@ -1,5 +1,6 @@
-import requests
+from model import connect_to_db, db, User, Watchlist, Stock
 
+import requests
 
 def key_word_search(word):
     """Search stocks by the stock symbol or the key words of the company names.
@@ -56,7 +57,7 @@ def get_realtime_price(symbol):
     return realtime
 
 
-def make_monthly_ema_line_chart(symbol):
+def get_monthly_ema_data(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
     # Get daily EMA price using 30 days' average calculation method
@@ -83,17 +84,30 @@ def make_monthly_ema_line_chart(symbol):
     for date, ema in zip(dates, emas):
         data_list.append({'date': date,
                      'ema': ema})
-    data = {}
-    data['data'] = data_list
+
+    return data_list
+
+
+def get_user_id(email):
+    """Query database for user id."""
+
+    # Get user id via its email
+    this_user = User.query.filter_by(email=email).first()
+
+    this_user_id = this_user.user_id
     
-    return data
-
-
-
+    return this_user_id
 
 
 if __name__ == "__main__":
 
+  from server import app
+  
+  connect_to_db(app)
+  
+  print("Connected to DB.")
+
   # key_word_search('luck')
-  get_realtime_price('lk')
-  # display_daily_ema_chart('hmi')
+  # get_realtime_price('lk')
+  # et_monthly_ema_data('hmi')
+  # get_user_id('msdaiyichen@gmail.com')

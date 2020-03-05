@@ -93,9 +93,7 @@ def connect_to_db(app, uri="postgres:///stocks"):
 if __name__ == "__main__":
     # As a convenience, if we run this module interactively, it will leave
     # you in a state of being able to work with the database directly.
-
     from server import app
-    # app is from flask
     
     connect_to_db(app)
     

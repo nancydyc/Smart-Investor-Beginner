@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
 
-from smart import key_word_search, get_realtime_price, make_monthly_ema_line_chart
+from smart import key_word_search, get_realtime_price, get_monthly_ema_data, get_user_id
 
 import requests
 
@@ -51,7 +51,11 @@ def display_realtime_price(symbol):
 def display_daily_ema_chart(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
-    return make_monthly_ema_line_chart(symbol)
+    data = {}    
+        
+    data['data'] = get_monthly_ema_data(symbol)
+
+    return data
 
 
 @app.route('/screen')
@@ -65,8 +69,8 @@ def screen_stocks():
 def screen_result():
     """Display stock screening results in a table. Showing stock symbols, 
        company names and prices.
-       left: the value of the price user types on the left on stock screener page.
-       right: the value of the price user types on the right on stock screener page.
+       left: the price user types in the left input box on stock screener page.
+       right: the price user types in the right input box on stock screener page.
     """
     
     page = request.args.get('page', type=int)
@@ -113,7 +117,7 @@ def more_result_pages():
         result = Stock.query.filter(Stock.weekly_ave_price > price_left, 
                                     Stock.weekly_ave_price < price_right)\
                             .paginate(page=page, per_page=5)
-        print(result)
+        
         return render_template("result.html", result=result, 
                                               leftprice=price_left, 
                                               rightprice=price_right)
@@ -121,7 +125,7 @@ def more_result_pages():
         result = Stock.query.filter(Stock.weekly_ave_price > price_right, 
                                     Stock.weekly_ave_price < price_left)\
                             .paginate(page=page, per_page=5)
-        print(result)
+        
         return render_template("result.html", result=result, 
                                               leftprice=price_left, 
                                               rightprice=price_right)
@@ -153,56 +157,23 @@ def show_linechart():
 
     # Check user id via email
     email = session.get('email')
-    print(email, "in the session")
-    user_id = db.session.query(User.user_id).filter_by(email=email).first()
-    this_id = user_id[0]
+
+    this_id = get_user_id(email)
 
     # Get daily EMA of monthly average
     watchlist_data = []
+
     data = {}
+
     user_watchlist = Watchlist.query.filter(Watchlist.user_id == this_id).all()
+    
     for i in user_watchlist:
         symbol = i.stock_id
-        print("chart", symbol)
-        payload_ema = {'function': 'EMA',  
-                   'symbol': symbol,
-                   'interval': 'weekly',
-                   'time_period': 30,
-                   'series_type': 'open',
-                   'apikey': 'G91S3ATZL5YIK83E'}
-        req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-        print(req_ema.url)
-        js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
-        
-        if js_date_ema == 0:
-            print('Change API key')
-        
-        # Grab date and ema from API dict into two lists
-        emas = []
-        dates = []
-        for daily_date in js_date_ema:
-
-            dates.append(daily_date)
-            
-        for daily_ema in js_date_ema.values():
-
-            emas.append(daily_ema['EMA'])
-        # Put data and emas in dict and add to data_list
-        data_list = []
-        for date, ema in zip(dates, emas):
-            data_list.append({'date': date,
-                         'ema': ema})
-        # datalist example [{'date': '2020-02-25 15:25:03', 'ema': '11.9567'}, {'date': '2020-02-24', 'ema': '12.3'}]
-        print("\n\n##################### data_list is working ##################")
-        
-        chart_data = {'symbol': symbol,'datas': data_list}
-
-        watchlist_data.append(chart_data)
-
-        # new data structure: [{'symbol': symbol,'data': data_list}, {'symbol': symbol,'data': data_list}]
-        # old option: {'AAPL': [{'date': '2020-02-25 15:25:03', 'ema': '11.9567'}, {'date': '2020-02-24', 'ema': '12.3'}]}
+        watchlist_data.append({'symbol': symbol,
+                               'datas': get_monthly_ema_data(symbol)})
+ 
     data = {'watchlist': watchlist_data}
-    print(data['watchlist'][0]['datas'][0]['ema'])
+
     return data
 
 
@@ -214,26 +185,26 @@ def edit_watchlist():
     stock = request.form.get('stock')
     email = request.form.get('email')
    
-    print('\n\n\n\n*********', email, stock)
-    the_user = User.query.filter_by(email=email).first()
-    print("the user's info: ", the_user) # a user object
-    user_id = the_user.user_id
+    user_id = get_user_id(email)
+
     watchlist_by_stock_ids = {}
+
     for watchlist in the_user.watchlists:
-        print("the user's interested stock: ", watchlist) # the user's watchlist object
+        print("the user's interested stock: ", watchlist)
         watchlist_by_stock_ids[watchlist.stock_id] = watchlist
 
     # delete the whole object if this stock exists in watchlists table
-    if stock in watchlist_by_stock_ids: # key->id
+    if stock in watchlist_by_stock_ids:
         db.session.delete(watchlist_by_stock_ids[stock]) 
         db.session.commit()
         print("Deleted", stock)
+
     else:
         new_watchlist = Watchlist(user_id=user_id, stock_id=stock, ave_cost=0, shares=0)
         print("add", new_watchlist)
         db.session.add(new_watchlist)
-        print("finish adding")
         db.session.commit()
+
     return "200"
 
 
@@ -243,26 +214,23 @@ def add_user():
 
     email = request.form.get('email')
     session['email'] = email
-    print("\nStored in session", session['email'])
-    print('\n\n\n\n\n\n\n\n\n\n\n#################')
     
     # check if this email in database: 
     emails = []
     for i in db.session.query(User.email).all():
         emails.append(i[0])
-    print(emails)
 
     if email in emails:
-        print("\n**************Checked: ", email)
+        # print("\n**************Checked: ", email)
         return "You've logged in."
+
     else:
         new_user = User(email=email)
-        print('About to add new user ', new_user)
         db.session.add(new_user)
         db.session.commit()
-        print(User.query.filter_by(email=email).all())
+
         return "Hello, new user!" 
-        #! cannot redirect to profile if install google on the frontend  
+ 
 
 
 @app.route('/profile')
@@ -277,14 +245,13 @@ def update_user_info():
     """Update user buying power, etc."""
 
     email = session.get('email')
-    print('\n\n****', email)
+
     new_buying_power = request.form.get('buying-power')
-    print('\n****', new_buying_power)
 
     this_user = User.query.filter_by(email=email).first()
-    print("before update", this_user)
+    # print("before update", this_user)
     this_user.buying_power = new_buying_power
-    print("After update", this_user)
+    # print("After update", this_user)
     db.session.commit()
     print('Updated new user information')
     
@@ -297,20 +264,16 @@ def check_saved_stocks():
 
     # Check user id via email
     email = session.get('email')
-    print("Logged in via:", email)
-    user_id = db.session.query(User.user_id).filter_by(email=email).first()
-    this_id = user_id[0]
-    # user = User.query.filter_by(email=email).first()
+
+    this_id = get_user_id(email)
      
     # Get user's watchlists
     user_watchlists = db.session.query(Watchlist.stock_id).filter(Watchlist.user_id==this_id).all()
     print(user_watchlists)
-    # watchlist = user.watchlists
-    # for i in watchlist:
 
     watchlists = {'watchlist': user_watchlists}
-    response = jsonify(watchlists)
-    return response
+
+    return jsonify(watchlists)
 
 
 ###############################################################################
