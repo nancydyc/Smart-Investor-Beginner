@@ -7,8 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-##############################################################################
-
 class User(db.Model):
     """Data model for a user, recording email and available money."""
 
@@ -79,10 +77,33 @@ class Stock(db.Model):
 
 ##############################################################################
 
+def example_data():
+    """Create some sample data for testing."""
+
+    # Empty out existing data
+    User.query.delete()
+    Stock.query.delete()
+    Watchlist.query.delete()
+
+    # Add example stocks and watchlists
+    user = User(email='ydai7@mail.ccsf.edu', buying_power=8888)
+
+    stock = Stock(stock_id='HMI',
+                  company_name='Huami Corp',
+                  weekly_ave_price=13.8)
+
+    new_watchlist = Watchlist(user_id=1, 
+                              stock_id='HMI', 
+                              ave_cost=13.5, 
+                              shares=100)
+
+    db.session.add_all([user, stock, new_watchlist])
+    db.session.commit()
+
+
 def connect_to_db(app, uri="postgres:///stocks"):
     """Connect the database to our Flask app."""
 
-    # Configure to use our database.
     app.config["SQLALCHEMY_DATABASE_URI"] = uri
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -91,8 +112,7 @@ def connect_to_db(app, uri="postgres:///stocks"):
 
 
 if __name__ == "__main__":
-    # As a convenience, if we run this module interactively, it will leave
-    # you in a state of being able to work with the database directly.
+
     from server import app
     
     connect_to_db(app)

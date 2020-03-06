@@ -140,9 +140,8 @@ def show_watchlist():
 
     # Check user id via email
     email = session.get('email')
-    print(email, "in the session")
-    user_id = db.session.query(User.user_id).filter_by(email=email).first()
-    this_id = user_id[0]
+    
+    this_id = get_user_id(email)
      
     # Get user's watchlists
     user_watchlist = Watchlist.query.filter(Watchlist.user_id==this_id).all()
