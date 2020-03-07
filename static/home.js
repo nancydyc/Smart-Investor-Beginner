@@ -42,7 +42,7 @@ function showSearchResult(evt) {
             //   return {x: dailyInfo.date, y: parseFloat(dailyInfo.ema)}
             // }); // end data
             console.log(res.symbol);
-            console.log(res.data.ema);
+            console.log(res.data);
 
             // newLineChart
             // Create the chart
@@ -66,16 +66,16 @@ function showSearchResult(evt) {
                     text: `${res.symbol} EMA Price`
                 },
                 xAxis: {
-                    type: 'datetime' 
+                    type: 'datetime'
                 },
                 yAxis: {
                     title: {
-                        text: 'Fruit eaten'
+                        text: '30 Days EMA'
                     }
                 },
                 series: [{
                     name: `${res.symbol}`,
-                    data: res.data.ema
+                    data: res.data
                 }],
                 tooltip: {
                   crosshairs: [true]

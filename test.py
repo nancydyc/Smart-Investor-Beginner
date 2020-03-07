@@ -86,12 +86,24 @@ class FlaskTestsLoggedIn(TestCase):
             with c.session_transaction() as sess:
                 sess['email'] = 'ydai7@mail.ccsf.edu'
 
+        connect_to_db(app, "postgresql:///testdb")
+        db.create_all()
+        example_data()
+
 
     def test_show_watchlist(self):
         """Test watchlist page after user login-in."""
 
         result = self.client.get("/watchlist")
         self.assertIn(b"HMI", result.data)
+
+
+    def tearDown(self):
+        """Do at end of every test."""
+
+        db.session.remove()
+        db.drop_all()
+        db.engine.dispose()
 
 
 if __name__ == '__main__':
