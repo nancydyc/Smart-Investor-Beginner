@@ -51,9 +51,9 @@ def display_realtime_price(symbol):
 def display_daily_ema_chart(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
-    data = {}    
+    data = {'data': get_monthly_ema_data(symbol), 'symbol': symbol}    
         
-    data['data'] = get_monthly_ema_data(symbol)
+    # data['data'] = get_monthly_ema_data(symbol)
 
     return data
 
@@ -140,7 +140,13 @@ def show_watchlist():
 
     # Check user id via email
     email = session.get('email')
-    
+    print(email)
+
+    if not email:
+        flash('Please sign in for Smart Investor Watchlist')
+
+        return redirect('/')
+
     this_id = get_user_id(email)
      
     # Get user's watchlists

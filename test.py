@@ -50,17 +50,18 @@ class FlaskTestsDatabase(TestCase):
 
 
     def test_screen_result(self):
-        """Test screen result pages."""
+        """Test screen result pages and database stocks table."""
 
         result = self.client.get("/result", query_string={'left': 1, 'right': 20})
         self.assertIn(b"HMI", result.data)
 
 
-    def test_show_watchlist(self):
-        """Test watchlist page."""
+    def test_watchlist_redirect(self):
+        """Test watchlist page before user sign-in."""
 
-        result = self.client.get("/watchlist", query_string={'email': 'ydai7@mail.ccsf.edu'})
-        self.assertIn(b"HMI", result.data)
+        result = self.client.get('/watchlist',
+                                  follow_redirects=True)
+        self.assertIn(b"Please sign in for Smart Investor Watchlist", result.data)
 
 
     def tearDown(self):
@@ -69,6 +70,28 @@ class FlaskTestsDatabase(TestCase):
         db.session.remove()
         db.drop_all()
         db.engine.dispose()
+
+
+class FlaskTestsLoggedIn(TestCase):
+    """Flask tests with user logged into session."""
+
+    def setUp(self):
+        """Set up session."""
+
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        self.client = app.test_client()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['email'] = 'ydai7@mail.ccsf.edu'
+
+
+    def test_show_watchlist(self):
+        """Test watchlist page after user login-in."""
+
+        result = self.client.get("/watchlist")
+        self.assertIn(b"HMI", result.data)
 
 
 if __name__ == '__main__':

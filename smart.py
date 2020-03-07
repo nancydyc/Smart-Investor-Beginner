@@ -40,7 +40,7 @@ def get_realtime_price(symbol):
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
-               'apikey': 'PVW38W9JBAXB0XGX'}
+               'apikey': 'G91S3ATZL5YIK83E'}
 
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
@@ -51,7 +51,7 @@ def get_realtime_price(symbol):
     middle_key = list(hourly_series_dict.keys())[0]
 
     price = hourly_series_dict.get(middle_key, 0).get('4. close', 0)
-
+    # print(price)
     realtime = {'symbol': symbol, 'realtime': price}
     # print(realtime)
     return realtime
@@ -66,7 +66,8 @@ def get_monthly_ema_data(symbol):
                'interval': 'weekly',
                'time_period': 30,
                'series_type': 'open',
-               'apikey': 'PVW38W9JBAXB0XGX'}
+               'apikey': 'G91S3ATZL5YIK83E'}
+    
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     # print(req_ema.url)
 
@@ -78,13 +79,14 @@ def get_monthly_ema_data(symbol):
         dates.append(daily_date)   
 
     for daily_ema in js_date_ema.values():
-        emas.append(daily_ema['EMA'])
+        emas.append(float(daily_ema['EMA']))
 
     data_list = []
-    for date, ema in zip(dates, emas):
-        data_list.append({'date': date,
-                     'ema': ema})
-
+    # for date, ema in zip(dates, emas):
+    #     data_list.append({'date': date,
+    #                  'ema': ema})
+    data_list = {'date': dates, 'ema': emas}
+    # print(data_list)
     return data_list
 
 

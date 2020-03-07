@@ -36,85 +36,127 @@ function showSearchResult(evt) {
         });
         // show line chart
           $.get(`/chart/${stock.symbol}`, (res) => {
-            console.log(res);
-            const data = res.data.map((dailyInfo) => {
-              // console.log(dailyInfo);
-              return {x: dailyInfo.date, y: dailyInfo.ema}
-            });
-            
-            console.log(data); 
+            // console.log(res.symbol, res.data);
+            // const data = res.data.map((dailyInfo) => {
+            //   // console.log(dailyInfo);
+            //   return {x: dailyInfo.date, y: parseFloat(dailyInfo.ema)}
+            // }); // end data
+            console.log(res.symbol);
+            console.log(res.data.ema);
 
-            new Chart(
-              $('#price-chart'),
-              {
-                type: 'line',
-                data: {
-                  // labels: res.dates,
-                  datasets: [
-                    {
-                      label: 'Stock Monthly EMA Price',
-                      data: data
-                    }
-                  ]
+            // newLineChart
+            // Create the chart
+            // Highcharts.stockChart('container', {
+            //   rangeSelector: {
+            //     selected: 1
+            //   },
+            //   series: [{
+            //     name: `${res.symbol} EMA Price`,
+            //     data: [{x: "2020-03-06", y: 267.5853}, {x: "2020-02-28", y: 266.5719}, {x: "2020-02-21", y: 264.4554}],  // predefined JavaScript array
+            //     tooltip: {
+            //     valueDecimals: 2
+            //     }  
+            //   }]
+            // });
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'line'
                 },
-                options: {
-                  scales: {
-                    xAxes: [
-                      {
-                        type: 'time',
-                        distribution: 'series',
-                        time: {
-                          // unit : "day",
-                          displayFormats: {
-                            day: 'MM-DD-YYYY'
-                          }
-                        }
-                      }
-                    ]
-                  }
-              }
+                title: {
+                    text: `${res.symbol} EMA Price`
+                },
+                xAxis: {
+                    type: 'datetime' 
+                },
+                yAxis: {
+                    title: {
+                        text: 'Fruit eaten'
+                    }
+                },
+                series: [{
+                    name: `${res.symbol}`,
+                    data: res.data.ema
+                }],
+                tooltip: {
+                  crosshairs: [true]
+                }
             });
-          });
+  
+            
 
-      });
+
+
+            // Highcharts.stockChart('container', {
+
+            //   title: {
+            //       text: 'AAPL Stock Price'
+            //   },
+
+            //   // subtitle: {
+            //   //     text: 'Demo of placing the range selector above the navigator'
+            //   // },
+
+            //   rangeSelector: {
+            //       floating: true,
+            //       y: -65,
+            //       verticalAlign: 'bottom'
+            //   },
+
+            //   navigator: {
+            //       margin: 60
+            //   },
+
+            //   series: [{
+            //       name: 'AAPL',
+            //       data: data,
+            //       tooltip: {
+            //           valueDecimals: 2
+            //       }
+            //   }]
+            // });
+
+
+
+          }); // end get
+
+      }); // end click stockLink
 
       $('#search-results').append(stockLink);
-    };
+    }; // end for
     
-  });
-};
-
-// function getRealTimePriceAndChart (evt) {
-//   showRealtimePrice(evt)
-//   displayChart(evt)
-// }
+  }); // end get stock
+}; // end function show search result
 
 $('#form').on('submit', showSearchResult);
 
 
-// $('#prices').on('click', displayChart);
-
-// function displayChart (evt) {
-  
-
-// };
-
-
-// data: {
-//         labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
-//         datasets: [{
-//           label: 'Price',
-//           data: $(priceList)
-//         }]
+// new Chart(
+//   $('#price-chart'),
+//   {
+//     type: 'line',
+//     data: {
+//       // labels: res.dates,
+//       datasets: [
+//         {
+//           label: 'Stock Monthly EMA Price',
+//           data: data
+//         }
+//       ]
+//     },
+//     options: {
+//       scales: {
+//         xAxes: [
+//           {
+//             type: 'time',
+//             distribution: 'series',
+//             time: {
+//               // unit : "day",
+//               displayFormats: {
+//                 day: 'MM-DD-YYYY'
+//               }
+//             }
+//           }
+//         ]
 //       }
-
-      // options: {
-      //   title:{
-      //     display: true,
-      //     text: 'Stock Monthly EMA Price',
-      //     position: 'rignt'
-      //   },
-      // } // Once I add options, the chart is gone.
-//     }
-//   );
-// };
+//   }
+// });

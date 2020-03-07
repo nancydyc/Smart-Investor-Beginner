@@ -81,23 +81,27 @@ def example_data():
     """Create some sample data for testing."""
 
     # Empty out existing data
+    Watchlist.query.delete()
     User.query.delete()
     Stock.query.delete()
-    Watchlist.query.delete()
 
     # Add example stocks and watchlists
-    user = User(email='ydai7@mail.ccsf.edu', buying_power=8888)
+    user = User(user_id=1, email='ydai7@mail.ccsf.edu', buying_power=8888)
 
     stock = Stock(stock_id='HMI',
                   company_name='Huami Corp',
                   weekly_ave_price=13.8)
 
+    db.session.add_all([user, stock])
+    db.session.commit()
+
+    # You may also use user_id=user.user_id if you don't specify user_id above
     new_watchlist = Watchlist(user_id=1, 
                               stock_id='HMI', 
                               ave_cost=13.5, 
                               shares=100)
 
-    db.session.add_all([user, stock, new_watchlist])
+    db.session.add(new_watchlist)
     db.session.commit()
 
 
