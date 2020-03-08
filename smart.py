@@ -10,7 +10,7 @@ def key_word_search(word):
     # Get the company name of the stocks from Alphavantage search endpoint
     payload_name = {'function': 'SYMBOL_SEARCH',  
                     'keywords': word,
-                    'apikey': 'PVW38W9JBAXB0XGX'}
+                    'apikey': 'KSMJ9C8N2RZ92V0D'}
 
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
     # print(req_name.url)
@@ -40,7 +40,7 @@ def get_realtime_price(symbol):
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
-               'apikey': 'G91S3ATZL5YIK83E'}
+               'apikey': 'KSMJ9C8N2RZ92V0D'}
 
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
@@ -66,7 +66,7 @@ def get_monthly_ema_data(symbol):
                'interval': 'weekly',
                'time_period': 30,
                'series_type': 'open',
-               'apikey': 'G91S3ATZL5YIK83E'}
+               'apikey': 'KSMJ9C8N2RZ92V0D'}
     
     req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     # print(req_ema.url)
@@ -91,21 +91,38 @@ def get_monthly_ema_data(symbol):
     return data_list
 
 
-def get_api_data(symbol):
-    """Get stocks by symbol or key words and display EMA price chart."""
+def get_monthly_ave(symbol):
+    """Display weekly EMA of 30 days average price in the chart."""
 
-    # Get daily EMA price using 30 days' average calculation method
+    # Get weekly EMA open price data in csv from Alphavantage API
     payload_ema = {'function': 'EMA',  
                'symbol': symbol,
                'interval': 'weekly',
-               'time_period': 30,
+               'time_period': 10,
                'series_type': 'open',
                'datatype': 'csv',
-               'apikey': 'G91S3ATZL5YIK83E'}
+               'apikey': 'KSMJ9C8N2RZ92V0D'}
     
     data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-    print(data.text)
-    return data.text
+    print(data.url)
+    result = {'data': data.text, 'stock': symbol}
+    print(result)
+    return result
+
+
+def get_monthly_price(symbol):
+    """Display weekly open price in the chart."""
+
+    # Get weekly open price data in csv from Alphavantage API
+    payload_ema = {'function': 'TIME_SERIES_WEEKLY',  
+               'symbol': symbol,
+               'interval': 'weekly',
+               'datatype': 'csv',
+               'apikey': 'KSMJ9C8N2RZ92V0D'}
+    
+    data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    result = {'data': data.text, 'stock': symbol}
+    return result
 
 
 def get_user_id(email):

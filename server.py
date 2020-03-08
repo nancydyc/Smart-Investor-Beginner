@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
 
-from smart import key_word_search, get_realtime_price, get_monthly_ema_data, get_user_id, get_api_data
+from smart import * 
 
 import requests
 
@@ -63,7 +63,9 @@ def display_daily_ema_chart(symbol):
     # data = {}
     # data['data'] = get_monthly_ema_data(symbol)
 
-    return get_api_data(symbol)
+    result = {'ema': get_monthly_ave(symbol), 'weekly': get_monthly_price(symbol)}
+
+    return result
 
 
 @app.route('/screen')
