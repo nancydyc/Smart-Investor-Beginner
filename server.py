@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Watchlist, Stock
 
-from smart import key_word_search, get_realtime_price, get_monthly_ema_data, get_user_id
+from smart import key_word_search, get_realtime_price, get_monthly_ema_data, get_user_id, get_api_data
 
 import requests
 
@@ -19,11 +19,18 @@ app.secret_key = "ABC" #? Is it always ABC?
 app.jinja_env.undefined = StrictUndefined
 
 
+# @app.route('/')
+# def homepage():
+#     """Homepage."""
+
+#     return render_template("home.html")
+
+
 @app.route('/')
 def homepage():
     """Homepage."""
 
-    return render_template("home.html")
+    return render_template("index.html")
 
 
 @app.route('/stock')
@@ -53,10 +60,10 @@ def display_daily_ema_chart(symbol):
 
     # data = {'data': get_monthly_ema_data(symbol), 'symbol': symbol}    
         
-    data = {}
-    data['data'] = get_monthly_ema_data(symbol)
+    # data = {}
+    # data['data'] = get_monthly_ema_data(symbol)
 
-    return data
+    return get_api_data(symbol)
 
 
 @app.route('/screen')

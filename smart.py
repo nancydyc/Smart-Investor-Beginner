@@ -91,6 +91,23 @@ def get_monthly_ema_data(symbol):
     return data_list
 
 
+def get_api_data(symbol):
+    """Get stocks by symbol or key words and display EMA price chart."""
+
+    # Get daily EMA price using 30 days' average calculation method
+    payload_ema = {'function': 'EMA',  
+               'symbol': symbol,
+               'interval': 'weekly',
+               'time_period': 30,
+               'series_type': 'open',
+               'datatype': 'csv',
+               'apikey': 'G91S3ATZL5YIK83E'}
+    
+    data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
+    print(data.text)
+    return data.text
+
+
 def get_user_id(email):
     """Query database for user id.
 

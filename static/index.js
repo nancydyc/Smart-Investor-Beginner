@@ -5,10 +5,12 @@ function showSearchResult(evt) {
     // TODO: get the fortune and show it in the #fortune-text div
   // let stockData = {'symbol': $('#search').value()};
   let stockData = $('#form').serialize();
-  // console.log(stockData);
-
+  
+  // Get matched stock symbols and company names
   $.get('/stock', stockData, (res) => {
-    
+    // const newSearch = $(
+    //   '<ul id="new-search"></ul>'
+    // );
     for (const stock of res.stocks) {
       const stockLink = $(
         `
@@ -21,6 +23,7 @@ function showSearchResult(evt) {
       );
 
       stockLink.on('click', (evt) => {
+
         evt.stopPropagation(); // prevent parent event handlers from being executed
 
         // show stock symbol and price
@@ -32,48 +35,46 @@ function showSearchResult(evt) {
         });
           // show line chart
           $.get(`/chart/${stock.symbol}`, (res) => {
-
-            const data = res.data.map((dailyInfo) => {
-
-              return {x: dailyInfo.date, y: parseFloat(dailyInfo.ema)}
-            
-            }); // end data
+            console.log(res)
+            // const data = res.data.map((dailyInfo) => {
+            //   return {x: dailyInfo.date, y: parseFloat(dailyInfo.ema)}
+            // }); // end data
 
             // Create line chart
-            new Chart(
-              $('#price-chart'),
-              {
-                type: 'line',
-                data: {
-                  // labels: res.dates,
-                  datasets: [
-                    {
-                      label: 'Stock Monthly EMA Price',
-                      data: data
-                    }
-                  ]
-                },
-                options: {
-                  scales: {
-                    xAxes: [
-                      {
-                        type: 'time',
-                        distribution: 'series',
-                        time: {
-                          // unit : "day",
-                          displayFormats: {
-                            day: 'MM-DD-YYYY'
-                          }
-                        }
-                      }
-                    ]
+            Highcharts.chart('container', {
+              data: {
+                csv: res,
+              },
+              chart: {
+                  type: 'area',
+                  zoomType: 'x'
+              },
+              title: {
+                  text: 'Stock EMA Price'
+              },
+              // xAxis: {
+              //     type: 'datetime'
+              // },
+              yAxis: {
+                  title: {
+                      text: 'Stock Price'
                   }
-                }
-            });// end line chart 
-          }); // end get
+              },
+              // series: [{
+              //     // name: `${res.symbol}`,
+              //     name: '30 Days EMA'
+              // }],
+              tooltip: {
+                crosshairs: [true, true]
+              }
+            });
+          }); // end get data
+             
       }); // end click stockLink
       $('#search-results').append(stockLink);
+      // $('#new-search').append(stockLink);
     }; // end for
+    // $('#search-results').replaceWith(newSearch);
   }); // end get stock
 }; // end function show search result
 
