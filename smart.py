@@ -83,7 +83,9 @@ def get_monthly_ema_data(symbol):
 
     data_list = []
     for date, ema in zip(dates, emas):
-        data_list.append([date, ema])
+        # data_list.append([date, ema])
+        data_list.append({'date': date, 'ema': ema})
+    
     # data_list = {'date': dates, 'ema': emas}
     # print(data_list)
     return data_list

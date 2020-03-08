@@ -51,9 +51,10 @@ def display_realtime_price(symbol):
 def display_daily_ema_chart(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
-    data = {'data': get_monthly_ema_data(symbol), 'symbol': symbol}    
+    # data = {'data': get_monthly_ema_data(symbol), 'symbol': symbol}    
         
-    # data['data'] = get_monthly_ema_data(symbol)
+    data = {}
+    data['data'] = get_monthly_ema_data(symbol)
 
     return data
 
