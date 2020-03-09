@@ -38,7 +38,7 @@ function showSearchResult(evt) {
             // console.log(res.weekly.data)
             const chartDataEMA = parseEMAData(res.ema.data);
             const chartDataWeekly = parseWeeklyData(res.weekly.data);
-            console.log(chartDataWeekly.timestamps);
+            // console.log(chartDataWeekly.timestamps);
             // Create line chart
             Highcharts.chart('container', {
               // data: {
@@ -62,7 +62,7 @@ function showSearchResult(evt) {
               },
               series: [
                 {
-                  name: `${res.ema.stock} 30 Days EMA`,
+                  name: `${res.ema.stock} 10 Days EMA`,
                   data: chartDataEMA.data,
                   turboThreshold: 2000 // set a value to accept large data size
                 },
@@ -73,8 +73,15 @@ function showSearchResult(evt) {
                   turboThreshold: 2000 // set a value to accept large data size
                 }
               ],
+              legend: {
+                align: 'left',
+                verticalAlign: 'top',
+                borderWidth: 0
+              },
               tooltip: {
-                crosshairs: [true, true]
+                shared: true,
+                crosshairs: [true, true],
+                valueDecimals: 2
               }
               // plotOptions: {
               //   area: {

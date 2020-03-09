@@ -91,7 +91,7 @@ def get_monthly_ema_data(symbol):
     return data_list
 
 
-def get_monthly_ave(symbol):
+def get_weekly_ave(symbol):
     """Display weekly EMA of 30 days average price in the chart."""
 
     # Get weekly EMA open price data in csv from Alphavantage API
@@ -106,11 +106,11 @@ def get_monthly_ave(symbol):
     data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     print(data.url)
     result = {'data': data.text, 'stock': symbol}
-    print(result)
+    # print(result)
     return result
 
 
-def get_monthly_price(symbol):
+def get_weekly_price(symbol):
     """Display weekly open price in the chart."""
 
     # Get weekly open price data in csv from Alphavantage API

@@ -63,7 +63,7 @@ def display_daily_ema_chart(symbol):
     # data = {}
     # data['data'] = get_monthly_ema_data(symbol)
 
-    result = {'ema': get_monthly_ave(symbol), 'weekly': get_monthly_price(symbol)}
+    result = {'ema': get_weekly_ave(symbol), 'weekly': get_weekly_price(symbol)}
 
     return result
 
