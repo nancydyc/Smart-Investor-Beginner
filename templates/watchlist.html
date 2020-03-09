@@ -23,8 +23,7 @@
     <button class="delete" data-name="{{i.stock_id}}">Delete</button>
   </div>
   <canvas class="allmycharts" id="{{i.stock_id}}"></canvas>
-  <!-- below is for adding holding stocks in watchlists -->
-<!--   <form class="holding"> -->
+
   <div>
     <form id="form-{{ i.stock_id }}">
       What's your average cost on holding the stock?<br>
@@ -35,11 +34,10 @@
     </form>
     Your total holding value is: 
     <p id="total-{{ i.stock_id }}"></p>
-    <br><br>
+    <br>
     <button class="calculate" >Add Holdings</button>
     <button class="cancle">Close Holdings</button>
   </div>
-<!--   </form> -->
   <br><br>
 
 </div>

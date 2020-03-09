@@ -193,6 +193,20 @@ def get_stocks_in_watchlist():
     return jsonify(data)
 
 
+@app.route('/holdings')
+def calculate_holding_stocks():
+    """Get each stocks saved in the watchlists."""
+
+    cost = request.args.get('cost')
+    shares = request.args.get('shares')
+
+    total = int(cost) * int(shares)
+
+    data = {'data': total}
+    print(data)
+    return data
+
+
 @app.route('/linechart')
 def show_linechart():
     """Show linechart for each stocks saved in the watchlists table."""

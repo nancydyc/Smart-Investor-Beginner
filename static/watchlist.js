@@ -50,10 +50,11 @@ $('.calculate').on('click', (evt) => {
     console.log(res.stocks);
     for (const stock of res.stocks) {
       console.log(stock);
-      const cost = $(`#ave-cost-${stock}`).data('name');
-      const shares = $(`#shares-${stock}`).data('name');
-      console.log(cost, shares);
-      $(`#total-${stock}`).text("100"); 
+      const data = $(`#form-${stock}`).serialize();
+      $.get('/holdings', data, (res) => {
+        console.log(res);
+        $(`#total-${stock}`).text(res.data); 
+      }); // end get holdings
     }; // end for  
-  }); // end get
+  }); // end get stocks
 }); //end click calculate
