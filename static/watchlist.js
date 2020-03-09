@@ -4,10 +4,9 @@ $(document).ready( () => {
   $.get('/linechart', (res) => {
     for (const stock of res.watchlist) {
       console.log(stock.symbol);
-      // console.log(stock.datas);
 
+      // Create line chart
       const chartData = stock.datas.map((dailyInfo) => {
-        // console.log(dailyInfo);
         return {x: dailyInfo.date, y: dailyInfo.ema}
       });
 
@@ -18,7 +17,7 @@ $(document).ready( () => {
           data: {
             datasets: [
               {
-                label: 'Stock Monthly EMA Price',
+                label: `${stock.symbol} Monthly EMA Price`,
                 data: chartData
               }
             ]
@@ -28,17 +27,33 @@ $(document).ready( () => {
               xAxes: [
                 {
                   type: 'time',
-                  distribution: 'series'
+                  distribution: 'series',
+                  time: {
+                    displayFormats: {
+                      day: 'MM-DD-YYYY'
+                    }
+                  }
                 }
               ]
             },
-            tooltips: {
-              callbacks: {
-
-              }
-            }
         }
       }); //end chart
     }; // end for 
   }); // end get
 }); // end ready
+
+
+//Calculate total holdings:
+
+$('.calculate').on('click', (evt) => {
+  $.get('/stocks', (res) =>{
+    console.log(res.stocks);
+    for (const stock of res.stocks) {
+      console.log(stock);
+      const cost = $(`#ave-cost-${stock}`).data('name');
+      const shares = $(`#shares-${stock}`).data('name');
+      console.log(cost, shares);
+      $(`#total-${stock}`).text("100"); 
+    }; // end for  
+  }); // end get
+}); //end click calculate

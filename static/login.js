@@ -29,11 +29,13 @@ function onSignIn(googleUser) {
       $(`#${savedStockId[0]}`).addClass('star3'); 
     }; // end for
   }); // end get request
-  clickStarButton (email)
-};// end Sign-in function
+  clickStarButton (email);
+  deleteFromWatchlist(email);
+}// end Sign-in function
 
-  // Edit Watchlists:
-  // Prevent this feature until the user is signed in
+
+// Click the star to edit Watchlists:
+// Prevent this feature until the user is signed in
 function clickStarButton (email) {
   $('.edit-watchlist').on('click', (evt) => {
     // use isSignedId to check if user's logged in >>> True/False
@@ -64,15 +66,27 @@ function clickStarButton (email) {
 } // end function clickstarbtn
 
 
+// Click delete button in watchlist page to edit watchlists
+function deleteFromWatchlist(email) {
+  $('.delete').on('click', (evt) => {
+  let stock = $(evt.target).data('name');
+  console.log(stock);
+  editWatchlist(stock, email);
+  console.log('Deleted', stock);
+  $(`#watch-${stock}`).hide();
+  }); // end click delete btn
+} // end function delete
+
+
+// Send data to server for functionality
 function editWatchlist(stock, email) {
   const stockData = {'stock': stock,
                    'email': email
   }; 
   $.post('/watchlist', stockData, (res) => {
-    console.log('Please edit watchlist: ', stockData);
     console.log('Editing result: ', res);
   }); // end post request
-}; // end function editwatchlist
+} // end function editwatchlist
 
 
 function signOut() {
@@ -86,7 +100,7 @@ function signOut() {
         localStorage.removeItem("investorEmail");
         $('.edit-watchlist i').removeClass('star3');
     }); //end auth2.signOut
-}; // end signout function
+} // end signout function
 
 
 // Profile page:

@@ -125,7 +125,7 @@ def get_weekly_price(symbol):
     return result
 
 
-def get_user_id(email):
+def get_user(email):
     """Query database for user id.
 
     Examples:
@@ -137,10 +137,8 @@ def get_user_id(email):
 
     # Get user id via its email
     this_user = User.query.filter_by(email=email).first()
-
-    this_user_id = this_user.user_id
     
-    return this_user_id
+    return this_user
 
 
 if __name__ == "__main__":

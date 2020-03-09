@@ -157,13 +157,40 @@ def show_watchlist():
 
         return redirect('/')
 
-    this_id = get_user_id(email)
+    this_user = get_user(email)
+
+    this_id = this_user.user_id
      
     # Get user's watchlists
-    user_watchlist = Watchlist.query.filter(Watchlist.user_id==this_id).all()
-    print(user_watchlist)
+    user_watchlists = Watchlist.query.filter(Watchlist.user_id==this_id).all()
+    print(user_watchlists)
 
-    return render_template("watchlist.html", watchlist=user_watchlist)
+    return render_template("watchlist.html", watchlist=user_watchlists)
+
+
+@app.route('/stocks')
+def get_stocks_in_watchlist():
+    """Get each stocks saved in the watchlists."""
+
+    # Check user id via email
+    email = session.get('email')
+
+    this_user = get_user(email)
+
+    this_id = this_user.user_id
+
+    # Get user's watchlists
+    user_watchlists = Watchlist.query.filter(Watchlist.user_id==this_id).all()
+    # print(user_watchlists)
+    stocks = []
+
+    for i in user_watchlists:
+        stocks.append(i.stock_id) 
+
+    data = {'stocks': stocks}
+    print(data['stocks'])
+
+    return jsonify(data)
 
 
 @app.route('/linechart')
@@ -173,7 +200,9 @@ def show_linechart():
     # Check user id via email
     email = session.get('email')
 
-    this_id = get_user_id(email)
+    this_user = get_user(email)
+
+    this_id = this_user.user_id
 
     # Get daily EMA of monthly average
     watchlist_data = []
@@ -200,7 +229,7 @@ def edit_watchlist():
     stock = request.form.get('stock')
     email = request.form.get('email')
    
-    user_id = get_user_id(email)
+    the_user = get_user(email)
 
     watchlist_by_stock_ids = {}
 
@@ -282,8 +311,9 @@ def check_saved_stocks():
     # Check user id via email
     email = session.get('email')
 
-    this_id = get_user_id(email)
-     
+    this_user = get_user(email)
+
+    this_id = this_user.user_id     
     # Get user's watchlists
     user_watchlists = db.session.query(Watchlist.stock_id).filter(Watchlist.user_id==this_id).all()
     print(user_watchlists)

@@ -10,7 +10,7 @@
 <a href="/pages">Back to Screening Results</a><br><br>
 
 {% for i in watchlist %}
-<div>
+<div id="watch-{{ i.stock_id }}">
   <div>
     <span>Stock: </span>{{ i.stock_id }}
     <b id="stock">{{ i.stock.company_name }}</b>
@@ -19,20 +19,32 @@
     <span>$ </span>
     <b id="ave-price">{{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
   </div>
+  <div>
+    <button class="delete" data-name="{{i.stock_id}}">Delete</button>
+  </div>
   <canvas class="allmycharts" id="{{i.stock_id}}"></canvas>
   <!-- below is for adding holding stocks in watchlists -->
-  <form id="holding" action="/holding" >
-    What's your average cost on holding the stock?<br>
-    <input id="ave-cost" type="number" name="cost" value="0"><br><br>
-    How many shares do you hold on the stock?<br>
-    <input id="shares" type="number" name="shares" value="0">
+<!--   <form class="holding"> -->
+  <div>
+    <form id="form-{{ i.stock_id }}">
+      What's your average cost on holding the stock?<br>
+      <input id="ave-cost-{{ i.stock_id }}" type="number" name="cost" value="0" data-name="{{i.stock_id}}"><br><br>
+      How many shares do you hold on the stock?<br>
+      <input id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
+      <br><br>
+    </form>
+    Your total holding value is: 
+    <p id="total-{{ i.stock_id }}"></p>
     <br><br>
-    <button type="submit">Add Holdings</button>
-    <button type="submit">Close Holdings</button>
-  </form>
+    <button class="calculate" >Add Holdings</button>
+    <button class="cancle">Close Holdings</button>
+  </div>
+<!--   </form> -->
   <br><br>
+
 </div>
 {% endfor %}
+
 <script type="text/javascript" src="/static/watchlist.js"></script>
 
 {% endblock %}

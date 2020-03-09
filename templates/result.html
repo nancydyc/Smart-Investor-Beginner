@@ -32,8 +32,8 @@
             
             <th>{{ '%0.2f' | format(data.weekly_ave_price | float) }}</th>  
             <th>
-                <a href="/">Chart</a>
-                <a href="/">News</a>
+                <a class="chart" id="{{ data.stock_id }}" href="">Chart</a>
+                <a href="https://www.google.com/search?q={{ data.stock_id }}+stock&rlz=1C1JZAP_enUS852US852&oq={{ data.stock_id }}&aqs=chrome..69i57j0l7.1188j0j7&sourceid=chrome&ie=UTF-8">News</a>
             </th>
         </tr>
         {% endfor %}
@@ -57,6 +57,8 @@
 ...
 {% endif %}
 {% endfor %}
+
+<div id="container" style="height: 400px; min-width: 310px"></div>
 
 <script type="text/javascript" src="/static/result.js"></script>
 
