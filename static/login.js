@@ -114,3 +114,20 @@ $('#user-details').on('submit', (evt) => {
     console.log(res);
   }); // end post
 }); // end submit
+
+
+//Before sign in
+// alert user if they haven't login
+$('.login-required').on('click', (evt) => {
+  const isSignedIn = gapi.auth2
+    .getAuthInstance()
+    .currentUser.get()
+    .isSignedIn();
+  if (!isSignedIn) {
+    console.log("no user login yet");
+    evt.preventDefault();
+    alert('Please login to use watchlist');    
+  } else {
+    console.log("Let's go!");
+  } 
+}); //end click

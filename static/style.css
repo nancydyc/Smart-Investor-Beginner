@@ -1,7 +1,26 @@
-.star:active {
-    color: yellow;
+/*   Sitewide  */
+
+.navbar {
+    background-color: #b3af06;
+    color: white;
+    border-radius: 0px;
 }
 
+#smart-logo, #smart-logo:hover, .navbar-dark .navbar-brand {
+    color: #151515;
+}
+
+.navbar-nav>li>a, .navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+
+section {
+    margin-top: 50px;
+}
+
+
+
+/* Watchlist */
 .star2 {
     color:yellow;
 }
@@ -14,4 +33,8 @@
 }*/
 .data {
     display: none;
+}
+
+#modalLabel {
+    color: black;
 }

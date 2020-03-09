@@ -23,19 +23,19 @@ $('.edit-watchlist').on('click', (evt) => {
 }); // end click star
 
 // alert user if they haven't login
-$('.login-watchlist').on('click', (evt) => {
-  const isSignedIn = gapi.auth2
-    .getAuthInstance()
-    .currentUser.get()
-    .isSignedIn();
-  if (!isSignedIn) {
-    console.log("no user login yet");
-    evt.preventDefault();
-    alert('Please login');    
-  } else {
-    console.log("Let's go!");
-  } 
-}); //end click
+// $('.login-required').on('click', (evt) => {
+//   const isSignedIn = gapi.auth2
+//     .getAuthInstance()
+//     .currentUser.get()
+//     .isSignedIn();
+//   if (!isSignedIn) {
+//     console.log("no user login yet");
+//     evt.preventDefault();
+//     alert('Please login');    
+//   } else {
+//     console.log("Let's go!");
+//   } 
+// }); //end click
 
 
 // Click chart link to display this stock's chart
