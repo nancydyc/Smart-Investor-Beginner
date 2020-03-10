@@ -10,7 +10,7 @@ def key_word_search(word):
     # Get the company name of the stocks from Alphavantage search endpoint
     payload_name = {'function': 'SYMBOL_SEARCH',  
                     'keywords': word,
-                    'apikey': 'KSMJ9C8N2RZ92V0D'}
+                    'apikey': 'G91S3ATZL5YIK83E'}
 
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
     # print(req_name.url)
@@ -40,7 +40,7 @@ def get_realtime_price(symbol):
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
-               'apikey': 'KSMJ9C8N2RZ92V0D'}
+               'apikey': 'G91S3ATZL5YIK83E'}
 
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
@@ -53,7 +53,7 @@ def get_realtime_price(symbol):
     price = hourly_series_dict.get(middle_key, 0).get('4. close', 0)
     # print(price)
     realtime = {'symbol': symbol, 'realtime': price}
-    # print(realtime)
+    print(realtime)
     return realtime
 
 
@@ -101,7 +101,7 @@ def get_weekly_ave(symbol):
                'time_period': 10,
                'series_type': 'open',
                'datatype': 'csv',
-               'apikey': 'KSMJ9C8N2RZ92V0D'}
+               'apikey': 'G91S3ATZL5YIK83E'}
     
     data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     print(data.url)
@@ -118,7 +118,7 @@ def get_weekly_price(symbol):
                'symbol': symbol,
                'interval': 'weekly',
                'datatype': 'csv',
-               'apikey': 'KSMJ9C8N2RZ92V0D'}
+               'apikey': 'G91S3ATZL5YIK83E'}
     
     data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     result = {'data': data.text, 'stock': symbol}

@@ -7,16 +7,17 @@
 
 {% block content %}
 <div id="homepage">
-  <a href="/screen">Stock Screener</a>
-  <br><br>
-
-  <div>
-    <span>Stock: </span>
-    <b id="stock"></b>
-  </div>
-  <div>
-    <span>$ </span>
-    <b id="realtime"></b>
+  <div id="stock-realtime">
+    <div>
+      <span>Stock: </span>
+      <b id="stock"></b>
+    </div>
+    <div>
+      <h4>
+        <span>$ </span>
+        <b id="realtime" format="0, 0.00"></b>
+      </h4>
+    </div>
   </div>
 
   <div id="container" style="height: 400px; min-width: 310px"></div>

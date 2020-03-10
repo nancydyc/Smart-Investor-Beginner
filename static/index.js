@@ -8,9 +8,7 @@ function showSearchResult(evt) {
   
   // Get matched stock symbols and company names
   $.get('/stock', stockData, (res) => {
-    // const newSearch = $(
-    //   '<ul id="new-search"></ul>'
-    // );
+
     for (const stock of res.stocks) {
       const stockLink = $(
         `
@@ -29,9 +27,11 @@ function showSearchResult(evt) {
         // show stock symbol and price
         $.get(`/stock/${stock.symbol}`, (res) => {
 
+          $('#stock-realtime').css("display", "block");
           $('#stock').html(res.symbol);
-          $('#realtime').html(res.realtime);
-
+          let realtime = parseFloat(res.realtime).toFixed(2);
+          console.log(realtime);
+          $('#realtime').html(realtime);
         });
           // show line chart
           $.get(`/chart/${stock.symbol}`, (res) => {

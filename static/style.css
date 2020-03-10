@@ -23,6 +23,18 @@
     color: white;
 }
 
+.list-group-item {
+    padding: 0.25rem 0.25rem;
+    border: 0px;
+    background-color: #b3af06;
+}
+
+.dropdown-menu {
+    padding: 12px 0px;
+    border: 0px;
+    background-color: #b3af06;
+}
+
 section {
     margin-top: 50px;
 }
@@ -42,6 +54,14 @@ section {
 #pic {
     border-radius: 50%;
 }
+
+
+/* homepage */
+
+#stock-realtime {
+    display: none;
+}
+
 
 /* Watchlist */
 .star2 {
