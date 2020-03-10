@@ -1,9 +1,18 @@
 /*   Sitewide  */
 
 .navbar {
-    background-color: #b3af06;
+    /*background: linear-gradient(to left, #b3af06, #233d4d);*/
+    background: #b3af06;
     color: white;
     border-radius: 0px;
+}
+
+/*.navbar-custom-theme {
+    
+}*/
+
+.navbar-brand {
+    margin-left: 1rem;
 }
 
 #smart-logo, #smart-logo:hover, .navbar-dark .navbar-brand {
@@ -18,7 +27,21 @@ section {
     margin-top: 50px;
 }
 
+#modalLabel {
+    color: black;
+}
 
+/*.g-signin2{
+    border-radius: 20px;
+}*/
+
+#user-menu {
+    display: none;
+}
+
+#pic {
+    border-radius: 50%;
+}
 
 /* Watchlist */
 .star2 {
@@ -27,14 +50,7 @@ section {
 .star3 {
     color: blue;
 }
-/*.g-signin2{
-    margin-left: 500px;
-    margin-right: 200px;
-}*/
-.data {
-    display: none;
-}
 
-#modalLabel {
-    color: black;
+.g-data {
+    display: none;
 }

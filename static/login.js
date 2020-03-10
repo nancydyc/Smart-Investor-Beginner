@@ -17,7 +17,8 @@ function onSignIn(googleUser) {
   // Hide sign-in button
   // Display profile picture and show email on profile page
   $(".g-signin2").css("display", "none");
-  $(".data").css("display", "block");
+  $("#user-menu").css("display", "block");
+  // $(".g-data").css("display", "block");
   $("#pic").attr('src', profile.getImageUrl());
   $("#pic-big").attr('src', profile.getImageUrl());
   $("#email").text(profile.getEmail());
@@ -95,10 +96,11 @@ function signOut() {
     auth2.signOut().then(() => {
         alert("You've been successfully signed out.");
         $(".g-signin2").css("display", "block");
-        $("#sign-out").css("display", "none");
+        $("#user-menu").css("display", "none");
         $("#pic").css("display", "none");
         localStorage.removeItem("investorEmail");
-        $('.edit-watchlist i').removeClass('star3');
+        $('.edit-watchlist i').removeClass('star3'); 
+        //back to homepage after sign out
     }); //end auth2.signOut
 } // end signout function
 

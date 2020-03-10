@@ -6,16 +6,7 @@
 
 
 {% block content %}
-
-  <form id="form" action="/stock" >
-      <input id="search" type="text" name="word">
-      <button type="submit">Search <i class="fab fa-searchengin"></i>
-      </button>
-  </form>
-
-  <ul id="search-results"></ul>
-  <br><br>
-
+<div id="homepage">
   <a href="/screen">Stock Screener</a>
   <br><br>
 
@@ -31,7 +22,7 @@
   <div id="container" style="height: 400px; min-width: 310px"></div>
 
   <script src="static/index.js"></script>
-
+</div>
 {% endblock %}
 
 
