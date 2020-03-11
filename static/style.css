@@ -65,9 +65,6 @@ a {
 
 
 /* result page*/
-
-
-/* Watchlist */
 .star2 {
     color:yellow;
 }
@@ -78,3 +75,13 @@ a {
 .g-data {
     display: none;
 }
+
+/* Watchlist */
+.btn-light{
+    margin: 5px;
+}
+
+/* Profile page*/
+/*div>form>input {
+    border-radius: 5px;
+}*/

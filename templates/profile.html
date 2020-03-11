@@ -2,23 +2,43 @@
 
 
 {% block content %}
-<div class="data">
-  <br>
-  <p>Profile Details</p>
-  <img id="pic-big" class="img-circle" width="200" height="200">
-  <br><br>
-  <p>Eamil Address</p>
-  <p id="email" class="alert alert-danger"></p>
-</div>
-<div id="profile-page">
-  <form id="user-details">
-      How much money do you have for long term investment?<br>
-      $ <input id="buying-power" type="number" name="buying-power" value=0><br><br>
-      How many years do you plan for long term investment?<br><br>
-      <input id="years" type="number" name="years" value="0"> years<br><br>
-      What's your goal of achievement? Enter a number for annual growth rate<br>
-      <input id="growth" type="number" name="growth" value="0"> %<br><br>
-      <button id="add-user-data" type="submit">Submit</button>
-  </form>
+<div class="container">
+  <div class="row">
+    <h6>Profile Details</h6>
+  </div>
+  <div class="row">
+    <img id="pic-big" class="img-circle" width="200" height="200">
+    <br><br>
+  </div>
+  <div class="row">
+    <p>Eamil Address</p>
+  </div>
+  <div class="row">
+    <p id="email" class="alert alert-info"></p>
+  </div>
+
+  <div class="row">
+    <form class="user-details">
+      <div class="form-row">
+        How much money do you have for long term investment?
+        <br><br>
+        $ <input class="form-control" id="buying-power" type="number" name="buying-power" value=0>
+        <br><br>
+      </div>
+      <div class="form-row">
+        How many years do you plan for long term investment?
+        <br><br>
+        <input class="form-control" id="years" type="number" name="years" value="0"> years
+        <br><br>
+      </div>
+      <div class="form-row">
+        What's your goal of achievement? Enter a number for annual growth rate
+        <br><br>
+        <input class="form-control" id="growth" type="number" name="growth" value="0"> %
+        <br><br>
+      </div>
+        <button id="add-user-data" type="submit">Submit</button>
+    </form>
+  </div>
 </div>
 {% endblock %}

@@ -108,7 +108,7 @@ function signOut() {
 
 // Profile page:
 // Send email and buying power to database after sign-in
-$('#user-details').on('submit', (evt) => {
+$('.user-details').on('submit', (evt) => {
   evt.preventDefault();
   const userDetails = $('#user-details').serialize();
   console.log(userDetails);

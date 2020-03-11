@@ -45,11 +45,13 @@ $(document).ready( () => {
 
 //Calculate total holdings:
 
-$('.calculate').on('click', (evt) => {
+$('#calculate').on('click', (evt) => {
   $.get('/stocks', (res) =>{
     console.log(res.stocks);
     for (const stock of res.stocks) {
       console.log(stock);
+      // const stock = $(evt.target).data('name');
+      // console.log(stock);
       const data = $(`#form-${stock}`).serialize();
       $.get('/holdings', data, (res) => {
         console.log(res);
