@@ -52,16 +52,21 @@
 }
 
 a {
-    color: #3a5683;
+    color: #58a4b0;
     padding-right: 25px;
 }
 
 
 /* homepage */
-
 #stock-realtime {
     display: none;
 }
+
+/* screen page*/
+#turnover-left {
+    margin-left: 12px;
+}
+
 
 
 /* result page*/
@@ -82,6 +87,18 @@ a {
 }
 
 /* Profile page*/
-/*div>form>input {
-    border-radius: 5px;
-}*/
+#pic-big {
+    border-radius: 50%;
+}
+
+#email {
+    text-align: center;
+}
+
+#years {
+    margin-left: 12px;
+}
+
+#growth {
+    margin-left: 12px;
+}
