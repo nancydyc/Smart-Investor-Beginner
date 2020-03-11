@@ -3,37 +3,46 @@
 
 {% block content %}
 
+<div class="container">
 
-<h2>Stock Screener</h2>
-<div>
+    <h4>Stock Screener</h4>
+    <br>
+
     <form action="/result">
-        How do you want to filter the stocks? </br></br>
-
-        <input type="checkbox" name="screen" value="price">
-        <label>5 Days EMA Price</label>
-
-            $ <input type="number" name="left" step="any" min=0 value=0>  
-
-            to $ <input type="number" name="right" step="any" min=0 value=0>
+        
+        <b>How would you like to filter the stocks?</b>
         </br></br>
-
-        <input type="checkbox" name="screen" value="volume">
-        <label>Share Turnover Ratio</label>
-
-            <input type="number" name="price" step="any" min=0>%  
-
-            to <input type="number" name="price" step="any" min=0>%
-        </br></br>
-
-        <input type="checkbox" name="screen" value="price">
-        <label>Market Capitaliztion</label>
-
-            $ <input type="number" name="price" step="any" min=0>  
-
-            to $ <input type="number" name="price" step="any" min=0> (millions)
+        
+            <input type="checkbox" name="screen" value="price">
+            <label>5 Days EMA Price</label>
             </br></br>
-        <button type="submit">Screen</button>
+
+                $ <input type="number" name="left" step="any" min=0 value=0>  
+            
+                to $ <input type="number" name="right" step="any" min=0 value=0>
+            </br></br>
+            
+
+            <input type="checkbox" name="screen" value="volume">
+            <label>Share Turnover Ratio</label>
+            </br></br>
+                <input type="number" name="price" step="any" min=0>%  
+
+                to <input type="number" name="price" step="any" min=0>%
+            </br></br>
+
+            <input type="checkbox" name="screen" value="price">
+            <label>Market Capitaliztion</label>
+            </br></br>
+                $ <input type="number" name="price" step="any" min=0>  
+
+                to $ <input type="number" name="price" step="any" min=0> (millions)
+                </br></br>
+        <button type="submit">Screen</button>        
+        
     </form>
+
+    
 </div>
 
 {% endblock %}

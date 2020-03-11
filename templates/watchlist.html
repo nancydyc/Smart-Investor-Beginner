@@ -3,45 +3,45 @@
 
 {% block content %}
 
+<div class="container">
+  <h4>My Watch List</h4><br>
 
-<h2>My Watch List</h2><br>
+  <a href="/pages">Back to Screening Results</a><br><br>
 
-<a href="/screen">Stock Screener</a><br><br>
-<a href="/pages">Back to Screening Results</a><br><br>
-
-{% for i in watchlist %}
-<div id="watch-{{ i.stock_id }}">
-  <div>
-    <span>Stock: </span>{{ i.stock_id }}
-    <b id="stock">{{ i.stock.company_name }}</b>
+  {% for i in watchlist %}
+  <div id="watch-{{ i.stock_id }}">
+    <div>
+      <span>{{ i.stock_id }}</span>
+      <b id="stock">{{ i.stock.company_name }}</b>
+    </div>
+    <div>
+      <span>$ </span>
+      <b id="ave-price">{{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
+    </div>
+    <div>
+        <i class="delete fas fa-trash-alt" data-name="{{i.stock_id}}"></i>
+    <canvas class="allmycharts" id="{{i.stock_id}}"></canvas>
   </div>
-  <div>
-    <span>$ </span>
-    <b id="ave-price">{{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
-  </div>
-  <div>
-    <button class="delete" data-name="{{i.stock_id}}">Delete</button>
-  </div>
-  <canvas class="allmycharts" id="{{i.stock_id}}"></canvas>
 
-  <div>
-    <form id="form-{{ i.stock_id }}">
-      What's your average cost on holding the stock?<br>
-      <input id="ave-cost-{{ i.stock_id }}" type="number" name="cost" value="0" data-name="{{i.stock_id}}"><br><br>
-      How many shares do you hold on the stock?<br>
-      <input id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
-      <br><br>
-    </form>
-    Your total holding value is: 
-    <p id="total-{{ i.stock_id }}"></p>
-    <br>
-    <button class="calculate" >Add Holdings</button>
-    <button class="cancle">Close Holdings</button>
-  </div>
-  <br><br>
+    <div>
+      <form id="form-{{ i.stock_id }}">
+        What's your average cost on holding the stock?<br>
+        <input id="ave-cost-{{ i.stock_id }}" type="number" name="cost" value="0" data-name="{{i.stock_id}}"><br><br>
+        How many shares do you hold on the stock?<br>
+        <input id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
+        <br><br>
+      </form>
+      Your total holding value is: 
+      <p id="total-{{ i.stock_id }}"></p>
+      <br>
+      <button class="calculate" >Add Holdings</button>
+      <button class="cancle">Close Holdings</button>
+    </div>
+    <br><br>
 
+  </div>
+  {% endfor %}
 </div>
-{% endfor %}
 
 <script type="text/javascript" src="/static/watchlist.js"></script>
 

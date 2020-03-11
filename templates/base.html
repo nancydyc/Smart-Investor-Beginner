@@ -35,7 +35,7 @@
     </button>
 
   <!-- <div class="navbar-nav mr-auto"> -->
-    <a id="smart-logo" class="navbar-brand" href="/">Smart Investor</a>
+    <a id="smart-logo" class="navbar-brand" href="/"><b>Smart Investor</b></a>
   
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -59,7 +59,7 @@
     
     <!-- search modal -->
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <!-- search form -->
           <div class="modal-header">
@@ -116,7 +116,7 @@
 
 
   <br>
-  <h2>Welcome to Smart Investor</h2>
+  <h3 class="container">Welcome to Smart Investor</h3>
   <br>
 
   {% with messages = get_flashed_messages() %}
@@ -135,13 +135,15 @@
 
   {% endblock %}
 
-  </br></br>
-  <footer>
-    Smart Investor<br>
-    Copyright@2020<br>
+  <footer class="container">
+    <br><br>
+    Smart Investor
+    <br>
+    Copyright@2020
+    <br>
     <a href="https://github.com/nancydyc">
-    Yichen's Github</a> | 
-    <a href="https://www.linkedin.com/in/yichen-dai-20557a195/">
+    Yichen's Github</a>|
+    <a href="https://www.linkedin.com/in/yichen-dai-20557a195/" style="padding-left: 20px;">
     Yichen's LinkedIn</a>
   </footer>
 

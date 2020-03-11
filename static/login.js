@@ -100,6 +100,7 @@ function signOut() {
         $("#pic").css("display", "none");
         localStorage.removeItem("investorEmail");
         $('.edit-watchlist i').removeClass('star3'); 
+        window.location.replace('/');
         //back to homepage after sign out
     }); //end auth2.signOut
 } // end signout function

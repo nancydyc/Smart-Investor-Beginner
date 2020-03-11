@@ -3,62 +3,74 @@
 
 {% block content %}
 
+<div class="container">
+    
+    <h4>Screen Results</h4>
+    
+    <div class="row">
 
-<h2>Screen Results</h2>
+        <div class="col-lg-6 col-sm-12">
+            <br>
+            <table class="table table-borderd table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        <th scope="col">Symbol</th>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Five Days Everage Price(EMA)</th>
+                        <th scope="col">More Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in result.items %}
+                    <tr>
+                        <th scope="row">
+                            <i class="edit-watchlist fas fa-star" type="submit" id="{{ data.stock_id }}" class="" data-name="{{ data.stock_id }}"></i>    
+                        </th>
+                    
+                        <td>{{ data.stock_id }}</td>
+                        
+                        <td>{{ data.company_name }}</td>
+                        
+                        <td>{{ '%0.2f' | format(data.weekly_ave_price | float) }}</td>
 
-<a href="/screen">Back to Screener</a></br></br></br>
+                        <td>
+                            <a class="chart" id="{{ data.stock_id }}" href="">Chart</a>
+                            <a href="https://www.google.com/search?q={{ data.stock_id }}+stock&rlz=1C1JZAP_enUS852US852&oq={{ data.stock_id }}&aqs=chrome..69i57j0l7.1188j0j7&sourceid=chrome&ie=UTF-8">News</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>  
+                </thead>
+            </table><br>
+            {# iter_pages offers the range of total pages #}
+            {% for page_num in result.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+            {# when the page num exists, provide a link to url/result to run the query to get data for screen results #} 
+            {% if page_num %}
+                {% if result.page == page_num %}
+                    <a class="btn btn-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice, right=rightprice) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice, right=rightprice) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+            {% endfor %}
 
+            <br><br>
+            <a href="/screen">Back to Screener</a>
+            <a class="login-required" href="/watchlist">⭐ Watchlist</a>
+            <br><br><br>
+        </div>
 
-<table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Symbol</th>
-            <th>Company Name</th>
-            <th>Five Days Everage Price(EMA)</th>
-            <th>More Info</th>
-        </tr>
+        <div class="col-lg-6 col-sm-12">
+            <div id="container" style="height: 400px; min-width: 310px">
+            </div>
+        </div>
 
-        {% for data in result.items %}
-        <tr>
-            <th>
-                <button class="edit-watchlist" type="submit">
-                    <i id="{{ data.stock_id }}" class="fas fa-star" data-name="{{ data.stock_id }}"></i>
-                </button>
-            </th>
-            <th>{{ data.stock_id }}</th>
-            
-            <th>{{ data.company_name }}</th>
-            
-            <th>{{ '%0.2f' | format(data.weekly_ave_price | float) }}</th>  
-            <th>
-                <a class="chart" id="{{ data.stock_id }}" href="">Chart</a>
-                <a href="https://www.google.com/search?q={{ data.stock_id }}+stock&rlz=1C1JZAP_enUS852US852&oq={{ data.stock_id }}&aqs=chrome..69i57j0l7.1188j0j7&sourceid=chrome&ie=UTF-8">News</a>
-            </th>
-        </tr>
-        {% endfor %}
-    </thead>
-</table></br>
+    </div>
 
-<a class="login-required" href="/watchlist">⭐ watchlist</a>
-
-</br></br>
-
-{# iter_pages offers the range of total pages #}
-{% for page_num in result.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
-{# when the page num exists, provide a link to url/result to run the query to get data for screen results #} 
-{% if page_num %}
-    {% if result.page == page_num %}
-        <a class="btn btn-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice, right=rightprice) }}">{{ page_num }}</a>
-    {% else %}
-        <a class="btn btn-outline-info mb4" href="{{ url_for('more_result_pages', page=page_num, left=leftprice, right=rightprice) }}">{{ page_num }}</a>
-    {% endif %}
-{% else %}
-...
-{% endif %}
-{% endfor %}
-
-<div id="container" style="height: 400px; min-width: 310px"></div>
+</div>
 
 <script type="text/javascript" src="/static/result.js"></script>
 

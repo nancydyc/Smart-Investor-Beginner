@@ -9,6 +9,8 @@ function showSearchResult(evt) {
   // Get matched stock symbols and company names
   $.get('/stock', stockData, (res) => {
 
+    $('#search-results').empty();
+    
     for (const stock of res.stocks) {
       const stockLink = $(
         `

@@ -3,7 +3,7 @@
 .navbar {
     /*background: linear-gradient(to left, #b3af06, #233d4d);*/
     background: #b3af06;
-    color: white;
+    color: black;
     border-radius: 0px;
 }
 
@@ -35,13 +35,9 @@
     background-color: #b3af06;
 }
 
-section {
-    margin-top: 50px;
-}
-
-#modalLabel {
-    color: black;
-}
+/*.second-link {
+    padding-left: 25px;
+}*/
 
 /*.g-signin2{
     border-radius: 20px;
@@ -55,12 +51,20 @@ section {
     border-radius: 50%;
 }
 
+a {
+    color: #3a5683;
+    padding-right: 25px;
+}
+
 
 /* homepage */
 
 #stock-realtime {
     display: none;
 }
+
+
+/* result page*/
 
 
 /* Watchlist */

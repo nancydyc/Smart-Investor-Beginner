@@ -244,6 +244,7 @@ def edit_watchlist():
     email = request.form.get('email')
    
     the_user = get_user(email)
+    user_id = the_user.user_id
 
     watchlist_by_stock_ids = {}
 
