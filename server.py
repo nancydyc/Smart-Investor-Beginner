@@ -30,7 +30,7 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """Homepage."""
 
-    return render_template("index.html")
+    return render_template("homepage.html")
 
 
 @app.route('/stock')
@@ -43,6 +43,7 @@ def search_stock_form():
     word = request.args.get('word') 
 
     return key_word_search(word)
+    # return render_template("homepage.html")
 
 
 @app.route('/stock/<symbol>')

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <form class="form-inline my-2 my-lg-0" id="form" action="/stock" >
+        <input class="form-control mr-sm-2" id="search" type="text" name="word" placeholder="Type symbols or key words">
+        <button class="btn btn--lighten btn--search j-btn-search" type="submit">
+          <i class="fab fa-searchengin"></i>
+        </button>
+      </form>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <ul id="search-results"></ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div id="stock-realtime">
+        <div>
+          <h5>
+            <span>Stock: </span>
+            <b id="stock"></b>
+          </h5>
+        </div>
+        <div>
+          <h4>
+            <span>$ </span>
+            <b id="realtime" format="0, 0.00"></b>
+          </h4>
+        </div>
+      </div>
+
+      <div id="container" style="height: 400px; min-width: 310px"></div>
+    </div>
+  </div>
+
+</div>
+<script src="static/homepage.js"></script>
+{% endblock %}
+
+
