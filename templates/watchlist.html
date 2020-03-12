@@ -43,9 +43,9 @@
               Shares <br>
               <input class="form-control" id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
             </div>
-            <div class="col-auto">
+            <div class="col-auto" id="total-value">
               Total Value: <br>
-              <p><b id="total-{{ i.stock_id }}"></b></p>
+              <p class="alert alert-success" id="total-text"><b id="total-{{ i.stock_id }}">0</b></p>
               <br>
             </div>
           </div>
@@ -56,6 +56,8 @@
         </form>
       </div>
     </div>
+    <br>
+    <br>  
   {% endfor %}
 
 </div>

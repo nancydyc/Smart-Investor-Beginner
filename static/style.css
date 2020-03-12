@@ -74,7 +74,7 @@ a {
     color:yellow;
 }
 .star3 {
-    color: blue;
+    color: gold;
 }
 
 .g-data {
@@ -84,6 +84,18 @@ a {
 /* Watchlist */
 .btn-light{
     margin: 5px;
+}
+
+#total-value{
+    padding-top: 40px;
+}
+
+.alert {
+    padding: 0.4rem 1.25rem;
+}
+
+#total-text{
+    text-align: center;
 }
 
 /* Profile page*/
