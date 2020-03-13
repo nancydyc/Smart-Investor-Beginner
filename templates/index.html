@@ -6,21 +6,43 @@
 
 
 {% block content %}
+<div class="container">
 
-  <h2>Home</h2><br><br>
+  <!-- <div class="row"> -->
+    <!-- <div class="col"> -->
+      <div id="stock-realtime-info">
 
-  <div>
-    <span>Stock: </span>
-    <b id="stock"></b>
-  </div>
-  <div>
-    <span>$ </span>
-    <b id="realtime" format="0, 0.00"></b>
-  </div>
+        <div>
+          <h5>
+            <span>Stock: {{ realtime.symbol }} </span>
+            <b id="stock"></b>
+          </h5>
+        </div>
 
-  <canvas id="price-chart"></canvas>
+        <div>
+          <h4>
+            <span>$ </span>
+            <b id="realtime-price">{{ '%0.2f' | format(realtime.realtime | float) }}</b>
+          </h4>
+        </div>
 
-  <script src="static/index.js"></script>
+        <div>
+          <!-- <form> -->
+            <!-- <input name="{{ realtime.symbol }}"> -->
+            <button id="chart-btn" data-name="{{ realtime.symbol }}">Show Chart</button>
+          <!-- <form> -->
+        </div>
+
+      </div>
+    <!-- </div> -->
+
+      <div id="index-container" style="height: 400px; min-width: 310px">
+      </div>
+</div>
+
+
+
+<script src="static/index.js"></script>
 
 {% endblock %}
 

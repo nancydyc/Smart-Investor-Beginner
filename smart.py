@@ -10,7 +10,7 @@ def key_word_search(word):
     # Get the company name of the stocks from Alphavantage search endpoint
     payload_name = {'function': 'SYMBOL_SEARCH',  
                     'keywords': word,
-                    'apikey': 'G91S3ATZL5YIK83E'}
+                    'apikey': 'CYUYBFS101MCWYTS'}
 
     req_name = requests.get("https://www.alphavantage.co/query", params=payload_name)
     # print(req_name.url)
@@ -40,7 +40,7 @@ def get_realtime_price(symbol):
                'symbol': symbol,
                'interval': '60min',
                'outputsize': 'compact',
-               'apikey': 'G91S3ATZL5YIK83E'}
+               'apikey': 'CYUYBFS101MCWYTS'}
 
     req_realtime = requests.get("https://www.alphavantage.co/query", params=payload_rt)
     # print(req.url)
@@ -57,40 +57,6 @@ def get_realtime_price(symbol):
     return realtime
 
 
-def get_monthly_ema_data(symbol):
-    """Get stocks by symbol or key words and display EMA price chart."""
-
-    # Get daily EMA price using 30 days' average calculation method
-    payload_ema = {'function': 'EMA',  
-               'symbol': symbol,
-               'interval': 'weekly',
-               'time_period': 30,
-               'series_type': 'open',
-               'apikey': 'KSMJ9C8N2RZ92V0D'}
-    
-    req_ema = requests.get("https://www.alphavantage.co/query", params=payload_ema)
-    # print(req_ema.url)
-
-    js_date_ema = req_ema.json().get('Technical Analysis: EMA', 0)
-    
-    emas = []
-    dates = []
-    for daily_date in js_date_ema:
-        dates.append(daily_date)   
-
-    for daily_ema in js_date_ema.values():
-        emas.append(float(daily_ema['EMA']))
-
-    data_list = []
-    for date, ema in zip(dates, emas):
-        # data_list.append([date, ema])
-        data_list.append({'date': date, 'ema': ema})
-    
-    # data_list = {'date': dates, 'ema': emas}
-    # print(data_list)
-    return data_list
-
-
 def get_weekly_ave(symbol):
     """Display weekly EMA of 30 days average price in the chart."""
 
@@ -101,7 +67,7 @@ def get_weekly_ave(symbol):
                'time_period': 10,
                'series_type': 'open',
                'datatype': 'csv',
-               'apikey': 'G91S3ATZL5YIK83E'}
+               'apikey': 'CYUYBFS101MCWYTS'}
     
     data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     print(data.url)
@@ -122,6 +88,7 @@ def get_weekly_price(symbol):
     
     data = requests.get("https://www.alphavantage.co/query", params=payload_ema)
     result = {'data': data.text, 'stock': symbol}
+    print('/nIt is working')
     return result
 
 

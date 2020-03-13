@@ -19,13 +19,6 @@ app.secret_key = "ABC" #? Is it always ABC?
 app.jinja_env.undefined = StrictUndefined
 
 
-# @app.route('/')
-# def homepage():
-#     """Homepage."""
-
-#     return render_template("home.html")
-
-
 @app.route('/')
 def homepage():
     """Homepage."""
@@ -52,17 +45,23 @@ def display_realtime_price(symbol):
 
     real_time = get_realtime_price(symbol)
 
-    return jsonify(real_time)
+    return real_time
+
+
+@app.route('/<symbol>')
+def display_realtime_price_home(symbol):
+    """Show realtime (close) price from Alphavantage API."""
+
+    real_time = get_realtime_price(symbol)
+
+    return render_template("index.html", realtime=real_time)
 
 
 @app.route('/chart/<symbol>')
-def display_daily_ema_chart(symbol):
+def display_weekly_price_chart(symbol):
     """Get stocks by symbol or key words and display EMA price chart."""
 
-    # data = {'data': get_monthly_ema_data(symbol), 'symbol': symbol}    
-        
-    # data = {}
-    # data['data'] = get_monthly_ema_data(symbol)
+    # result = {'ema': get_weekly_ave(symbol)}
 
     result = {'ema': get_weekly_ave(symbol), 'weekly': get_weekly_price(symbol)}
 

@@ -1,82 +1,101 @@
 "use strict";
 
-function showSearchResult(evt) {
-  evt.preventDefault();
-    // TODO: get the fortune and show it in the #fortune-text div
-  // let stockData = {'symbol': $('#search').value()};
-  let stockData = $('#form').serialize();
-  // console.log(stockData);
+$('#chart-btn').on('click', (evt) => {
+  console.log('inside submit');
+  let symbol = $("#chart-btn").data("name");
+  console.log(symbol);
+  // show line chart          
+  $.get(`/chart/${symbol}`, (res) => {
+    
+    const chartDataEMA = parseEMAData(res.ema.data);
+    const chartDataWeekly = parseWeeklyData(res.weekly.data);
+    console.log(chartDataWeekly.data)
+    // Create line chart
+    Highcharts.chart('index-container', {
 
-  $.get('/stock', stockData, (res) => {
-    $('#search-results').empty();
-    for (const stock of res.stocks) {
-      const stockLink = $(
-        `
-          <li data-symbol-name="${stock.symbol}">
-            <a href="#">
-              ${stock.symbol} ${stock.name}
-            </a>
-          </li>
-        `
-      );
+      chart: {
+          type: 'line',
+          zoomType: 'x'
+      },
+      title: {
+          text: `${res.ema.stock} Stock Price Line Chart`
+      },
+      xAxis: {
+          categories: chartDataWeekly.timestamps
+      },
+      yAxis: {
+          title: {
+              text: 'Stock Price'
+          }
+      },
+      series: [
+        {
+          name: `${res.ema.stock} 10 Days EMA`,
+          data: chartDataEMA.data,
+          turboThreshold: 2000 // set a value to accept large data size
+        },
+      
+        {
+          name: `${res.weekly.stock} Weekly Open Price`,
+          data: chartDataWeekly.data,
+          turboThreshold: 2000 // set a value to accept large data size
+        }
+      ],
+      legend: {
+        align: 'left',
+        verticalAlign: 'top',
+        borderWidth: 0
+      },
+      tooltip: {
+        shared: true,
+        crosshairs: [true, true],
+        valueDecimals: 2
+      }
+      
+    }); // end chart
+  }); // end get data
+}); // end click show chart button
 
-      stockLink.on('click', (evt) => {
-        evt.stopPropagation(); // prevent parent event handlers from being executed
 
-        // show stock symbol and price
-        $.get(`/stock/${stock.symbol}`, (res) => {
+// Process data from server before being used in Highchart
+function parseEMAData (res) {
+  const data = [];
+  const timestamps = [];
+  const lines = res.split("\n");
+  $.each(lines, function (lineNumber, line) {
+    if (lineNumber !== 0) {
+      const fields = line.split(",");
+      if (fields.length === 2) {
+        const timestamp = fields[0];
+        const value = parseFloat(fields[1]);
+        data.push([timestamp, value]);
+        timestamps.push(timestamp);
+      } 
+    } // end if
+  }); // end each
+  return {'timestamps': timestamps.reverse(), 'data': data.reverse()};
+}
 
-          $('#stock').html(res.symbol);
-          $('#realtime').html(res.realtime);
 
-        });
-          // show line chart
-          $.get(`/chart/${stock.symbol}`, (res) => {
-
-            const data = res.data.map((dailyInfo) => {
-
-              return {x: dailyInfo.date, y: parseFloat(dailyInfo.ema)}
-            
-            }); // end data
-
-            // Create line chart
-            new Chart(
-              $('#price-chart'),
-              {
-                type: 'line',
-                data: {
-                  // labels: res.dates,
-                  datasets: [
-                    {
-                      label: 'Stock Monthly EMA Price',
-                      data: data
-                    }
-                  ]
-                },
-                options: {
-                  scales: {
-                    xAxes: [
-                      {
-                        type: 'time',
-                        distribution: 'series',
-                        time: {
-                          // unit : "day",
-                          displayFormats: {
-                            day: 'MM-DD-YYYY'
-                          }
-                        }
-                      }
-                    ]
-                  }
-                }
-            });// end line chart 
-          }); // end get
-      }); // end click stockLink
-      $('#search-results').append(stockLink);
-    }; // end for
-  }); // end get stock
-}; // end function show search result
-
-$('#form').on('submit', showSearchResult);
-
-            
+function parseWeeklyData (res) {
+  const data = [];
+  const timestamps = [];
+  const lines = res.split("\n");
+  
+  $.each(lines, function (lineNumber, line) {
+    
+    if (lineNumber !== 0) {
+      const fields = line.split(",");
+      if (fields.length === 6) {
+        const timestamp = fields[0];
+        const value = parseFloat(fields[1]);
+        data.push([timestamp, value]);
+        timestamps.push(timestamp);
+      } 
+    } // end if
+  }); // end each
+  timestamps.reverse();
+  // console.log(timestamps.slice(9));
+  data.reverse();
+  return {'timestamps': timestamps.slice(9), 'data': data.slice(9)};
+}        

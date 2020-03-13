@@ -2,8 +2,7 @@
 
 function showSearchResult(evt) {
   evt.preventDefault();
-    // TODO: get the fortune and show it in the #fortune-text div
-  // let stockData = {'symbol': $('#search').value()};
+   
   let stockData = $('#form').serialize();
   
   // Get matched stock symbols and company names
@@ -92,7 +91,6 @@ function showSearchResult(evt) {
              
       }); // end click stockLink
       $('#search-results').append(stockLink);
-      // $('#new-search').append(stockLink);
     }; // end for
     // $('#search-results').replaceWith(newSearch);
   }); // end get stock
