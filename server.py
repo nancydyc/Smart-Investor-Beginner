@@ -29,7 +29,7 @@ def homepage():
 @app.route('/stock')
 def search_stock_form():
     """Search stocks by the stock symbol or the key words of the company names.
-       word: stock id or company name key word.
+       word: key word for stock id or company name.
     """
 
     # Get user input from the search form
@@ -41,7 +41,7 @@ def search_stock_form():
 
 @app.route('/stock/<symbol>')
 def display_realtime_price(symbol):
-    """Show realtime (close) price from Alphavantage API."""
+    """Show realtime (close) price from Alphavantage API on the homepage."""
 
     real_time = get_realtime_price(symbol)
 
@@ -50,7 +50,7 @@ def display_realtime_price(symbol):
 
 @app.route('/<symbol>')
 def display_realtime_price_home(symbol):
-    """Show realtime (close) price from Alphavantage API."""
+    """Show realtime (close) price after using navigation bar search function."""
 
     real_time = get_realtime_price(symbol)
 
@@ -228,7 +228,7 @@ def show_linechart():
     for i in user_watchlist:
         symbol = i.stock_id
         watchlist_data.append({'symbol': symbol,
-                               'datas': get_monthly_ema_data(symbol)})
+                               'datas': get_weekly_ave(symbol)})
  
     data = {'watchlist': watchlist_data}
 

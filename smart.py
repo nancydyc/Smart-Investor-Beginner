@@ -58,7 +58,7 @@ def get_realtime_price(symbol):
 
 
 def get_weekly_ave(symbol):
-    """Display weekly EMA of 30 days average price in the chart."""
+    """Display weekly EMA of 10 days average price in the chart."""
 
     # Get weekly EMA open price data in csv from Alphavantage API
     payload_ema = {'function': 'EMA',  
@@ -77,7 +77,7 @@ def get_weekly_ave(symbol):
 
 
 def get_weekly_price(symbol):
-    """Display weekly open price in the chart."""
+    """Get weekly open price to display in the chart."""
 
     # Get weekly open price data in csv from Alphavantage API
     payload_ema = {'function': 'TIME_SERIES_WEEKLY',  

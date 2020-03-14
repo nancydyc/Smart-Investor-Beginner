@@ -6,38 +6,43 @@ $(document).ready( () => {
       console.log(stock.symbol);
 
       // Create line chart
-      const chartData = stock.datas.map((dailyInfo) => {
-        return {x: dailyInfo.date, y: dailyInfo.ema}
-      });
+      const chartDataEMA = parseEMAData(stock.datas.data);
+      console.log(chartDataEMA.timestamps);
 
-      new Chart(
-        $(`#${stock.symbol}`),
-        {
-          type: 'line',
-          data: {
-            datasets: [
-              {
-                label: `${stock.symbol} Monthly EMA Price`,
-                data: chartData
-              }
-            ]
-          },
-          options: {
-            scales: {
-              xAxes: [
-                {
-                  type: 'time',
-                  distribution: 'series',
-                  time: {
-                    displayFormats: {
-                      day: 'MM-DD-YYYY'
-                    }
-                  }
-                }
-              ]
-            },
-        }
-      }); //end chart
+      Highcharts.chart(`${stock.symbol}`, {
+        chart: {
+            type: 'area',
+            zoomType: 'x'
+        },
+        title: {
+            text: `${stock.symbol} Stock Price Line Chart`
+        },
+        xAxis: {
+            categories: chartDataEMA.timestamps
+        },
+        yAxis: {
+            title: {
+                text: 'Stock Price'
+            }
+        },
+        series: [
+          {
+            name: `${stock.symbol} 10 Days EMA`,
+            data: chartDataEMA.data,
+            turboThreshold: 2000 // set a value to accept large data size
+          }
+        ],
+        legend: {
+          align: 'left',
+          verticalAlign: 'top',
+          borderWidth: 0
+        },
+        tooltip: {
+          // shared: true,
+          crosshairs: [true, true],
+          valueDecimals: 2
+        } 
+      }); // end chart
     }; // end for 
   }); // end get
 }); // end ready
@@ -59,3 +64,23 @@ $('#calculate').on('click', (evt) => {
     }; // end for  
   }); // end get stocks
 }); //end click calculate
+
+
+// Process data from server before being used in Highchart
+function parseEMAData (res) {
+  const data = [];
+  const timestamps = [];
+  const lines = res.split("\n");
+  $.each(lines, function (lineNumber, line) {
+    if (lineNumber !== 0) {
+      const fields = line.split(",");
+      if (fields.length === 2) {
+        const timestamp = fields[0];
+        const value = parseFloat(fields[1]);
+        data.push([timestamp, value]);
+        timestamps.push(timestamp);
+      } 
+    } // end if
+  }); // end each
+  return {'timestamps': timestamps.reverse(), 'data': data.reverse()};
+}

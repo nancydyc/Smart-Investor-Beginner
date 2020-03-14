@@ -43,10 +43,6 @@ function showSearchResult(evt) {
             // console.log(chartDataWeekly.timestamps);
             // Create line chart
             Highcharts.chart('container', {
-              // data: {
-              //   csv: res,
-              // },
-
               chart: {
                   type: 'line',
                   zoomType: 'x'

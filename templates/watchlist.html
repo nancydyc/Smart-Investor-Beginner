@@ -11,9 +11,9 @@
   {% for i in watchlist %}
     <div class="row" id="watch-{{ i.stock_id }}">
       <div class="col-3">
-        <p>{{ i.stock_id }}
-          <b id="stock">{{ i.stock.company_name }}</b>
-        </p>
+        <p><b>{{ i.stock_id }}</b></p>
+        <b id="stock">{{ i.stock.company_name }}</b>
+        <br><br>
       </div>
       <div class="col-1">
         <i class="delete fas fa-trash-alt" data-name="{{i.stock_id}}"></i>
@@ -22,28 +22,26 @@
 
     <div class="row">
       <div class="col-3">
-        <b id="ave-price" style="font-size: 36px;">$ {{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
+        $<b id="ave-price" style="font-size: 30px;"> {{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
       </div>
       <div class="col-9">
-        <canvas class="allmycharts" id="{{i.stock_id}}"></canvas>
+        <div class="allmycharts" id="{{i.stock_id}}"></div>
       </div>
     </div>
-    <br>
-    <br>
 
     <div class="row">
       <div class="col">
         <form id="form-{{ i.stock_id }}">
           <div class="form-row align-items-center">
-            <div class="col-auto">
+            <div class="col-4">
               Average Cost <br>
               <input class="form-control" id="ave-cost-{{ i.stock_id }}" type="number" name="cost" value="0" data-name="{{i.stock_id}}">
             </div>
-            <div class="col-auto">
+            <div class="col-4">
               Shares <br>
               <input class="form-control" id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
             </div>
-            <div class="col-auto" id="total-value">
+            <div class="col-4" id="total-value">
               Total Value: <br>
               <p class="alert alert-success" id="total-text"><b id="total-{{ i.stock_id }}">0</b></p>
               <br>

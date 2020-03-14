@@ -15,13 +15,13 @@ class TestFlaskRoutes(TestCase):
         app.config['TESTING'] = True
 
 
-    def test_home(self):
+    def test_homepage(self):
         """Make sure home page returns correct HTML."""
 
         # Use the test client to make requests
         result = self.client.get('/')
         # Compare result.data with assert method
-        self.assertIn(b'<h2>Home</h2>', result.data)
+        self.assertIn(b'Type symbols or key words', result.data)
 
 
     def test_search_stock_form(self):
