@@ -1,5 +1,8 @@
 "use strict";
 
+
+$('#form').on('submit', showSearchResult);
+
 function showSearchResult(evt) {
   evt.preventDefault();
    
@@ -92,7 +95,6 @@ function showSearchResult(evt) {
   }); // end get stock
 }; // end function show search result
 
-$('#form').on('submit', showSearchResult);
 
 // Process data from server before being used in Highchart
 function parseEMAData (res) {

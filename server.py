@@ -170,7 +170,7 @@ def show_watchlist():
 
 @app.route('/stocks')
 def get_stocks_in_watchlist():
-    """Get each stocks saved in the watchlists."""
+    """Get each stock saved in the watchlists."""
 
     # Check user id via email
     email = session.get('email')

@@ -1,9 +1,9 @@
 "use strict";
 
-$('#index-form').on('click', showSearchResult);
+$('#index-form').on('click', showSearchResultIndexPage);
 
 
-function showSearchResult(evt) {
+function showSearchResultIndexPage(evt) {
   evt.preventDefault();
 
   let stockData = $('#index-form').serialize();

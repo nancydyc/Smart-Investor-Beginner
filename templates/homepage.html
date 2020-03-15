@@ -7,11 +7,11 @@
 
 {% block content %}
 <div class="container">
-
+  <br><br>
   <div class="row">
     <div class="col-lg-6 col-sm-12">
       <form class="form-inline my-2 my-lg-0" id="form" action="/stock" >
-        <input class="form-control mr-sm-2" id="search" type="text" name="word" placeholder="Type symbols or key words">
+        <input class="col-7 form-control mr-sm-2" id="search" type="text" name="word" placeholder="Type symbols or key words" style="border-radius: 1.25rem;">
         <button class="btn btn--lighten btn--search j-btn-search" type="submit">
           <i class="fab fa-searchengin"></i>
         </button>
@@ -21,6 +21,7 @@
       <ul id="search-results"></ul>
     </div>
   </div>
+  <br><br>
 
   <div class="row">
     <div class="col">

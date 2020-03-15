@@ -9,53 +9,56 @@
   <a href="/pages">Back to Screening Results</a><br><br>
 
   {% for i in watchlist %}
-    <div class="row" id="watch-{{ i.stock_id }}">
-      <div class="col-3">
-        <p><b>{{ i.stock_id }}</b></p>
-        <b id="stock">{{ i.stock.company_name }}</b>
-        <br><br>
+    <div id="watch-{{ i.stock_id }}">
+      <div class="row">
+        <div class="col-3">
+          <p><b>{{ i.stock_id }}</b></p>
+          <b id="stock">{{ i.stock.company_name }}</b>
+          <br><br>
+        </div>
+        <div class="col-1">
+          <i class="delete fas fa-trash-alt" data-name="{{i.stock_id}}"></i>
+        </div>
       </div>
-      <div class="col-1">
-        <i class="delete fas fa-trash-alt" data-name="{{i.stock_id}}"></i>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-3">
-        $<b id="ave-price" style="font-size: 30px;"> {{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
+      <div class="row">
+        <div class="col-3">
+          $<b id="ave-price" style="font-size: 30px;"> {{ '%0.2f' | format(i.stock.weekly_ave_price | float) }}</b>
+        </div>
+        <div class="col-9">
+          <div class="allmycharts" id="{{i.stock_id}}"></div>
+        </div>
       </div>
-      <div class="col-9">
-        <div class="allmycharts" id="{{i.stock_id}}"></div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col">
-        <form id="form-{{ i.stock_id }}">
-          <div class="form-row align-items-center">
-            <div class="col-4">
-              Average Cost <br>
-              <input class="form-control" id="ave-cost-{{ i.stock_id }}" type="number" name="cost" value="0" data-name="{{i.stock_id}}">
+      <div class="row">
+        <div class="col">
+          <form id="form-{{ i.stock_id }}">
+            <div class="form-row align-items-center">
+              <div class="col-4">
+                Average Cost <br>
+                <input class="form-control" id="ave-cost-{{ i.stock_id }}" type="number" name="cost" value="0" data-name="{{i.stock_id}}">
+              </div>
+              <div class="col-4">
+                Shares <br>
+                <input class="form-control" id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
+              </div>
+              <div class="col-4" id="total-value">
+                Total Value: <br>
+                <p class="alert alert-success" id="total-text"><b id="total-{{ i.stock_id }}">0</b></p>
+                <br>
+              </div>
+            
+            <!-- <div class="form-row"> -->
+              <button class="btn btn-light" id="calculate">Add Holdings</button>
+              <button class="btn btn-light" id="cancle">Close Holdings</button>
+            <!-- </div> -->
             </div>
-            <div class="col-4">
-              Shares <br>
-              <input class="form-control" id="shares-{{ i.stock_id }}" type="number" name="shares" value="0" data-name="{{i.stock_id}}">
-            </div>
-            <div class="col-4" id="total-value">
-              Total Value: <br>
-              <p class="alert alert-success" id="total-text"><b id="total-{{ i.stock_id }}">0</b></p>
-              <br>
-            </div>
-          </div>
-          <div class="form-row">
-            <button class="btn btn-light" id="calculate">Add Holdings</button>
-            <button class="btn btn-light" id="cancle">Close Holdings</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-    <br>
-    <br>  
+      <br>
+      <br>
+    </div>  
   {% endfor %}
 
 </div>

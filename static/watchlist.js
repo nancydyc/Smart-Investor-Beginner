@@ -7,7 +7,7 @@ $(document).ready( () => {
 
       // Create line chart
       const chartDataEMA = parseEMAData(stock.datas.data);
-      console.log(chartDataEMA.timestamps);
+      // console.log(chartDataEMA.timestamps);
 
       Highcharts.chart(`${stock.symbol}`, {
         chart: {
@@ -38,10 +38,29 @@ $(document).ready( () => {
           borderWidth: 0
         },
         tooltip: {
-          // shared: true,
           crosshairs: [true, true],
           valueDecimals: 2
-        } 
+        },
+        plotOptions: {
+        area: {
+            fillColor: {
+                linearGradient: {
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: 1
+                },
+                stops: [
+                    [0, Highcharts.getOptions().colors[0]],
+                    [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+            },
+            marker: {
+                radius: 2
+            }
+
+        }
+      } // end plot options 
       }); // end chart
     }; // end for 
   }); // end get
@@ -51,6 +70,7 @@ $(document).ready( () => {
 //Calculate total holdings:
 $('#calculate').on('click', (evt) => {
   evt.preventDefault();
+  // evt.stopPropagation();
   
   $.get('/stocks', (res) =>{
     
@@ -59,6 +79,7 @@ $('#calculate').on('click', (evt) => {
       const data = $(`#form-${stock}`).serialize();
       $.get('/holdings', data, (res) => {
         console.log(res);
+        
         $(`#total-${stock}`).text(res.data); 
       }); // end get holdings
     }; // end for  
