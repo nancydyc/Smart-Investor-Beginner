@@ -1,6 +1,6 @@
 """Utility file to seed ratings database from MovieLens data in seed_data/"""
 
-from flask_sqlalchemy import func
+from sqlalchemy import func
 
 from model import User, Stock, Watchlist, connect_to_db, db
 from server import app
