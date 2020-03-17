@@ -2,7 +2,7 @@
 Skills: Use SQLAlchemy to create database schema.
 """
 
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 

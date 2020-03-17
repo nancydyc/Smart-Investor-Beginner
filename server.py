@@ -14,7 +14,7 @@ import requests
 
 app = Flask(__name__)
 
-app.secret_key = "ABC" #? Is it always ABC?
+app.secret_key = "ABC" 
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -345,8 +345,8 @@ if __name__ == "__main__":
 
     # if testmod().failed == 0:
     connect_to_db(app)
-    app.debug = True
-    DebugToolbarExtension(app)
-    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    # app.debug = True
+    # DebugToolbarExtension(app)
+    # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
     app.run(host="0.0.0.0")
     
