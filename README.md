@@ -14,16 +14,17 @@ This project was made at Hackbright Academy in San Francisco over four weeks fro
 
 # Contents
 
- * [Technologies] (#tech)
- * [Installation] (#install)
- * [Features] (#features)
- * [Features for Version 2.0] (#futureft)
- * [About the Developer] (#aboutme)
+ * [Technologies](#tech)
+ * [Installation](#install)
+ * [Features](#features)
+ * [Features for Version 2.0](#futureft)
+ * [About the Developer](#aboutme)
  
  
 ## <a name="tech"></a>Tech
 
 Tech Stack: Python, JavaScript, HTML, CSS, Flask, Jinja, jQuery, AJAX, PostgreSQL, SQLAlchemy, Bootstrap, chart.js, Highcharts, unittest
+
 APIs: Alpha Vantage, Edgar Online, Google Auth 2.0
 
 
@@ -76,7 +77,7 @@ $ python3 server.py
 
 #### Login/Sign Up <br>
 
-![LoginSignup](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/login_signup.gif)
+![LoginSignup](https://giphy.com/gifs/Uqw7dksoH56H2nzirV/html5)
 <br>
 
 #### User Profile
@@ -132,7 +133,7 @@ An internal dashboard is visible only to 'staff users' of the site, as defined i
 ![logout](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/logout.gif)
 <br>
 
-## <a name="futurefeatures"></a>Features for Version 2.0
+## <a name="futureft"></a>Features for Version 2.0
 
 * Modify data model and map permissions to allow multiple users to contribute to a single map
 * Export dashboard data to an excel, csv, or jpg file
