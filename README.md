@@ -32,7 +32,7 @@ APIs: Alpha Vantage, Edgar Online, Google Auth 2.0
 
 To run Smart Investor requires:
 
-- PostgreSQL
+- [PostgreSQL](https://www.postgresqltutorial.com/)
 - [Python 3.6](https://www.python.org/downloads/release/python-360/)
 - API key for Edgar Online, Alpha Vantage APIs and [Google OAuth 2.0 Client IDs](https://console.developers.google.com/)
 
@@ -51,9 +51,7 @@ Install dependencies:
 ```
 $ pip install -r requirements.txt
 ```
-Add your API key into the header scripts in static/templates/base.html, eg:
-<br><br>
-![api](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/YOUR_API_KEY.png)
+Add your API key into the header scripts in static/templates/base.html
 
 Create database 'stocks':
 ```
@@ -118,9 +116,9 @@ Users need to sign in to get access to the bookmarking feature and editing their
 
 ## <a name="futureft"></a>Features for Version 2.0
 
-* Modify data model and map permissions to allow multiple users to contribute to a single map
-* Export dashboard data to an excel, csv, or jpg file
-* Add dashboard page with aggregated data for each individual user
+* Implement sorting algorithm and allow users to sort screening results by price
+* Add price alert feature
+* Allow users to take notes in their watchlist 
 
 ## <a name="aboutme"></a>About the Developer
 
