@@ -78,18 +78,18 @@ $ python3 server.py
 #### Login/Sign Up <br>
 
 ![LoginSignup](https://media.giphy.com/media/Uqw7dksoH56H2nzirV/giphy.gif)
-<br>
-
-#### User Profile
-
-The user's profile picture of their Google account is shown on the left hand side of the page. Several questions of user's financial growth goal is listed on the right hand side of the page. <br><br>
-
 <br><br>
 
 
-#### Search Stocks
+#### User Profile <br>
 
-Users type key words of the company name or stock symbol to search a stock.<br>
+The user's profile picture of their Google account is shown on the left hand side of the page. Several questions of user's financial growth goal is listed on the right hand side of the page. 
+<br><br>
+
+
+#### Search Stocks <br>
+
+Users type key words of the company name or stock symbol to search a stock.
 ![makemap](https://media.giphy.com/media/m9k3yceW91vTGeWH8x/giphy.gif)
 
 #### Search and Save Places to Map
@@ -128,8 +128,7 @@ An internal dashboard is visible only to 'staff users' of the site, as defined i
 ![dashboard](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/internal_dashboard.gif)
 
 #### Limited Access
-![LimitedAccess]
-(https://media.giphy.com/media/L40SJYXU2wwbv75XTx/giphy.gif)
+![LimitedAccess](https://media.giphy.com/media/L40SJYXU2wwbv75XTx/giphy.gif)
 <br>
 
 ## <a name="futureft"></a>Features for Version 2.0
