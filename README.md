@@ -73,49 +73,46 @@ $ python3 server.py
 
 ## <a name="features"></a>Features
 
-#### Login/Sign Up <br>
+#### Login/Profile <br>
 
+The user's profile picture of their Google account is shown on the left hand side of the page. Several questions of user's financial growth goal is listed on the right hand side of the page. <br><br>
 ![LoginSignup](https://media.giphy.com/media/Uqw7dksoH56H2nzirV/giphy.gif)
-<br><br>
-
-
-#### User Profile <br>
-
-The user's profile picture of their Google account is shown on the left hand side of the page. Several questions of user's financial growth goal is listed on the right hand side of the page. 
-<br><br>
-
+<br>
 
 #### Search Stocks <br>
 
-Users type key words of the company name or stock symbol to search a stock.
+Users type key words of the company name or stock symbol to search a stock. <br><br>
 ![makemap](https://media.giphy.com/media/m9k3yceW91vTGeWH8x/giphy.gif)
+<br>
 
-#### Visualize Data in Charts
+#### Visualize Data in Charts <br>
 
-Users click on show chart button and get a chart with two line graphs of stock weekly history price and Exponential Moving Average. Users can view the chart in full screen, zoom, download or print out a csv file of the stock price data.
+Users click on show chart button and get a chart with two line graphs of stock weekly history price and Exponential Moving Average. Users can view the chart in full screen, zoom, download or print out a csv file of the stock price data. <br><br>
 ![viewcharts](https://media.giphy.com/media/MZcg09vK7ddU7NDdwD/giphy.gif)
 ![zoom](https://media.giphy.com/media/fWwmpUZI56jII72xkf/giphy.gif)
 <br>
 
-#### Stock Screener
+#### Stock Screener <br>
 
-Users can do stock screening, filtering by price range.
+Users can do stock screening, filtering by price range. <br><br>
 ![filter](https://media.giphy.com/media/MAuUCnPmRjqLzYiBnO/giphy.gif)
 <br>
 
-#### Pagination
+#### Pagination <br>
 
-The screening results is a long table divided by multiple pages through SQLAlchemy paginate method.
+The screening results is a long table divided by multiple pages through SQLAlchemy paginate method. <br><br>
 ![pagination](https://media.giphy.com/media/UW8iYgB8zMJif8krNa/giphy.gif)
 <br>
 
-#### Bookmark Stocks
+#### Bookmark Stocks <br>
 
-Users will be able to bookmark a stock by clicking the star icon in front of it once they log in via Google. <br>
+Users will be able to bookmark a stock by clicking the star icon in front of it once they log in via Google. <br><br>
 
 ![bookmark](https://media.giphy.com/media/lqpulwxEcOFU9OKqQo/giphy.gif)
 
-#### Limited Access
+#### Limited Access <br>
+
+Users need to sign in to get access to the bookmarking feature and editing their watchlists. <br><br>
 ![LimitedAccess](https://media.giphy.com/media/L40SJYXU2wwbv75XTx/giphy.gif)
 <br>
 
