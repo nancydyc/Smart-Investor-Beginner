@@ -92,40 +92,30 @@ The user's profile picture of their Google account is shown on the left hand sid
 Users type key words of the company name or stock symbol to search a stock.
 ![makemap](https://media.giphy.com/media/m9k3yceW91vTGeWH8x/giphy.gif)
 
-#### Search and Save Places to Map
+#### Visualize Data in Charts
 
-Users search for places using the Google Maps Places api. A custom marker info-window allows users to view place information, add place-specific notes, and save the place to the map.
-![searchadd](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/search_add_marker.gif)
+Users click on show chart button and get a chart with two line graphs of stock weekly history price and Exponential Moving Average. Users can view the chart in full screen, zoom, download or print out a csv file of the stock price data.
+![viewcharts](https://media.giphy.com/media/MZcg09vK7ddU7NDdwD/giphy.gif)
+![zoom](https://media.giphy.com/media/fWwmpUZI56jII72xkf/giphy.gif)
 <br>
 
-#### Navigate between list of places and map
+#### Stock Screener
 
-As markers are saved, a list of saved places is displayed on the left hand side of the page. Clicking on a place header in the list centers the map on that place marker, and opens another custom info-window displaying place information and a button that deletes the place from the map. Users can also click directly on a marker to view its info-window. Clicking on a website link in the list opens the website in a new browser tab.
-![Navigate](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/navigate_map.gif)
+Users can do stock screening, filtering by price range.
+![filter](https://media.giphy.com/media/MAuUCnPmRjqLzYiBnO/giphy.gif)
 <br>
 
-#### Delete marker
+#### Pagination
 
-Places can be deleted from a map by clicking on the "Delete location from map" button in a saved place info-window.
-![delete](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/delete_marker.gif)
+The screening results is a long table divided by multiple pages through SQLAlchemy paginate method.
+![pagination](https://media.giphy.com/media/UW8iYgB8zMJif8krNa/giphy.gif)
 <br>
 
-#### Share map
+#### Bookmark Stocks
 
-A dynamic, read-only version of each map can be shared across the web using a shareable link.
-![Sharemap](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/share_map.gif)
-<br>
+Users will be able to bookmark a stock by clicking the star icon in front of it once they log in via Google. <br>
 
-#### Internal dashboard
-
-An internal dashboard is visible only to 'staff users' of the site, as defined in my data model. The dashboard shows aggregated data about trends across all users, visualized in a table, two chart.js charts, and a google maps heat map. <br>
-
-* The bar chart shows the top 10 places saved across all maps <br>
-* The donut chart shows the top five types of places (as defined by Google Maps) saved across all maps
-* The heat map shows the concentration of places saved across all Maps <br>
-* The table shows user statistics
-
-![dashboard](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/internal_dashboard.gif)
+![bookmark](https://media.giphy.com/media/lqpulwxEcOFU9OKqQo/giphy.gif)
 
 #### Limited Access
 ![LimitedAccess](https://media.giphy.com/media/L40SJYXU2wwbv75XTx/giphy.gif)
