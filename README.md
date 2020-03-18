@@ -70,10 +70,8 @@ Run the app from the command line.
 $ python3 server.py
 ```
 
-## <a name="features"></a>Features
 
-![Homepage]()
-<br>
+## <a name="features"></a>Features
 
 #### Login/Sign Up <br>
 
