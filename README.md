@@ -77,7 +77,7 @@ $ python3 server.py
 
 #### Login/Sign Up <br>
 
-![LoginSignup](https://giphy.com/gifs/Uqw7dksoH56H2nzirV/html5)
+![LoginSignup](https://media.giphy.com/media/Uqw7dksoH56H2nzirV/giphy.gif)
 <br>
 
 #### User Profile
