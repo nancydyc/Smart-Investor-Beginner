@@ -33,8 +33,8 @@ APIs: Alpha Vantage, Edgar Online, Google Auth 2.0
 To run Smart Investor requires:
 
 - PostgreSQL
-- [Python 3.6] (https://www.python.org/downloads/release/python-360/)
-- API key for Edgar Online, Alpha Vantage APIs and [Google OAuth 2.0 Client IDs] (https://console.developers.google.com/)
+- [Python 3.6](https://www.python.org/downloads/release/python-360/)
+- API key for Edgar Online, Alpha Vantage APIs and [Google OAuth 2.0 Client IDs](https://console.developers.google.com/)
 
 ### Run Smart Investor on your local computer
 
@@ -82,7 +82,7 @@ $ python3 server.py
 
 #### User Profile
 
-A list of the user's maps is shown on the left hand side of the page. If the user has not made any maps yet, they prompted to get started by clicking the "Make New Map" button. A heat map visualizing all of the users saved places is shown on the right hand side of the page. <br><br>
+The user's profile picture of their Google account is shown on the left hand side of the page. Several questions of user's financial growth goal is listed on the right hand side of the page. <br><br>
 New User:
 ![new_user](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/profilepage%20new%20user.png)
 <br><br>
@@ -141,7 +141,7 @@ An internal dashboard is visible only to 'staff users' of the site, as defined i
 
 ## <a name="aboutme"></a>About the Developer
 
-TravelMaps creator Tegan Broderick is a former art conservator and museum collections manager turned software engineer. This is her first fullstack project. She can be found on [LinkedIn](https://www.linkedin.com/in/teganbroderick/) and on [Github](https://github.com/teganbroderick).
+Smart Investor creator Yichen Dai is a former world language teacher turned software engineer. This is her first fullstack project. She can be found on [LinkedIn](https://www.linkedin.com/in/yichen-dai-20557a195/) and on [Github](https://github.com/nancydyc).
 
 
 
