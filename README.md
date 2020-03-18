@@ -50,7 +50,7 @@ Install dependencies:
 ```
 $ pip install -r requirements.txt
 ```
-Add your API key into the header scripts in static/templates/dashboard.html, map.html, profile.html, and share_map.html, eg:
+Add your API key into the header scripts in static/templates/base.html, eg:
 <br><br>
 ![api](https://raw.githubusercontent.com/teganbroderick/Travelmaps/master/static/img/YOUR_API_KEY.png)
 
