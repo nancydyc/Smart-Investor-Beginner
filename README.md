@@ -53,7 +53,7 @@ $ pip install -r requirements.txt
 ```
 Add your API key into the header scripts in static/templates/base.html
 
-Create database 'stocks':
+Create database:
 ```
 $ createdb stocks
 ```
