@@ -115,8 +115,3 @@ if __name__ == "__main__":
   connect_to_db(app)
   
   print("Connected to DB.")
-
-  # key_word_search('luck')
-  # get_realtime_price('lk')
-  # get_monthly_ema_data('lk')
-  # get_user_id('msdaiyichen@gmail.com')
