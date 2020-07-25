@@ -11,6 +11,8 @@ Smart Investor is a web app aims at advocating financial education for new inves
  
 This project was made at Hackbright Academy in San Francisco over four weeks from Febrary to March 2020.
 
+Deployed to AWS LightSail at [www.yichendai.com](http://www.yichendai.com/)
+
 
 # Contents
 
@@ -116,7 +118,8 @@ Users need to sign in to get access to the bookmarking feature and editing their
 
 ## <a name="futureft"></a>Features for Version 2.0
 
-* Implement sorting algorithm and allow users to sort screening results by price
+* Allow users to sort screening results by price
+* Add chat feature to communicate with users
 * Add price alert feature
 * Allow users to take notes in their watchlist 
 
